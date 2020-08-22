@@ -183,45 +183,45 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="y4e-4G-ImG">
-                                <rect key="frame" x="11" y="428.33333333333331" width="353" height="77"/>
+                                <rect key="frame" x="11" y="428" width="353" height="78"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lma-rb-1rj" userLabel="digit1">
-                                        <rect key="frame" x="0.0" y="0.0" width="55.666666666666664" height="77"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="55.666666666666664" height="78"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AMS-ns-Mqh" userLabel="digit2">
-                                        <rect key="frame" x="59.666666666666671" y="0.0" width="55.333333333333329" height="77"/>
+                                        <rect key="frame" x="59.666666666666671" y="0.0" width="55.333333333333329" height="78"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rzO-MN-Lsv" userLabel="digit3">
-                                        <rect key="frame" x="119.00000000000001" y="0.0" width="55.666666666666671" height="77"/>
+                                        <rect key="frame" x="119.00000000000001" y="0.0" width="55.666666666666671" height="78"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PGw-Zt-vE0" userLabel="digit4">
-                                        <rect key="frame" x="178.66666666666666" y="0.0" width="55.333333333333343" height="77"/>
+                                        <rect key="frame" x="178.66666666666666" y="0.0" width="55.333333333333343" height="78"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rO0-fP-RdJ" userLabel="digit5">
-                                        <rect key="frame" x="237.99999999999997" y="0.0" width="55.666666666666657" height="77"/>
+                                        <rect key="frame" x="237.99999999999997" y="0.0" width="55.666666666666657" height="78"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UKJ-lJ-QXU" userLabel="digit6">
-                                        <rect key="frame" x="297.66666666666669" y="0.0" width="55.333333333333314" height="77"/>
+                                        <rect key="frame" x="297.66666666666669" y="0.0" width="55.333333333333314" height="78"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
@@ -365,16 +365,19 @@
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="jyY-Ww-JjC" userLabel="First Name">
                                         <rect key="frame" x="90" y="0.0" width="108" height="56.333333333333336"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="23"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="F42-rN-f70" userLabel="Last Name">
                                         <rect key="frame" x="90" y="56.333333333333314" width="108" height="56.333333333333343"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="23"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="gwF-Hc-la7" userLabel="Date of Birth">
                                         <rect key="frame" x="50" y="112.66666666666664" width="188" height="56.333333333333329"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="23"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -388,20 +391,42 @@
                                     <constraint firstAttribute="trailing" secondItem="F42-rN-f70" secondAttribute="trailing" constant="90" id="gLW-Ww-Rzr"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="09J-u7-M9C">
+                                <rect key="frame" x="42" y="652.33333333333337" width="291" height="75.666666666666629"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="09J-u7-M9C" secondAttribute="height" multiplier="165:43" id="tkd-uN-bSr"/>
+                                </constraints>
+                                <state key="normal" image="Finish Button"/>
+                                <connections>
+                                    <action selector="finishButtonPressed:" destination="XaK-na-iKR" eventType="touchUpInside" id="z8S-Zb-T2c"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Finish Sign Up Notice" translatesAutoresizingMaskIntoConstraints="NO" id="c8D-c4-ASx">
+                                <rect key="frame" x="33" y="407.33333333333331" width="309" height="159.66666666666669"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="c8D-c4-ASx" secondAttribute="height" multiplier="29:15" id="gwi-r9-joY"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Aee-l8-xsE" firstAttribute="centerY" secondItem="34V-P5-hua" secondAttribute="centerY" multiplier="0.25" id="23f-er-mWn"/>
                             <constraint firstItem="u9p-gU-5In" firstAttribute="trailing" secondItem="Aee-l8-xsE" secondAttribute="trailing" constant="14" id="2rE-XX-8rp"/>
                             <constraint firstItem="TaK-iB-Icy" firstAttribute="leading" secondItem="u9p-gU-5In" secondAttribute="leading" constant="43.670000000000002" id="33u-iJ-KMr"/>
+                            <constraint firstItem="u9p-gU-5In" firstAttribute="trailing" secondItem="09J-u7-M9C" secondAttribute="trailing" constant="42" id="EMN-NZ-yh7"/>
                             <constraint firstItem="9Kh-0V-lRW" firstAttribute="leading" secondItem="TaK-iB-Icy" secondAttribute="leading" id="JUL-y0-iJ8"/>
+                            <constraint firstItem="c8D-c4-ASx" firstAttribute="leading" secondItem="u9p-gU-5In" secondAttribute="leading" constant="33" id="MVj-IR-CSd"/>
                             <constraint firstItem="TaK-iB-Icy" firstAttribute="trailing" secondItem="l6T-6V-PPM" secondAttribute="trailing" id="PE8-mt-NO1"/>
                             <constraint firstAttribute="bottom" secondItem="OzT-O7-jME" secondAttribute="bottom" id="Pjo-sQ-UJv"/>
+                            <constraint firstItem="09J-u7-M9C" firstAttribute="centerY" secondItem="34V-P5-hua" secondAttribute="centerY" multiplier="1.7" id="Q9V-m5-Ebp"/>
                             <constraint firstItem="l6T-6V-PPM" firstAttribute="top" secondItem="TaK-iB-Icy" secondAttribute="top" id="QAm-MG-G0t"/>
                             <constraint firstItem="OzT-O7-jME" firstAttribute="leading" secondItem="u9p-gU-5In" secondAttribute="leading" id="R7j-dk-Nk9"/>
+                            <constraint firstItem="c8D-c4-ASx" firstAttribute="centerY" secondItem="34V-P5-hua" secondAttribute="centerY" multiplier="1.2" id="TEc-XL-2LB"/>
                             <constraint firstItem="u9p-gU-5In" firstAttribute="trailing" secondItem="TaK-iB-Icy" secondAttribute="trailing" constant="43.329999999999998" id="YH8-h7-teC"/>
                             <constraint firstItem="9Kh-0V-lRW" firstAttribute="top" secondItem="TaK-iB-Icy" secondAttribute="top" id="ean-ml-qBY"/>
                             <constraint firstItem="OzT-O7-jME" firstAttribute="top" secondItem="34V-P5-hua" secondAttribute="top" id="euc-Cz-phO"/>
+                            <constraint firstItem="u9p-gU-5In" firstAttribute="trailing" secondItem="c8D-c4-ASx" secondAttribute="trailing" constant="33" id="f1k-ud-G49"/>
+                            <constraint firstItem="09J-u7-M9C" firstAttribute="leading" secondItem="u9p-gU-5In" secondAttribute="leading" constant="42" id="gh0-la-Hp1"/>
                             <constraint firstItem="TaK-iB-Icy" firstAttribute="bottom" secondItem="9Kh-0V-lRW" secondAttribute="bottom" id="jYJ-Kz-epj"/>
                             <constraint firstItem="TaK-iB-Icy" firstAttribute="trailing" secondItem="9Kh-0V-lRW" secondAttribute="trailing" id="jrz-gC-UeZ"/>
                             <constraint firstItem="OzT-O7-jME" firstAttribute="trailing" secondItem="u9p-gU-5In" secondAttribute="trailing" id="lPr-1Q-MRJ"/>
@@ -423,7 +448,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fDD-3Q-Zt3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2154.4000000000001" y="116.74876847290641"/>
+            <point key="canvasLocation" x="2153.6231884057975" y="116.51785714285714"/>
         </scene>
     </scenes>
     <resources>
@@ -431,6 +456,8 @@
         <image name="Back Button" width="49" height="38"/>
         <image name="Background" width="414" height="896"/>
         <image name="Circle Slider" width="414" height="896"/>
+        <image name="Finish Button" width="313" height="86.666664123535156"/>
+        <image name="Finish Sign Up Notice" width="306" height="180"/>
         <image name="Finish Sign Up Title" width="373" height="98"/>
         <image name="Info Fields Background" width="327" height="192"/>
         <image name="Legal Notice" width="378" height="42"/>

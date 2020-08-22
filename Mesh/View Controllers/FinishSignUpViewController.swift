@@ -41,16 +41,86 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        firstNameTextField.becomeFirstResponder()
+    }
+    
+    @IBAction func finishButtonPressed(_ sender: Any) {
+        
+        if validateUserInfo() {
+            print("CONTINUE")
+        } else {
+            print("MISSING INFO")
+        }
+    }
+    
+    //Checks if all user info fields are good before allowing user to continue
+    func validateUserInfo() -> Bool {
+        
+        var firstNameValid = false
+        var lastNameValid = false
+        var dateOfBirthValid = false
+        
+        if firstNameTextField.text != "" {
+            firstNameValid = true
+        } else {
+            print("First name missing")
+        }
+        
+        if lastNameTextField.text != "" {
+            lastNameValid = true
+        } else {
+            print("Last name missing")
+        }
+        
+        if dateOfBirthTextField.text != "" {
+            dateOfBirthValid = true
+        } else {
+            print("DOB missing")
+        }
+        
+        if firstNameValid == true && lastNameValid == true && dateOfBirthValid == true {
+            return true
+        } else {
+            return false
+        }
+        
+    }
+        
+
+    //Handles placeholder functionality
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        
+        if firstNameTextField.text != "" {
+            firstNamePlaceholder.alpha = 0
+            
+        } else if firstNameTextField.text == "" {
+            firstNamePlaceholder.alpha = 1
+        }
+        
+        if lastNameTextField.text != "" {
+            lastNamePlaceholder.alpha = 0
+        } else if lastNameTextField.text == "" {
+            lastNamePlaceholder.alpha = 1
+        }
+        
+        if dateOfBirthTextField.text != "" {
+            dateOfBirthPlaceholder.alpha = 0
+        } else if dateOfBirthTextField.text == "" {
+            dateOfBirthPlaceholder.alpha = 1
+        }
+        
+    }
+    
+    
     //Handles functionality when user hits return. Validates current field
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if firstNameTextField.text != "" && firstNameTextField.isFirstResponder == true {
             lastNameTextField.becomeFirstResponder()
-            print("testgood")
             return true
         }
         if lastNameTextField.text != "" && lastNameTextField.isFirstResponder == true {
             dateOfBirthTextField.becomeFirstResponder()
-            print("asfd")
             return true
         }
         if dateOfBirthTextField.text != "" && dateOfBirthTextField.isFirstResponder == true {
