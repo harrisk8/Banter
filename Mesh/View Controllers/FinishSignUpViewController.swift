@@ -49,6 +49,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         
         if validateUserInfo() {
             print("CONTINUE")
+            performSegue(withIdentifier: "finishSignUpToNearby", sender: self)
         } else {
             print("MISSING INFO")
         }
