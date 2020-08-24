@@ -232,6 +232,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         if let phoneNumberEntry = phoneNumberTextField.text {
             if phoneNumberEntry.count == 10 {
                 userPhoneNumber = "+1" + phoneNumberTextField.text!
+                print(userPhoneNumber!)
                 return true
             }
         }

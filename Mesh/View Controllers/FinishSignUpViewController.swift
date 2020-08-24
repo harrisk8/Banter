@@ -21,9 +21,9 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     
     private var datePicker: UIDatePicker?
     
-    var firstName: String?
-    var lastName: String?
-    var dateOfBirth: String?
+    var firstName = ""
+    var lastName = ""
+    var dateOfBirth = ""
     
     let database = Firestore.firestore()
 
@@ -68,9 +68,9 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         
         database.collection("users").addDocument(data: [
             "userID": UserInfo.userID!,
-            "first name": firstName!,
-            "last name": lastName!,
-            "date of birth": dateOfBirth!
+            "first name": firstName,
+            "last name": lastName,
+            "date of birth": dateOfBirth
         ]) { err in
             if let err = err {
                 print(err.localizedDescription)
@@ -108,15 +108,15 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         if firstNameValid == true && lastNameValid == true && dateOfBirthValid == true {
             
             //Assigns textfield text to local variables
-            firstName = firstNameTextField.text
-            lastName = lastNameTextField.text
-            dateOfBirth = dateOfBirthTextField.text
+            firstName = firstNameTextField.text ?? ""
+            lastName = lastNameTextField.text ?? ""
+            dateOfBirth = dateOfBirthTextField.text ?? ""
             
             //Assigns textfield text to central variables
-            firstName = UserInfo.userFirstName
-            lastName = UserInfo.userLastName
-            dateOfBirth = UserInfo.userDateOfBirth
-            
+            UserInfo.userFirstName = firstName
+            UserInfo.userLastName = lastName
+            UserInfo.userDateOfBirth = dateOfBirth
+
             return true
         } else {
             return false
