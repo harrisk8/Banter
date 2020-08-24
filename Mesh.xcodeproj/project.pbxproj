@@ -10,6 +10,7 @@
 		6CF2F355B5884CAD02551477 /* Pods_Mesh.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2EC500CAC980DAA33F77D06 /* Pods_Mesh.framework */; };
 		6F368C2D24F208F500C7E08C /* NearbyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F368C2B24F208F500C7E08C /* NearbyTableViewCell.swift */; };
 		6F368C2E24F208F500C7E08C /* NearbyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F368C2C24F208F500C7E08C /* NearbyTableViewCell.xib */; };
+		6F4067A024F31ABA009CB580 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F40679F24F31ABA009CB580 /* GoogleService-Info.plist */; };
 		6F6DF02424E79AE1009ACCDD /* AuthCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DF02324E79AE1009ACCDD /* AuthCodeViewController.swift */; };
 		6F76834324F06C3C00B70F29 /* FinishSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */; };
 		6FBA045324F1A7E400FC1E1B /* NearbyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBA045224F1A7E400FC1E1B /* NearbyModel.swift */; };
@@ -39,6 +40,8 @@
 /* Begin PBXFileReference section */
 		6F368C2B24F208F500C7E08C /* NearbyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyTableViewCell.swift; sourceTree = "<group>"; };
 		6F368C2C24F208F500C7E08C /* NearbyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NearbyTableViewCell.xib; sourceTree = "<group>"; };
+		6F40679F24F31ABA009CB580 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6F4067A124F32C36009CB580 /* Mesh.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mesh.entitlements; sourceTree = "<group>"; };
 		6F6DF02324E79AE1009ACCDD /* AuthCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeViewController.swift; sourceTree = "<group>"; };
 		6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishSignUpViewController.swift; sourceTree = "<group>"; };
 		6FBA045224F1A7E400FC1E1B /* NearbyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyModel.swift; sourceTree = "<group>"; };
@@ -166,6 +169,7 @@
 		6FFD629E24DE370D00D5B96D /* Mesh */ = {
 			isa = PBXGroup;
 			children = (
+				6F4067A124F32C36009CB580 /* Mesh.entitlements */,
 				6FBA045424F1A95A00FC1E1B /* Models */,
 				6F6DF02524E79AE9009ACCDD /* View Controllers */,
 				6FBA046124F2033000FC1E1B /* Tab Bar View Controllers */,
@@ -176,6 +180,7 @@
 				6FFD62A824DE370D00D5B96D /* Assets.xcassets */,
 				6FFD62AA24DE370D00D5B96D /* LaunchScreen.storyboard */,
 				6FFD62AD24DE370D00D5B96D /* Info.plist */,
+				6F40679F24F31ABA009CB580 /* GoogleService-Info.plist */,
 				6FD5132C24E36BAD0028DDAE /* Fonts */,
 				6F368C2B24F208F500C7E08C /* NearbyTableViewCell.swift */,
 				6F368C2C24F208F500C7E08C /* NearbyTableViewCell.xib */,
@@ -255,6 +260,7 @@
 				6FD5132924E36BAA0028DDAE /* Roboto-Black.ttf in Resources */,
 				6FD5132624E36BAA0028DDAE /* Roboto-BlackItalic.ttf in Resources */,
 				6FFD62A724DE370D00D5B96D /* Main.storyboard in Resources */,
+				6F4067A024F31ABA009CB580 /* GoogleService-Info.plist in Resources */,
 				6F368C2E24F208F500C7E08C /* NearbyTableViewCell.xib in Resources */,
 				6FD5132B24E36BAA0028DDAE /* Roboto-Regular.ttf in Resources */,
 				6FD5132A24E36BAA0028DDAE /* Roboto-BoldItalic.ttf in Resources */,
@@ -465,7 +471,9 @@
 			baseConfigurationReference = F61105D05F6D2DB7392308EF /* Pods-Mesh.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = Mesh/Mesh.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5UMQT92969;
 				INFOPLIST_FILE = Mesh/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -474,6 +482,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Avidi-Technologies.Mesh";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Mesh Development Profile";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -484,7 +493,9 @@
 			baseConfigurationReference = 71631A52D235E8A48B9FCA8A /* Pods-Mesh.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = Mesh/Mesh.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5UMQT92969;
 				INFOPLIST_FILE = Mesh/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -493,6 +504,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Avidi-Technologies.Mesh";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Mesh Development Profile";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

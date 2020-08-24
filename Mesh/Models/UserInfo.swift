@@ -11,6 +11,9 @@ import Foundation
 class UserInfo {
     
     static var userID: String?
+    static var userFirstName: String?
+    static var userLastName: String?
+    static var userDateOfBirth: String?
     static var userAppearanceName: String?
     static var userCity: String?
     static var userState: String?

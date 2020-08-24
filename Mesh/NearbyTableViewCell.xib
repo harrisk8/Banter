@@ -7,6 +7,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Roboto-Bold.ttf">
+            <string>Roboto-Bold</string>
+        </array>
         <array key="Roboto-Light.ttf">
             <string>Roboto-Light</string>
         </array>
@@ -28,13 +31,13 @@
                         <rect key="frame" x="10.000000000000002" y="9.6666666666666643" width="20.666666666666671" height="21"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pRS-4P-Mjy">
-                        <rect key="frame" x="38.666666666666664" y="11.333333333333336" width="44.999999999999993" height="18"/>
+                        <rect key="frame" x="38.666666666666657" y="11.333333333333334" width="44.333333333333343" height="17.666666666666664"/>
                         <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="15"/>
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12m ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p3b-06-eOW">
-                        <rect key="frame" x="15" y="114" width="47" height="15"/>
+                        <rect key="frame" x="14.999999999999996" y="114.33333333333333" width="46.666666666666657" height="14.333333333333329"/>
                         <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="12"/>
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -45,31 +48,64 @@
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="ju3-Gd-6Xq">
+                        <rect key="frame" x="159.33333333333334" y="18.666666666666671" width="347.33333333333326" height="98"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZHN-Ed-10v">
+                                <rect key="frame" x="150.33333333333334" y="0.0" width="47" height="32"/>
+                                <state key="normal" image="Like Button Regular"/>
+                                <connections>
+                                    <action selector="likeButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="wLa-Au-lAv"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Hh-iG-HOy">
+                                <rect key="frame" x="162.66666666666666" y="33" width="22" height="32"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="19"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aQB-bT-ojB">
+                                <rect key="frame" x="150.33333333333334" y="66" width="47" height="32"/>
+                                <state key="normal" image="Dislike Button Regular"/>
+                                <connections>
+                                    <action selector="dislikeButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ZD7-u5-fjV"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </stackView>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="pRS-4P-Mjy" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" multiplier="0.3" id="5GK-JZ-ul7"/>
-                    <constraint firstItem="kKL-go-BTp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="7ms-fA-VYt"/>
                     <constraint firstItem="pRS-4P-Mjy" firstAttribute="leading" secondItem="GnG-6y-eqP" secondAttribute="trailing" constant="8" id="89d-Lp-Toe"/>
+                    <constraint firstItem="kKL-go-BTp" firstAttribute="top" secondItem="GnG-6y-eqP" secondAttribute="bottom" constant="6.3300000000000001" id="C19-g7-eMy"/>
+                    <constraint firstItem="kKL-go-BTp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="FkK-L5-F3q"/>
                     <constraint firstItem="p3b-06-eOW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" multiplier="1.8" id="Sup-MV-5Dc"/>
                     <constraint firstItem="GnG-6y-eqP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" multiplier="0.3" id="XF8-zA-bXh"/>
-                    <constraint firstItem="p3b-06-eOW" firstAttribute="top" secondItem="kKL-go-BTp" secondAttribute="bottom" constant="8" id="eO8-st-y8N"/>
+                    <constraint firstItem="ju3-Gd-6Xq" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" multiplier="1.8" id="bhS-ZK-srC"/>
+                    <constraint firstItem="ju3-Gd-6Xq" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="gY2-x7-xQr"/>
                     <constraint firstItem="GnG-6y-eqP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9.6699999999999999" id="gyy-7I-Qp8"/>
+                    <constraint firstItem="ju3-Gd-6Xq" firstAttribute="leading" secondItem="kKL-go-BTp" secondAttribute="trailing" constant="45.670000000000002" id="hR1-xi-yeF"/>
                     <constraint firstItem="p3b-06-eOW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="kvC-FP-a5A"/>
                     <constraint firstItem="GnG-6y-eqP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="oav-um-nmk"/>
                     <constraint firstItem="GnG-6y-eqP" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" multiplier="0.11" id="oeI-gz-eod"/>
-                    <constraint firstItem="kKL-go-BTp" firstAttribute="top" secondItem="GnG-6y-eqP" secondAttribute="bottom" constant="6.3300000000000001" id="urc-L8-wbq"/>
+                    <constraint firstItem="p3b-06-eOW" firstAttribute="top" secondItem="kKL-go-BTp" secondAttribute="bottom" constant="8.3300000000000001" id="qh4-70-agj"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="authorLabel" destination="pRS-4P-Mjy" id="sWV-6K-hSO"/>
+                <outlet property="dislikeButton" destination="aQB-bT-ojB" id="aM0-4J-BeQ"/>
+                <outlet property="likeButton" destination="ZHN-Ed-10v" id="2Qr-mp-cbU"/>
                 <outlet property="messageLabel" destination="kKL-go-BTp" id="aTX-ER-pqU"/>
+                <outlet property="postScore" destination="6Hh-iG-HOy" id="pwo-Re-oZh"/>
             </connections>
             <point key="canvasLocation" x="131.8840579710145" y="122.87946428571428"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="Author Icon" width="21" height="21"/>
+        <image name="Dislike Button Regular" width="47" height="32"/>
+        <image name="Like Button Regular" width="47" height="32"/>
     </resources>
 </document>

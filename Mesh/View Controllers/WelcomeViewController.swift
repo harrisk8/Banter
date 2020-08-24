@@ -8,6 +8,9 @@
 
 import UIKit
 import CoreLocation
+import Firebase
+import FirebaseMessaging
+
 
 class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate {
     
@@ -28,6 +31,8 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     @IBOutlet weak var nextButton: UIButton!
     
     var keyboardHeight = 0.0
+    
+    var userPhoneNumber: String?
     
     //Unwind segue will change this to true and pass back to this VC to perform a rapid screen slide upon screen appearance
     var backFromAuthCodeScreen = false
@@ -102,6 +107,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     @IBAction func nextButtonPressed(_ sender: Any) {
         if validatePhoneNumber() {
             print("Phone # is good")
+            verifyPhoneNumber()
             performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
         } else {
             print("Phone # is BAD")
@@ -109,6 +115,26 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         }
         
     }
+    
+    func verifyPhoneNumber() {
+        
+        PhoneAuthProvider.provider().verifyPhoneNumber("+19548645827", uiDelegate: nil) {
+            (verificationID, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            UserDefaults.standard.set(verificationID ?? "", forKey: "authVerificationID")
+   
+        }
+        
+    }
+    
+    
+    
+    
+    
     
     //Passes user phone number and screen height to next VC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -205,6 +231,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     func validatePhoneNumber() -> Bool {
         if let phoneNumberEntry = phoneNumberTextField.text {
             if phoneNumberEntry.count == 10 {
+                userPhoneNumber = "+1" + phoneNumberTextField.text!
                 return true
             }
         }

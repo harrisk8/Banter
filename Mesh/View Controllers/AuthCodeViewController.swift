@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class AuthCodeViewController: UIViewController, UITextFieldDelegate {
     
@@ -55,11 +56,32 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
         print("next pressed")
         if validateCode() {
             print("Good code")
+            verifyAuthCode()
             performSegue(withIdentifier: "authCodeScreenToFinishSignUpScreen", sender: self)
         } else {
             print("Bad code")
         }
     
+    }
+    
+    func verifyAuthCode() {
+        
+        let verificationID = UserDefaults.standard.string(forKey: "authVerificationID") ?? ""
+        
+        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: authCode ?? "")
+        
+        Auth.auth().signIn(with: credential, completion: { authData, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print(Auth.auth().currentUser?.uid ?? "")
+                
+                //Stores userID in UserInfo class for local usage
+                UserInfo.userID = Auth.auth().currentUser?.uid ?? ""
+            }
+            
+        })
+        
     }
     
     
