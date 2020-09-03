@@ -123,7 +123,8 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         }
         
     }
-        
+    
+
 
     //Handles placeholder functionality
     func textFieldDidChangeSelection(_ textField: UITextField) {

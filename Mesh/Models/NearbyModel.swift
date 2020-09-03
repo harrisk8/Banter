@@ -12,7 +12,7 @@ struct NearbyCellData {
     
     var author: String?
     var message: String?
-    var score: Int?
+//    var score: Int?
     var timestamp: Double?
     
 }

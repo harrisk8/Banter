@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import Firebase
 
 class NearbyViewController: UIViewController, UITableViewDataSource {
 
 
     @IBOutlet weak var nearbyTableView: UITableView!
+    
+    let database = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +30,44 @@ class NearbyViewController: UIViewController, UITableViewDataSource {
         nearbyTableView.layoutMargins = .zero
         nearbyTableView.separatorInset = .zero
         
+        loadPostsFromDatabase()
+        
+        
+    }
+    
+    func loadPostsFromDatabase() {
+        
+        database.collection("posts").getDocuments() { (querySnapshot, err) in
+            
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                
+                for document in querySnapshot!.documents {
+                    
+                    let postData = document.data()
+                    
+                    if let postAuthor = postData["author"] as? String, let postMessage = postData["message"] as? String, let postTimestamp = postData["timestamp"] as? Double {
+                        
+                        let newPost = NearbyCellData(author: postAuthor, message: postMessage, timestamp: postTimestamp)
+                        
+                        NearbyArray.nearbyArray.append(newPost)
+                        
+                        DispatchQueue.main.async {
+                            self.nearbyTableView.reloadData()
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("viewdidappear")
+        DispatchQueue.main.async {
+            self.nearbyTableView.reloadData()
+        }
         
     }
     

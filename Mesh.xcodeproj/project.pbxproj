@@ -122,8 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				6FFD62A324DE370D00D5B96D /* ViewController.swift */,
-				6FD5132C24E36BAD0028DDAE /* Fonts */,
 				6F81595224F4670B00FB59BD /* NewPostDummyViewController.swift */,
+				6FD5132C24E36BAD0028DDAE /* Fonts */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -133,8 +133,6 @@
 			children = (
 				6FFD629F24DE370D00D5B96D /* AppDelegate.swift */,
 				6FFD62A124DE370D00D5B96D /* SceneDelegate.swift */,
-				6F40679F24F31ABA009CB580 /* GoogleService-Info.plist */,
-				6FFD62AD24DE370D00D5B96D /* Info.plist */,
 			);
 			path = "Core Systems";
 			sourceTree = "<group>";
@@ -207,7 +205,9 @@
 		6FFD629E24DE370D00D5B96D /* Mesh */ = {
 			isa = PBXGroup;
 			children = (
+				6FFD62AD24DE370D00D5B96D /* Info.plist */,
 				6F4067A124F32C36009CB580 /* Mesh.entitlements */,
+				6F40679F24F31ABA009CB580 /* GoogleService-Info.plist */,
 				6F81595624F46A0E00FB59BD /* Views */,
 				6F6DF02524E79AE9009ACCDD /* View Controllers */,
 				6FBA046124F2033000FC1E1B /* Tab Bar View Controllers */,

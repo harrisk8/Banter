@@ -14,7 +14,7 @@ class UserInfo {
     static var userFirstName: String?
     static var userLastName: String?
     static var userDateOfBirth: String?
-    static var userAppearanceName: String?
+    static var userAppearanceName: String = "Bob"
     static var userCity: String?
     static var userState: String?
 
