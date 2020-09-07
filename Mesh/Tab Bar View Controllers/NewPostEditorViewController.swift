@@ -23,6 +23,8 @@ class NewPostEditorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        messageEditor.becomeFirstResponder()
 
         cancelButton.titleLabel?.adjustsFontSizeToFitWidth = true
 
@@ -44,7 +46,7 @@ class NewPostEditorViewController: UIViewController {
     //Handles writing new post to database
     func writePostToDatabase() {
         
-        database.collection("users").addDocument(data: [
+        database.collection("posts").addDocument(data: [
             "author": UserInfo.userAppearanceName,
             "authorID": UserInfo.userID ?? "",
             "message": messageEditor.text ?? "",

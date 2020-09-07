@@ -81,8 +81,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource {
         let nearbyCellData = NearbyArray.nearbyArray[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "NearbyTableCellIdentifier", for: indexPath) as! NearbyTableViewCell
-        cell.authorLabel.text = String(nearbyCellData.author!)
-        cell.messageLabel.text = String(nearbyCellData.message!)
+        cell.authorLabel?.text = String(nearbyCellData.author! )
+        cell.messageLabel?.text = String(nearbyCellData.message! )
+        cell.timestampLabel?.text = String(nearbyCellData.timestamp! )
         
         return cell
         

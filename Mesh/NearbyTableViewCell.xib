@@ -20,7 +20,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NearbyTableCellIdentifier" id="KGk-i7-Jjw" customClass="NearbyTableViewCell" customModule="Mesh" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NearbyTableCellIdentifier" id="KGk-i7-Jjw" customClass="NearbyTableViewCell" customModule="Mesh" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="370" height="135"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -99,6 +99,7 @@
                 <outlet property="likeButton" destination="ZHN-Ed-10v" id="2Qr-mp-cbU"/>
                 <outlet property="messageLabel" destination="kKL-go-BTp" id="aTX-ER-pqU"/>
                 <outlet property="postScore" destination="6Hh-iG-HOy" id="pwo-Re-oZh"/>
+                <outlet property="timestampLabel" destination="p3b-06-eOW" id="JEa-ee-S68"/>
             </connections>
             <point key="canvasLocation" x="131.8840579710145" y="122.87946428571428"/>
         </tableViewCell>

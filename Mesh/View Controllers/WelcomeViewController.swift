@@ -94,7 +94,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     func makeTestArray() {
         
         for _ in 1...10 {
-            let newCell = NearbyCellData(author: "Harris", message: "The quick brown fox jumped over the lazy dog.")
+            let newCell = NearbyCellData(author: "Harris", message: "The quick brown fox jumped over the lazy dog.", timestamp: 500)
             NearbyArray.nearbyArray.append(newCell)
         }
 
