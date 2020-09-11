@@ -41,6 +41,9 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="'welcome to mesh' " translatesAutoresizingMaskIntoConstraints="NO" id="4Ko-on-JAG" userLabel="'welcome to mesh'">
                                         <rect key="frame" x="29" y="219" width="356" height="55"/>
                                     </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Feel the pulse" translatesAutoresizingMaskIntoConstraints="NO" id="g3t-oR-CVE">
+                                        <rect key="frame" x="19" y="281" width="376" height="23"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -49,7 +52,10 @@
                                     <constraint firstAttribute="trailing" secondItem="4Ko-on-JAG" secondAttribute="trailing" constant="29" id="AXg-YS-M6C"/>
                                     <constraint firstItem="iRv-v4-URf" firstAttribute="top" secondItem="7SZ-Zu-78v" secondAttribute="top" id="Ada-wB-oCH"/>
                                     <constraint firstItem="4Ko-on-JAG" firstAttribute="leading" secondItem="7SZ-Zu-78v" secondAttribute="leading" constant="29" id="Dls-NZ-YUd"/>
+                                    <constraint firstAttribute="trailing" secondItem="g3t-oR-CVE" secondAttribute="trailing" constant="19" id="JJf-bQ-5A3"/>
                                     <constraint firstItem="iRv-v4-URf" firstAttribute="leading" secondItem="7SZ-Zu-78v" secondAttribute="leading" id="Lsx-wU-HPL"/>
+                                    <constraint firstItem="g3t-oR-CVE" firstAttribute="top" secondItem="4Ko-on-JAG" secondAttribute="bottom" constant="7" id="P2n-ZP-WMo"/>
+                                    <constraint firstItem="g3t-oR-CVE" firstAttribute="leading" secondItem="7SZ-Zu-78v" secondAttribute="leading" constant="19" id="PzP-PI-9RH"/>
                                     <constraint firstAttribute="trailing" secondItem="iRv-v4-URf" secondAttribute="trailing" id="y8k-xB-zL2"/>
                                 </constraints>
                             </view>
@@ -172,7 +178,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="233" y="118"/>
+            <point key="canvasLocation" x="231.8840579710145" y="117.85714285714285"/>
         </scene>
         <!--Auth Code View Controller-->
         <scene sceneID="Pep-MI-ShM">
@@ -461,6 +467,13 @@
                     <view key="view" contentMode="scaleToFill" id="234-yO-KKQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ayz-69-p2R">
+                                <rect key="frame" x="133" y="342" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="LX3-US-Mic"/>
                     </view>
@@ -478,7 +491,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dr6-gz-lHC">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dr6-gz-lHC">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="separatorColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -493,9 +506,21 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Bmg-Na-G3Z"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Nearby" id="Nvr-CR-zE9"/>
+                    <navigationItem key="navigationItem" title="Nearby" id="Nvr-CR-zE9">
+                        <barButtonItem key="rightBarButtonItem" id="JCi-Gl-xas">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V3D-4R-WSy">
+                                <rect key="frame" x="357" y="3.6666666666666679" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="Top Right Nav New Post Icon"/>
+                                <connections>
+                                    <action selector="newPostButtonPressed:" destination="ipq-8a-GUm" eventType="touchUpInside" id="0fa-ZF-deq"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="nearbyTableView" destination="dr6-gz-lHC" id="zkp-Rh-2n9"/>
+                        <segue destination="gi6-cU-piE" kind="presentation" identifier="navTopRightToNewPost" modalPresentationStyle="fullScreen" id="VhC-5O-fwx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xlr-bI-uUP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -537,29 +562,54 @@
                                     <action selector="postMessagePressed:" destination="gi6-cU-piE" eventType="touchUpInside" id="hjj-Ux-4iu"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.25" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Separator Line" translatesAutoresizingMaskIntoConstraints="NO" id="kQM-PY-FJt">
+                                <rect key="frame" x="29" y="378" width="356" height="1"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Posting as:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="aSg-RJ-Oah">
+                                <rect key="frame" x="29" y="438" width="216" height="20"/>
+                                <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="17"/>
+                                <color key="textColor" red="0.13725490200000001" green="0.031372549020000001" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="kQM-PY-FJt" secondAttribute="trailing" constant="9" id="5Iv-8s-iLR"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="255" id="PUL-Ea-FSJ"/>
+                            <constraint firstItem="kQM-PY-FJt" firstAttribute="top" secondItem="l8E-mQ-Hni" secondAttribute="bottom" constant="15" id="T0n-ge-zM2"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" id="VPY-GC-oSH"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="trailing" secondItem="l8E-mQ-Hni" secondAttribute="trailing" constant="26" id="WhK-ra-QDz"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="34" id="Z32-FV-1va"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.2" id="aeo-uM-hK8"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="trailing" secondItem="7vx-Gq-CZ2" secondAttribute="trailing" constant="324" id="dHG-dl-5EX"/>
                             <constraint firstItem="l8E-mQ-Hni" firstAttribute="top" secondItem="XHH-go-9o7" secondAttribute="top" constant="87" id="eN8-4u-vtd"/>
+                            <constraint firstItem="aSg-RJ-Oah" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="29" id="etl-1X-vuA"/>
+                            <constraint firstItem="kQM-PY-FJt" firstAttribute="leading" secondItem="Hb9-XN-19l" secondAttribute="leadingMargin" constant="9" id="hkf-vd-0GL"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="bottom" secondItem="l8E-mQ-Hni" secondAttribute="bottom" constant="499" id="rVv-d7-TFy"/>
+                            <constraint firstItem="1df-nF-71h" firstAttribute="leading" secondItem="aSg-RJ-Oah" secondAttribute="trailing" constant="10" id="thM-uP-ohs"/>
                             <constraint firstItem="l8E-mQ-Hni" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="26" id="vLQ-AQ-mSg"/>
+                            <constraint firstItem="aSg-RJ-Oah" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" id="w8A-6V-l0L"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="trailing" secondItem="1df-nF-71h" secondAttribute="trailing" constant="10" id="z7y-AN-VrR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="XHH-go-9o7"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="B3M-xl-hve" appends="YES" id="4Bf-6E-8Y6"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="cancelButton" destination="7vx-Gq-CZ2" id="Vd5-3W-q1q"/>
                         <outlet property="messageEditor" destination="l8E-mQ-Hni" id="YQg-i3-lPJ"/>
                         <outlet property="postMessageButton" destination="1df-nF-71h" id="1rh-Hm-Toe"/>
+                        <outlet property="postingAsLabel" destination="aSg-RJ-Oah" id="raQ-rd-FHA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sVp-zP-pCn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="down" id="B3M-xl-hve">
+                    <connections>
+                        <action selector="swipeDownDetected:" destination="gi6-cU-piE" id="Fwg-0S-y90"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="5402.898550724638" y="116.51785714285714"/>
         </scene>
@@ -596,6 +646,7 @@
                         <segue destination="rfY-s1-29h" kind="relationship" relationship="viewControllers" id="A8e-0L-YM6"/>
                         <segue destination="USC-a7-bCs" kind="relationship" relationship="viewControllers" id="cW8-tx-YkP"/>
                         <segue destination="gi6-cU-piE" kind="presentation" identifier="tabBarToNewPostEditor" modalPresentationStyle="fullScreen" id="X1H-3z-xHq"/>
+                        <segue destination="LFo-c5-uc2" kind="presentation" identifier="tableViewToPostDetails" id="5rI-4L-dtZ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iSD-P3-OxZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -633,6 +684,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DqH-DX-oeZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7001" y="987"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Eta-sm-SjO">
+            <objects>
+                <viewController id="LFo-c5-uc2" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0fb-7U-aE9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="pqe-ix-MiC"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SoI-UT-YbH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2359" y="-765"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="a5s-5X-uts">
@@ -740,11 +806,15 @@
             <point key="canvasLocation" x="6060" y="-638"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="VhC-5O-fwx"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="'welcome to mesh' " width="348" height="55"/>
         <image name="Back Button" width="49" height="38"/>
         <image name="Background" width="414" height="896"/>
         <image name="Circle Slider" width="414" height="896"/>
+        <image name="Feel the pulse" width="327" height="23"/>
         <image name="Finish Button" width="313" height="86.666664123535156"/>
         <image name="Finish Sign Up Notice" width="306" height="180"/>
         <image name="Finish Sign Up Title" width="373" height="98"/>
@@ -761,6 +831,8 @@
         <image name="Post Button" width="149" height="109"/>
         <image name="Profile Regular" width="25" height="25"/>
         <image name="Profile Selected" width="33.333332061767578" height="29.666666030883789"/>
+        <image name="Separator Line" width="381" height="1"/>
+        <image name="Top Right Nav New Post Icon" width="24" height="24"/>
         <image name="Trending Regular" width="26" height="26"/>
         <image name="Trending Selected" width="33.333332061767578" height="31.666666030883789"/>
     </resources>

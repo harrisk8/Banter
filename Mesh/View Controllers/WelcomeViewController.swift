@@ -60,9 +60,6 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             
             print("HI")
         })
-
-        makeTestArray()
-
         // Do any additional setup after loading the view.
     }
     
@@ -78,6 +75,8 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
                     let firstLocation = placemarks?[0]
                     completionHandler(firstLocation)
                     print((firstLocation?.locality ?? "") + (firstLocation?.administrativeArea ?? ""))
+                    UserInfo.userCity = firstLocation?.locality ?? ""
+                    UserInfo.userState = firstLocation?.locality ?? ""
                 }
                 else {
                  // An error occurred during geocoding.
@@ -90,18 +89,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             completionHandler(nil)
         }
     }
-    
-    func makeTestArray() {
-        
-        for _ in 1...10 {
-            let newCell = NearbyCellData(author: "Harris", message: "The quick brown fox jumped over the lazy dog.", timestamp: 500)
-            NearbyArray.nearbyArray.append(newCell)
-        }
 
-    }
-    
-    
-    
     
     //Validates and executes transition to next VC AND sends phone number for auth
     @IBAction func nextButtonPressed(_ sender: Any) {

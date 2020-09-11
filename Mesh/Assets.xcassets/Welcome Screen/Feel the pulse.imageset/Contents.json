@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Post Button.png",
+      "filename" : "Feel the pulse of your community..png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Post Button@2x.png",
+      "filename" : "Feel the pulse of your community.@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Post Button@3x.png",
+      "filename" : "Feel the pulse of your community.@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

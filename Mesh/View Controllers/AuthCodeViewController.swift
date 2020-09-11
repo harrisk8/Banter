@@ -64,6 +64,7 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
     
     }
     
+    
     func verifyAuthCode() {
         
         let verificationID = UserDefaults.standard.string(forKey: "authVerificationID") ?? ""

@@ -9,24 +9,28 @@
 import UIKit
 import Firebase
 
-class NewPostEditorViewController: UIViewController {
+class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var postMessageButton: UIButton!
     
+    @IBOutlet weak var postingAsLabel: UILabel!
     
     @IBOutlet weak var messageEditor: UITextView!
     
     let database = Firestore.firestore()
     
     var timestamp: Double = 0
-    
+
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         messageEditor.becomeFirstResponder()
 
         cancelButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        
+        organizePostingAsLabel()
 
     }
     
@@ -87,16 +91,50 @@ class NewPostEditorViewController: UIViewController {
     }
     
     
+    @IBAction func swipeDownDetected(_ sender: Any) {
+        print("user swiped down")
+        dismiss(animated: true, completion: nil)
+    }
     
     
-    //Functionally disables 'return' button on keyboard.
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
     
-        if text == "\n" {
-            return false
-        }
-        return messageEditor.text.count + (text.count - range.length) <= 240
+    func organizePostingAsLabel() {
+        
+//        let partOne = NSMutableAttributedString(string: "Posting as: ")
+//        let partTwo = NSMutableAttributedString(string: UserInfo.userAppearanceName)
+        
+        let partOneAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.black,
+            .font: UIFont(name: "Roboto-Regular", size: 15) ?? UIFont.boldSystemFont(ofSize: 15)
+        ]
+        
+        let partTwoAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.black,
+            .font: UIFont(name: "Roboto-Bold", size: 15) ?? UIFont.boldSystemFont(ofSize: 15)
+        ]
+        
+        let attributedPartOne = NSMutableAttributedString(string: "Posting as: ", attributes: partOneAttributes)
+        
+        let attributedPartTwo = NSMutableAttributedString(string: UserInfo.userAppearanceName, attributes: partTwoAttributes)
+
+        attributedPartOne.append(attributedPartTwo)
+        
+        postingAsLabel.adjustsFontSizeToFitWidth = true
+        postingAsLabel.attributedText = attributedPartOne
+                
     }
 
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        if text != "/n" {
+            return true
+        } else if messageEditor.text.count <= 240 {
+            return true
+        } else {
+            return true
+        }
+        
+    }
 
 }

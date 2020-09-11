@@ -8,7 +8,14 @@
 
 import UIKit
 
+protocol openPostDetails {
+    func testProtocol()
+    
+}
+
 class NearbyTableViewCell: UITableViewCell {
+ 
+    
     
     @IBOutlet weak var authorLabel: UILabel?
     @IBOutlet weak var messageLabel: UILabel?
@@ -22,15 +29,25 @@ class NearbyTableViewCell: UITableViewCell {
     var likedPost = false
     var dislikedPost = false
     
+    var likedFromDislike = true
+    var dislikedFromLike = false
+    
     var randomInt = 0
+    
+    var delegate: openPostDetails?
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+
+                
         randomInt = Int.random(in: 1...100)
         postScore?.text = String(randomInt)
     }
+    
+    
+ 
+        
     
     
     @IBAction func likeButtonPressed(_ sender: Any) {
@@ -41,6 +58,7 @@ class NearbyTableViewCell: UITableViewCell {
             likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
             dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
             dislikedPost = false
+            likedPost = true
 
         }
         
@@ -50,7 +68,7 @@ class NearbyTableViewCell: UITableViewCell {
             likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
             postScore?.text = String(randomInt)
             likedPost = true
-        } else {
+        } else if likedPost == true {
             print("Removing Like")
             randomInt -= 1
             likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
@@ -73,6 +91,7 @@ class NearbyTableViewCell: UITableViewCell {
             dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
             likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
             likedPost = false
+            dislikedPost = true
             
         }
         
@@ -83,7 +102,7 @@ class NearbyTableViewCell: UITableViewCell {
             dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
             postScore?.text = String(randomInt)
             dislikedPost = true
-        } else {
+        } else if dislikedPost == true {
             print("Removing Dislike")
             randomInt += 1
             dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)

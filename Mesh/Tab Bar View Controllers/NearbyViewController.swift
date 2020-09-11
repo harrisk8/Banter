@@ -9,8 +9,8 @@
 import UIKit
 import Firebase
 
-class NearbyViewController: UIViewController, UITableViewDataSource {
-
+class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
 
     @IBOutlet weak var nearbyTableView: UITableView!
     
@@ -18,9 +18,11 @@ class NearbyViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+            
+        UserInfo.refreshTime = Date().timeIntervalSince1970
 
         nearbyTableView.dataSource = self
+        nearbyTableView.delegate = self
         
         nearbyTableView.register(UINib(nibName: "NearbyTableViewCell", bundle: nil), forCellReuseIdentifier: "NearbyTableCellIdentifier")
         
@@ -35,6 +37,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource {
         
     }
     
+    //Reads posts from database and integrates into local array
     func loadPostsFromDatabase() {
         
         database.collection("posts").getDocuments() { (querySnapshot, err) in
@@ -53,6 +56,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource {
                         
                         NearbyArray.nearbyArray.append(newPost)
                         
+                        print(self.formatPostTime(postTimestamp: postTimestamp))
+                        
                         DispatchQueue.main.async {
                             self.nearbyTableView.reloadData()
                             
@@ -63,12 +68,18 @@ class NearbyViewController: UIViewController, UITableViewDataSource {
         }
     }
     
+    //Refreshes tableview after user returns to screen from new post
     override func viewDidAppear(_ animated: Bool) {
         print("viewdidappear")
         DispatchQueue.main.async {
             self.nearbyTableView.reloadData()
         }
         
+    }
+    
+    
+    @IBAction func newPostButtonPressed(_ sender: Any) {
+        performSegue(withIdentifier: "navTopRightToNewPost", sender: self)
     }
     
 
@@ -83,13 +94,39 @@ class NearbyViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NearbyTableCellIdentifier", for: indexPath) as! NearbyTableViewCell
         cell.authorLabel?.text = String(nearbyCellData.author! )
         cell.messageLabel?.text = String(nearbyCellData.message! )
-        cell.timestampLabel?.text = String(nearbyCellData.timestamp! )
+        cell.timestampLabel?.text = formatPostTime(postTimestamp: nearbyCellData.timestamp!)
         
         return cell
         
     }
-
     
+    
+    //Converts timestamp from 'seconds since 1970' to readable format
+    func formatPostTime(postTimestamp: Double) -> String {
+        
+        let timeDifference = (UserInfo.refreshTime ?? 0.0) - postTimestamp
+        
+        let timeInMinutes = Int((timeDifference / 60.0))
+        let timeInHours = Int(timeInMinutes / 60)
+        let timeInDays = Int(timeInHours / 24)
+        
+        if timeInMinutes < 60 {
+            return (String(timeInMinutes) + "m")
+        } else if timeInMinutes >= 60 && timeInHours < 23 {
+            return (String(timeInHours) + "h")
+        } else {
+            return (String(timeInDays) + "d")
+        }
+        
+    
+    }
+    
+    //Handles functionality for cell selection
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+        print(NearbyArray.nearbyArray[indexPath.row])
+    }
+
     
 }
 
