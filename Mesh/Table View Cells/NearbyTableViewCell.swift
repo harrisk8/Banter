@@ -8,10 +8,7 @@
 
 import UIKit
 
-protocol openPostDetails {
-    func testProtocol()
-    
-}
+
 
 class NearbyTableViewCell: UITableViewCell {
  
@@ -34,7 +31,6 @@ class NearbyTableViewCell: UITableViewCell {
     
     var randomInt = 0
     
-    var delegate: openPostDetails?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -116,13 +112,5 @@ class NearbyTableViewCell: UITableViewCell {
     
     
     
-    
-    
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
 }

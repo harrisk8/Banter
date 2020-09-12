@@ -12,9 +12,13 @@ import Firebase
 class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var clearButton: UIButton!
+    
     @IBOutlet weak var postMessageButton: UIButton!
     
     @IBOutlet weak var postingAsLabel: UILabel!
+    @IBOutlet weak var characterCountLabel: UILabel!
+    
     
     @IBOutlet weak var messageEditor: UITextView!
     
@@ -26,11 +30,13 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        messageEditor.delegate = self
+        
         messageEditor.becomeFirstResponder()
 
-        cancelButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
         organizePostingAsLabel()
+        
 
     }
     
@@ -91,25 +97,28 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     }
     
     
+    //Dismisses VC when user swiped down
     @IBAction func swipeDownDetected(_ sender: Any) {
         print("user swiped down")
         dismiss(animated: true, completion: nil)
     }
     
     
+    @IBAction func clearButtonPressed(_ sender: Any) {
+        messageEditor.text = ""
+    }
     
+    
+    //Formates the "Posting as: 'appearance name'" label
     func organizePostingAsLabel() {
-        
-//        let partOne = NSMutableAttributedString(string: "Posting as: ")
-//        let partTwo = NSMutableAttributedString(string: UserInfo.userAppearanceName)
-        
+
         let partOneAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.black,
+            .foregroundColor: UIColor(red: 35/255, green: 8/255, blue: 58/255, alpha: 1),
             .font: UIFont(name: "Roboto-Regular", size: 15) ?? UIFont.boldSystemFont(ofSize: 15)
         ]
         
         let partTwoAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.black,
+            .foregroundColor: UIColor(red: 35/255, green: 8/255, blue: 58/255, alpha: 1),
             .font: UIFont(name: "Roboto-Bold", size: 15) ?? UIFont.boldSystemFont(ofSize: 15)
         ]
         
@@ -123,18 +132,27 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         postingAsLabel.attributedText = attributedPartOne
                 
     }
+    
+    //Updates character count label in real-time
+    func textViewDidChange(_ textView: UITextView) {
+        let characterCount: String
+        characterCount = String(messageEditor.text.count)
+        characterCountLabel.text = characterCount + "/240"
+    }
 
     
+    //Functionally disables the return button and limits message length to 240 char
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        if text != "/n" {
-            return true
-        } else if messageEditor.text.count <= 240 {
-            return true
-        } else {
-            return true
+    
+        if text == "\n" {
+            return false
+            
         }
-        
+        return messageEditor.text.count + (text.count - range.length) <= 240
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
     }
 
 }
