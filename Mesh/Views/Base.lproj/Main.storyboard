@@ -189,45 +189,45 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="y4e-4G-ImG">
-                                <rect key="frame" x="11" y="475.66666666666674" width="392" height="79"/>
+                                <rect key="frame" x="11" y="476.00000000000006" width="392" height="78.666666666666686"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lma-rb-1rj" userLabel="digit1">
-                                        <rect key="frame" x="0.0" y="0.0" width="62" height="79"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="62" height="78.666666666666671"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AMS-ns-Mqh" userLabel="digit2">
-                                        <rect key="frame" x="66" y="0.0" width="62" height="79"/>
+                                        <rect key="frame" x="66" y="0.0" width="62" height="78.666666666666671"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rzO-MN-Lsv" userLabel="digit3">
-                                        <rect key="frame" x="132" y="0.0" width="62" height="79"/>
+                                        <rect key="frame" x="132" y="0.0" width="62" height="78.666666666666671"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PGw-Zt-vE0" userLabel="digit4">
-                                        <rect key="frame" x="198" y="0.0" width="62" height="79"/>
+                                        <rect key="frame" x="198" y="0.0" width="62" height="78.666666666666671"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rO0-fP-RdJ" userLabel="digit5">
-                                        <rect key="frame" x="264" y="0.0" width="62" height="79"/>
+                                        <rect key="frame" x="264" y="0.0" width="62" height="78.666666666666671"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UKJ-lJ-QXU" userLabel="digit6">
-                                        <rect key="frame" x="330" y="0.0" width="62" height="79"/>
+                                        <rect key="frame" x="330" y="0.0" width="62" height="78.666666666666671"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="59"/>
@@ -518,6 +518,7 @@
                     <connections>
                         <outlet property="nearbyTableView" destination="dr6-gz-lHC" id="zkp-Rh-2n9"/>
                         <segue destination="gi6-cU-piE" kind="presentation" identifier="navTopRightToNewPost" modalPresentationStyle="fullScreen" id="VhC-5O-fwx"/>
+                        <segue destination="Xks-jQ-og6" kind="presentation" identifier="postToComments" modalPresentationStyle="fullScreen" id="GAJ-WX-5Zx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xlr-bI-uUP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -636,6 +637,67 @@
                 </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="5451" y="116"/>
+        </scene>
+        <!--Comments View Controller-->
+        <scene sceneID="kHr-cy-4PO">
+            <objects>
+                <viewController id="Xks-jQ-og6" userLabel="Comments View Controller" customClass="CommentsViewController" customModule="Mesh" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9Ax-Mi-MEn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.25" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Separator Line" translatesAutoresizingMaskIntoConstraints="NO" id="ta2-AJ-Ck5">
+                                <rect key="frame" x="16.666666666666657" y="268.33333333333331" width="381" height="1"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sya-Ya-diK">
+                                <rect key="frame" x="44" y="98" width="307" height="81"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dDQ-Qa-O2I">
+                                <rect key="frame" x="0.0" y="772" width="414" height="237"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Reply to this post" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Qnw-di-EOc">
+                                        <rect key="frame" x="39" y="19" width="240" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.28236040470000001" green="0.54481965300000001" blue="0.28230279679999998" alpha="0.66181506850000005" colorSpace="custom" customColorSpace="displayP3"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="ta2-AJ-Ck5" firstAttribute="centerX" secondItem="9Ax-Mi-MEn" secondAttribute="centerX" id="7Ty-Ej-qMc"/>
+                            <constraint firstItem="ta2-AJ-Ck5" firstAttribute="centerY" secondItem="9Ax-Mi-MEn" secondAttribute="centerY" multiplier="0.6" id="ivC-Yn-ybg"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6d5-g9-gV7"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="SYH-kk-k4E" appends="YES" id="5vq-Sa-8Vo"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="commentEditorView" destination="dDQ-Qa-O2I" id="ASs-0V-SqM"/>
+                        <outlet property="commentTextView" destination="Qnw-di-EOc" id="dzt-aU-PEc"/>
+                        <outlet property="postMessage" destination="Sya-Ya-diK" id="DnI-xo-d52"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c8i-0S-IbX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="SYH-kk-k4E">
+                    <connections>
+                        <action selector="userSwipesBack:" destination="Xks-jQ-og6" id="5lW-Q3-Hmj"/>
+                    </connections>
+                </swipeGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="6482.608695652174" y="118.52678571428571"/>
         </scene>
         <!--New Post Dummy View Controller-->
         <scene sceneID="zsh-Yg-nln">

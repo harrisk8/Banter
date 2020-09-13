@@ -16,6 +16,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     let database = Firestore.firestore()
     
+    var selectedCellIndex: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
             
@@ -124,7 +126,16 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     //Handles functionality for cell selection
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
+        selectedCellIndex = indexPath.row
         print(NearbyArray.nearbyArray[indexPath.row])
+        performSegue(withIdentifier: "postToComments", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let commentsVC = segue.destination as? CommentsViewController {
+            commentsVC.postArrayPosition = selectedCellIndex
+        }
+        
     }
 
     

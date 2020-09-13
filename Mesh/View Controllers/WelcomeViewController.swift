@@ -213,6 +213,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             NotificationCenter.default.removeObserver(self)
         }
         print(keyboardHeight)
+        UserInfo.keyboardHeight = keyboardHeight
     }
     
     //Validates whether user entered complete number. Gateway for segue

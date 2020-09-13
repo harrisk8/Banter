@@ -18,5 +18,6 @@ class UserInfo {
     static var userCity: String?
     static var userState: String?
     static var refreshTime: Double?
+    static var keyboardHeight: Double?
 
 }
