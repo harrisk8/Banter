@@ -76,7 +76,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
                     completionHandler(firstLocation)
                     print((firstLocation?.locality ?? "") + (firstLocation?.administrativeArea ?? ""))
                     UserInfo.userCity = firstLocation?.locality ?? ""
-                    UserInfo.userState = firstLocation?.locality ?? ""
+                    UserInfo.userState = firstLocation?.administrativeArea ?? ""
                 }
                 else {
                  // An error occurred during geocoding.

@@ -18,6 +18,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     var selectedCellIndex: Int?
     
+    var lastContentOffset: CGFloat = 0
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
             
@@ -136,6 +139,24 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             commentsVC.postArrayPosition = selectedCellIndex
         }
         
+    }
+    
+    // this delegate is called when the scrollView (i.e your UITableView) will start scrolling
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.lastContentOffset = nearbyTableView.contentOffset.y
+    }
+    
+    // while scrolling this delegate is being called so you may now check which direction your scrollView is being scrolled to
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if self.lastContentOffset < nearbyTableView.contentOffset.y {
+            // did move up
+            print("SCROLLED DOWN")
+        } else if self.lastContentOffset > nearbyTableView.contentOffset.y {
+            // did move down
+            print("SCROLLED UP")
+        } else {
+            // didn't move
+        }
     }
 
     

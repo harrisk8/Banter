@@ -11,6 +11,7 @@ import QuartzCore
 
 class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet var screenView: UIView!
     
     @IBOutlet weak var postMessage: UITextView!
     @IBOutlet weak var commentsTextView: UITextView!
@@ -24,6 +25,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     @IBOutlet weak var commentsTableView: UITableView!
     
+    var lastContentOffset: CGFloat = 0
+    
+    var pointsScrolled = 0
+
     
     var postArrayPosition: Int?
     
@@ -99,9 +104,13 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         let timeDifference = (UserInfo.refreshTime ?? 0.0) - postTimestamp
         
-        let timeInMinutes = Int((timeDifference / 60.0))
+        var timeInMinutes = Int((timeDifference / 60.0))
         let timeInHours = Int(timeInMinutes / 60)
         let timeInDays = Int(timeInHours / 24)
+        
+        if timeInMinutes < 1 {
+            timeInMinutes = 1
+        }
         
         if timeInMinutes < 60 {
             return (String(timeInMinutes) + "m")
@@ -111,6 +120,35 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             return (String(timeInDays) + "d")
         }
         
+    }
     
+    
+    // this delegate is called when the scrollView (i.e your UITableView) will start scrolling
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.lastContentOffset = commentsTableView.contentOffset.y
+    }
+    
+    // while scrolling this delegate is being called so you may now check which direction your scrollView is being scrolled to
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if self.lastContentOffset < commentsTableView.contentOffset.y {
+            // did move up
+            print("SCROLLED DOWN")
+        } else if self.lastContentOffset > commentsTableView.contentOffset.y  {
+            // did move down
+            pointsScrolled += 1
+            if pointsScrolled >= 25 {
+                
+                UIView.animate(withDuration: 0.3) {
+                    self.commentsEditorView.frame.origin.y += CGFloat(UserInfo.keyboardHeight ?? 0) + CGFloat(self.commentsTextView.frame.height)
+                    self.commentsTextView.resignFirstResponder()
+
+                }
+                
+                
+            }
+            print(pointsScrolled)
+        } else {
+            // didn't move
+        }
     }
 }
