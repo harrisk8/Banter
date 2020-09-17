@@ -14,8 +14,14 @@ struct NearbyCellData {
     var message: String?
 //    var score: Int?
     var timestamp: Double?
+//    var comments: [[String: AnyObject]]
+    
+    
+
+    
     
 }
+
 
 struct NearbyArray {
     

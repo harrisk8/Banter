@@ -26,6 +26,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     var timestamp: Double = 0
 
+    var testArray: [[String: Any]] = []
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
         organizePostingAsLabel()
         
+        testArray.append(["author" : "Chang", "message" : "what's good jimbo"])
+        testArray.append(["author" : "Jaci", "message" : "stuff, G"])
 
     }
     
@@ -60,7 +63,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             "author": UserInfo.userAppearanceName,
             "authorID": UserInfo.userID ?? "",
             "message": messageEditor.text ?? "",
-            "timestamp": timestamp
+            "timestamp": timestamp,
+            "comments": testArray
         ]) { err in
             if let err = err {
                 print(err.localizedDescription)

@@ -12,28 +12,24 @@ import QuartzCore
 class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var screenView: UIView!
-    
     @IBOutlet weak var postMessage: UITextView!
     @IBOutlet weak var commentsTextView: UITextView!
-    
-    
-    
     @IBOutlet weak var commentsEditorView: UIView!
-    
     @IBOutlet weak var backButton: UIButton!
-    
-    
     @IBOutlet weak var commentsTableView: UITableView!
     
+    
+    var viewTranslation = CGPoint(x: 0, y: 0)
     var lastContentOffset: CGFloat = 0
-    
     var pointsScrolled = 0
-
-    
     var postArrayPosition: Int?
+    
+    var keyboardHeight: Double?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         postMessage.text = NearbyArray.nearbyArray[postArrayPosition ?? 0].message
 
@@ -53,16 +49,13 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         commentsTextView.backgroundColor = UIColor.white
         commentsTextView.layer.cornerRadius = 5.0
         commentsTextView.clipsToBounds = true
+        
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
+
+        NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
     }
     
-    func slideCommentEditorUp() {
-        
-        UIView.animate(withDuration: 0.3) {
-            self.commentsEditorView.frame.origin.y -= CGFloat(UserInfo.keyboardHeight ?? 0) + CGFloat(self.commentsTextView.frame.height)
-        }
-    
-    }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         print("GO")
@@ -70,15 +63,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     }
     
     
-    @IBAction func userSwipesBack(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    
     @IBAction func backButtonPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
     
     
     
@@ -98,6 +85,29 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         return cell
         
     }
+    
+    //Slides comment text view editor up as keyboard slides up
+    func slideCommentEditorUp() {
+        
+        self.commentsEditorView.translatesAutoresizingMaskIntoConstraints = true
+        UIView.animate(withDuration: 0.3) {
+            self.commentsEditorView.frame.origin.y -= CGFloat(self.keyboardHeight ?? 0)
+        }
+    
+    }
+    
+    func slideCommentEditorDown() {
+        
+     UIView.animate(withDuration: 0.3) {
+        self.commentsEditorView.frame.origin.y += CGFloat(self.keyboardHeight ?? 0)
+    
+     }
+    
+    }
+    
+    
+    
+    
     
     //Converts timestamp from 'seconds since 1970' to readable format
     func formatPostTime(postTimestamp: Double) -> String {
@@ -123,32 +133,76 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     }
     
     
-    // this delegate is called when the scrollView (i.e your UITableView) will start scrolling
+    //This delegate is called when the scrollView (i.e your UITableView) will start scrolling
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.lastContentOffset = commentsTableView.contentOffset.y
+        print("Scroll")
     }
-    
-    // while scrolling this delegate is being called so you may now check which direction your scrollView is being scrolled to
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if self.lastContentOffset < commentsTableView.contentOffset.y {
-            // did move up
-            print("SCROLLED DOWN")
-        } else if self.lastContentOffset > commentsTableView.contentOffset.y  {
-            // did move down
-            pointsScrolled += 1
-            if pointsScrolled >= 25 {
-                
-                UIView.animate(withDuration: 0.3) {
-                    self.commentsEditorView.frame.origin.y += CGFloat(UserInfo.keyboardHeight ?? 0) + CGFloat(self.commentsTextView.frame.height)
-                    self.commentsTextView.resignFirstResponder()
 
-                }
+    //Handles scroll detection
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+                
+        if self.lastContentOffset < commentsTableView.contentOffset.y {
+            
+            //User Scrolled Down
+            
+            
+        } else if self.lastContentOffset > commentsTableView.contentOffset.y  {
+            
+            //User Scrolled Up
+            
+            pointsScrolled += 1
+            
+            if pointsScrolled >= 50 {
+                
+                self.commentsTextView.resignFirstResponder()
+                
+                slideCommentEditorDown()
+                
+                pointsScrolled = 0
+
+
                 
                 
             }
-            print(pointsScrolled)
+            
         } else {
             // didn't move
         }
+        
+    }
+    
+    //Enables functionality to slide screen over previous VC during back-swipe
+    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.view.transform = CGAffineTransform(translationX: self.viewTranslation.x, y: 0)
+            })
+            
+        case .ended:
+            if viewTranslation.x < 200 {
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveLinear, animations: {
+                self.view.transform = .identity
+            })
+        } else {
+                performSegue(withIdentifier: "unwindCommentsToNearby", sender: self)
+        }
+            
+        default:
+            break
+        }
+    }
+    
+    
+    //Obtains height of keyboard allowing for view-sliding functionality for keyboard pop-up.
+    @objc func getKeyboardHeight(keyboardWillShowNotification notification: Notification) {
+        if let userInfo = notification.userInfo,
+        let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            keyboardHeight = Double(keyboardSize.height)
+            NotificationCenter.default.removeObserver(self)
+        }
+        print(keyboardHeight!)
     }
 }

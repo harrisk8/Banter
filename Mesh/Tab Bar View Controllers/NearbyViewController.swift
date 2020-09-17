@@ -19,11 +19,14 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     var selectedCellIndex: Int?
     
     var lastContentOffset: CGFloat = 0
-
+    
+    var testArray: [[String: String]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
             
+        
+        
         UserInfo.refreshTime = Date().timeIntervalSince1970
 
         nearbyTableView.dataSource = self
@@ -38,8 +41,36 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         nearbyTableView.separatorInset = .zero
         
         loadPostsFromDatabase()
+        loadTestData()
         
         
+    }
+    
+    func loadTestData() {
+        
+        database.collection("testing").getDocuments() { (querySnapshot, err) in
+            
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                
+                for document in querySnapshot!.documents {
+                    
+                    let postData = document.data()
+                    
+                    if let myArray = postData["comments"] as? [[String: AnyObject]] {
+                        print(myArray)
+                        print(myArray[0]["message"] as? String ?? "")
+                        print(myArray[1]["message"] as? String ?? "")
+                        
+                    }
+                    
+                    
+
+                }
+            }
+        }
+
     }
     
     //Reads posts from database and integrates into local array
@@ -60,9 +91,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                         let newPost = NearbyCellData(author: postAuthor, message: postMessage, timestamp: postTimestamp)
                         
                         NearbyArray.nearbyArray.append(newPost)
-                        
-                        print(self.formatPostTime(postTimestamp: postTimestamp))
-                        
+                                                
                         DispatchQueue.main.async {
                             self.nearbyTableView.reloadData()
                             
@@ -128,11 +157,12 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     //Handles functionality for cell selection
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
         selectedCellIndex = indexPath.row
         print(NearbyArray.nearbyArray[indexPath.row])
         performSegue(withIdentifier: "postToComments", sender: self)
     }
+    
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let commentsVC = segue.destination as? CommentsViewController {
@@ -159,6 +189,12 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
+
+    @IBAction func unwind( _ seg: UIStoryboardSegue) {
+        
+    }
+    
+    
     
 }
 
