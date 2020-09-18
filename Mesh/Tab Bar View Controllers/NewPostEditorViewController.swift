@@ -155,6 +155,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         return messageEditor.text.count + (text.count - range.length) <= 240
     }
     
+    //Changes status bar text to black to contrast against white background
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
     }

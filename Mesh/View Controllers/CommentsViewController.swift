@@ -18,34 +18,24 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var commentsTableView: UITableView!
     
-    
     var viewTranslation = CGPoint(x: 0, y: 0)
     var lastContentOffset: CGFloat = 0
     var pointsScrolled = 0
     var postArrayPosition: Int?
-    
     var keyboardHeight: Double?
     var screenWidth = UIScreen.main.bounds.width
     
-
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
         postMessage.text = NearbyArray.nearbyArray[postArrayPosition ?? 0].message
 
         
         commentsTableView.dataSource = self
         commentsTableView.delegate = self
-        
         commentsTableView.register(UINib(nibName: "NearbyTableViewCell", bundle: nil), forCellReuseIdentifier: "NearbyTableCellIdentifier")
-        
         commentsTableView.estimatedRowHeight = 150;
         commentsTableView.rowHeight = UITableView.automaticDimension;
-        
         commentsTableView.layoutMargins = .zero
         commentsTableView.separatorInset = .zero
         
@@ -54,26 +44,20 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         commentsTextView.layer.cornerRadius = 5.0
         commentsTextView.clipsToBounds = true
         
-        commentsEditorView.layer.cornerRadius = 5.0
-        
+        commentsEditorView.layer.cornerRadius = 20.0
+        commentsEditorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleDismiss))
 
+        view.addGestureRecognizer(panRecognizer)
         
-        let panRecog = UIPanGestureRecognizer(target: self, action: #selector(handleDismiss))
-
-        view.addGestureRecognizer(panRecog)
-        
-        panRecog.delegate = self
-
-        
+        panRecognizer.delegate = self
 
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
     }
     
-
-
-    
+    //Slides comment editor view up over table view
     func textViewDidBeginEditing(_ textView: UITextView) {
         print("GO")
         slideCommentEditorUp()
@@ -87,12 +71,13 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     
     
-    
+    //Determines number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print(NearbyArray.nearbyArray.count)
         return NearbyArray.nearbyArray.count
     }
     
+    //Populates table cells with data from array
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let nearbyCellData = NearbyArray.nearbyArray[indexPath.row]
         
@@ -109,24 +94,23 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     func slideCommentEditorUp() {
         
         self.commentsEditorView.translatesAutoresizingMaskIntoConstraints = true
-        UIView.animate(withDuration: 0.3) {
+
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 10, animations: {
             self.commentsEditorView.frame.origin.y -= CGFloat(self.keyboardHeight ?? 0)
+        })
+        
+    }
+    
+    //Slides comment text view down after post or dismissal swipe
+    func slideCommentEditorDown() {
+        
+        pointsScrolled = 0
+        UIView.animate(withDuration: 0.3) {
+            self.commentsEditorView.frame.origin.y += CGFloat(self.keyboardHeight ?? 0)
+    
         }
     
     }
-    
-    func slideCommentEditorDown() {
-        
-     UIView.animate(withDuration: 0.3) {
-        self.commentsEditorView.frame.origin.y += CGFloat(self.keyboardHeight ?? 0)
-    
-     }
-    
-    }
-    
-    
-    
-    
     
     //Converts timestamp from 'seconds since 1970' to readable format
     func formatPostTime(postTimestamp: Double) -> String {
@@ -148,9 +132,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         } else {
             return (String(timeInDays) + "d")
         }
-        
     }
-    
     
     //This delegate is called when the scrollView (i.e your UITableView) will start scrolling
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -162,36 +144,25 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
                 
         if self.lastContentOffset < commentsTableView.contentOffset.y {
-            
             //User Scrolled Down
             
-            
         } else if self.lastContentOffset > commentsTableView.contentOffset.y  {
-            
             //User Scrolled Up
             
             pointsScrolled += 1
             
-            if pointsScrolled >= 50 {
-                
-                self.commentsTextView.resignFirstResponder()
+            if pointsScrolled >= 100 && commentsTextView.isFirstResponder == true {
                 
                 slideCommentEditorDown()
-                
-                pointsScrolled = 0
+                self.commentsTextView.resignFirstResponder()
 
-
-                
                 
             }
             
         } else {
-            // didn't move
+            //No scroll
         }
-        
     }
-    
-    
     
     //Enables functionality to slide screen over previous VC during back-swipe
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
@@ -200,20 +171,30 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         switch sender.state {
             
+            
+        //Handles functionality during pan (user finger has NOT left screen)
         case .changed:
             
-            print(velocity.x)
+            viewTranslation = sender.translation(in: view)
 
+            //Detects downward swipe during edit
+            if viewTranslation.y > 20 && commentsTextView.isFirstResponder == true {
+                print("DOWNSWIPE")
+                commentsTextView.resignFirstResponder()
+                slideCommentEditorDown()
+            }
+            
+            //Detects a "swipe-like" gesture to dismiss VC
             if velocity.x > 1750 {
+                
                 UIView.animate(withDuration: 5) {
                     self.view.transform = CGAffineTransform(translationX: -self.screenWidth, y: 0)
                 }
                 dismiss(animated: true, completion: nil)
             }
             
-            viewTranslation = sender.translation(in: view)
 
-            
+            //Dismisses VC if user slides VC past 0.6 times screen width to the right
             if viewTranslation.x > (screenWidth * 0.6) {
         
                 UIView.animate(withDuration: 0.1) {
@@ -222,7 +203,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 dismiss(animated: true, completion: nil)
             }
                     
-            
+            //Prevents VC from sliding to the left
             if viewTranslation.x > 0 {
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                     self.view.transform = CGAffineTransform(translationX: self.viewTranslation.x, y: 0)
@@ -230,26 +211,14 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 
             }
             
-            
-//            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-//                self.view.transform = CGAffineTransform(translationX: self.viewTranslation.x, y: 0)
-//            })
-//
-//            print(viewTranslation.x)
-            
-            
-            
-            
-            
+        //Handles functionality after pan (user finger HAS LEFT screen)
         case .ended:
-            print("END")
             
+            print("END")
+        
+            //Bounced VC back to original position if not dragged past halfway point
             if viewTranslation.x < (screenWidth * 0.5) {
-                
-//                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveLinear, animations: {
-//                self.view.transform = .identity
-//            })
-                
+ 
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                     self.view.transform = CGAffineTransform(translationX: 0, y: 0)
                 })
@@ -258,7 +227,12 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 print("NO")
                 
             } else {
-//                performSegue(withIdentifier: "unwindCommentsToNearby", sender: self)
+                
+                //Bounced VC back to original position if not dragged past halfway point for unexpected event
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+                })
+                
         }
             
         default:
@@ -278,5 +252,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             NotificationCenter.default.removeObserver(self)
         }
         print(keyboardHeight!)
+    }
+    
+    //Changes status bar text to black to contrast against white background
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
     }
 }
