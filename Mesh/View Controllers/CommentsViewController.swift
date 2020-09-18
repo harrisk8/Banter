@@ -9,7 +9,7 @@
 import UIKit
 import QuartzCore
 
-class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate {
+class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet var screenView: UIView!
     @IBOutlet weak var postMessage: UITextView!
@@ -25,10 +25,14 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     var postArrayPosition: Int?
     
     var keyboardHeight: Double?
+    var screenWidth = UIScreen.main.bounds.width
     
-    
+
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         
         postMessage.text = NearbyArray.nearbyArray[postArrayPosition ?? 0].message
@@ -50,12 +54,25 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         commentsTextView.layer.cornerRadius = 5.0
         commentsTextView.clipsToBounds = true
         
-        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
+        commentsEditorView.layer.cornerRadius = 5.0
+        
+
+
+        
+        let panRecog = UIPanGestureRecognizer(target: self, action: #selector(handleDismiss))
+
+        view.addGestureRecognizer(panRecog)
+        
+        panRecog.delegate = self
+
+        
 
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
     }
     
+
+
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         print("GO")
@@ -66,6 +83,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     @IBAction func backButtonPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
+    
     
     
     
@@ -172,29 +191,84 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
     }
     
+    
+    
     //Enables functionality to slide screen over previous VC during back-swipe
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
+        
+        let velocity = sender.velocity(in: view)
+        
         switch sender.state {
+            
         case .changed:
+            
+            print(velocity.x)
+
+            if velocity.x > 1750 {
+                UIView.animate(withDuration: 5) {
+                    self.view.transform = CGAffineTransform(translationX: -self.screenWidth, y: 0)
+                }
+                dismiss(animated: true, completion: nil)
+            }
+            
             viewTranslation = sender.translation(in: view)
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                self.view.transform = CGAffineTransform(translationX: self.viewTranslation.x, y: 0)
-            })
+
+            
+            if viewTranslation.x > (screenWidth * 0.6) {
+        
+                UIView.animate(withDuration: 0.1) {
+                    self.view.transform = CGAffineTransform(translationX: -self.screenWidth, y: 0)
+                }
+                dismiss(animated: true, completion: nil)
+            }
+                    
+            
+            if viewTranslation.x > 0 {
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = CGAffineTransform(translationX: self.viewTranslation.x, y: 0)
+                })
+                
+            }
+            
+            
+//            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+//                self.view.transform = CGAffineTransform(translationX: self.viewTranslation.x, y: 0)
+//            })
+//
+//            print(viewTranslation.x)
+            
+            
+            
+            
             
         case .ended:
-            if viewTranslation.x < 200 {
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveLinear, animations: {
-                self.view.transform = .identity
-            })
-        } else {
-                performSegue(withIdentifier: "unwindCommentsToNearby", sender: self)
+            print("END")
+            
+            if viewTranslation.x < (screenWidth * 0.5) {
+                
+//                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveLinear, animations: {
+//                self.view.transform = .identity
+//            })
+                
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+                })
+                
+            } else if viewTranslation.x < 0 {
+                print("NO")
+                
+            } else {
+//                performSegue(withIdentifier: "unwindCommentsToNearby", sender: self)
         }
             
         default:
             break
         }
+        
     }
     
+
+
     
     //Obtains height of keyboard allowing for view-sliding functionality for keyboard pop-up.
     @objc func getKeyboardHeight(keyboardWillShowNotification notification: Notification) {
