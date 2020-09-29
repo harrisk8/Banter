@@ -33,8 +33,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
             
-        print(testingFuncs.testFuncOne())
-
         
         UserInfo.refreshTime = Date().timeIntervalSince1970
 

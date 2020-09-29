@@ -24,7 +24,6 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
         if userClickedNewPost == true {
-            print("Show editor")
             performSegue(withIdentifier: "tabBarToNewPostEditor", sender: self)
             userClickedNewPost = false
             guard let navigationController = storyboard?.instantiateViewController(withIdentifier: "NewPostDummyViewController") as? UINavigationController else { return false }

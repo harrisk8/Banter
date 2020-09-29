@@ -28,6 +28,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
 
     var testArray: [[String: Any]] = []
     
+    
         
     override func viewDidLoad() {
         
@@ -65,9 +66,11 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     func writePostToDatabase() {
         
         let randomInt = Int.random(in: 1...100)
-        
-        database.collection("posts").addDocument(data: [
-            
+                
+        var ref: DocumentReference? = nil
+
+        ref = database.collection("posts").addDocument(data: [
+                        
             "author": UserInfo.userAppearanceName,
             "authorID": UserInfo.userID ?? "",
             "comments": testArray,
@@ -82,15 +85,50 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                 print(err.localizedDescription)
             } else {
                 print("Document successfully written")
+                print(ref?.documentID)
+
+                
             }
         }
+
+            
+//        database.collection("posts").addDocument(data: [
+//
+//            "author": UserInfo.userAppearanceName,
+//            "authorID": UserInfo.userID ?? "",
+//            "comments": testArray,
+//            "locationCity": UserInfo.userCity ?? "",
+//            "locationState": UserInfo.userState ?? "",
+//            "message": messageEditor.text ?? "",
+//            "score": randomInt,
+//            "timestamp": timestamp
+//
+//        ]) { err in
+//            if let err = err {
+//                print(err.localizedDescription)
+//            } else {
+//                print("Document successfully written")
+//
+//
+//            }
+//        }
+        
+        
     }
+    
     
     
     //Locally appends nearby array with new post.
     func appendNewPostToArray() {
         
         let newPostCell = NearbyCellData(author: UserInfo.userAppearanceName, message: messageEditor.text ?? "", timestamp: timestamp)
+        
+        let newPostData = NearbyCellData(
+            author: UserInfo.userAppearanceName,
+            comments: testArray as [[String : AnyObject]]
+        )
+        
+        
         
         NearbyArray.nearbyArray.insert(newPostCell, at: 0)
         

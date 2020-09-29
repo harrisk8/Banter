@@ -66,6 +66,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     //Writes user to database
     func createNewUser() {
         
+        let ref: DocumentReference? = nil
         database.collection("users").addDocument(data: [
             "userID": UserInfo.userID!,
             "first name": firstName,
@@ -76,6 +77,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
                 print(err.localizedDescription)
             } else {
                 print("Document successfully written")
+                print(ref!.documentID)
             }
         }
     }
