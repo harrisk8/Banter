@@ -16,6 +16,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     @IBOutlet weak var sliderView: UIView!
     
+
     @IBOutlet weak var phoneNumberBackground: UIImageView!
     @IBOutlet weak var nextButtonSMSBackground: UIImageView!
     @IBOutlet weak var legalNoticeImage: UIImageView!
@@ -34,6 +35,8 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     var userPhoneNumber: String?
     
+    var screenSlidedUp = false
+    
     //Unwind segue will change this to true and pass back to this VC to perform a rapid screen slide upon screen appearance
     var backFromAuthCodeScreen = false
     
@@ -41,7 +44,18 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
 
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+        if Auth.auth().currentUser != nil {
+            print("USER")
+            print(Auth.auth().currentUser?.uid ?? nil)
+            
+            
+        } else {
+          // No user is signed in.
+          // ...
+        }
         
         phoneNumberTextField.delegate = self
                 
@@ -160,13 +174,31 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
 
     //Functionality for screen slide up when user taps phone number field, makes room for keyboard
     func slideScreenUp() {
+        screenSlidedUp = true
         phoneNumberButton.isUserInteractionEnabled = false
         nextButton.isUserInteractionEnabled = true
         self.sliderView.translatesAutoresizingMaskIntoConstraints = true
         self.phoneNumberBackground.translatesAutoresizingMaskIntoConstraints = true
         self.phoneNumberTextField.translatesAutoresizingMaskIntoConstraints = true
         self.enterValidNumberPlease.translatesAutoresizingMaskIntoConstraints = true
-        UIView.animate(withDuration: 0.3) {
+        
+//        UIView.animate(withDuration: 0.3) {
+//            self.sliderView.frame.origin.y -= CGFloat(self.keyboardHeight)
+//            self.legalNoticeImage.alpha = 0
+//            self.sliderView.alpha = 0
+//            self.backButton.alpha = 1
+//            self.nextButtonSMSBackground.alpha = 1
+//            self.view.frame.origin.y -= CGFloat(self.keyboardHeight)
+//            self.phoneNumberBackground.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
+//            self.phoneNumberTextField.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
+//            self.phoneNumberPlaceholder.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
+//            self.pleaseEnterNumberLabel.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
+//            self.phoneNumberButton.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
+//            self.enterValidNumberPlease.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
+//
+//        }
+        
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, animations: {
             self.sliderView.frame.origin.y -= CGFloat(self.keyboardHeight)
             self.legalNoticeImage.alpha = 0
             self.sliderView.alpha = 0
@@ -179,12 +211,12 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             self.pleaseEnterNumberLabel.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
             self.phoneNumberButton.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
             self.enterValidNumberPlease.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-
-        }
+        })
     }
     
     //Functionality for screen slide down when user taps back button. Simultaneous with resignation of text field.
     func slideScreenDown() {
+        screenSlidedUp = false
         phoneNumberButton.isUserInteractionEnabled = true
         nextButton.isUserInteractionEnabled = false
         UIView.animate(withDuration: 0.3) {
@@ -255,6 +287,24 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     }
     
 
+    
+
+    
+    
+    @IBAction func swipedUp(_ sender: Any) {
+        phoneNumberTextField.becomeFirstResponder()
+        slideScreenUp()
+        phoneNumberButton.isUserInteractionEnabled = false
+    }
+    
+    @IBAction func swipedDown(_ sender: Any) {
+        if screenSlidedUp == true {
+            slideScreenDown()
+            phoneNumberTextField.resignFirstResponder()
+            phoneNumberButton.isUserInteractionEnabled = true
+            enterValidNumberPlease.alpha = 0
+        }
+    }
     
     
 }

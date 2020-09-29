@@ -8,8 +8,12 @@
 
 import UIKit
 import Firebase
+import CoreData
+
 
 class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    
     
 
     @IBOutlet weak var nearbyTableView: UITableView!
@@ -22,10 +26,15 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     var testArray: [[String: String]] = []
     
+    let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var localNearbyArray: [NearbyPostsEntity]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
             
-        
+        print(testingFuncs.testFuncOne())
+
         
         UserInfo.refreshTime = Date().timeIntervalSince1970
 
@@ -41,37 +50,80 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         nearbyTableView.separatorInset = .zero
         
         loadPostsFromDatabase()
-        loadTestData()
         
+        
+//        localDataSim()
+        
+        readLocalData()
         
     }
     
-    func loadTestData() {
+    func localDataSim() {
         
-        database.collection("testing").getDocuments() { (querySnapshot, err) in
+        let arrayCount = NearbyArray.nearbyArray.count
+        
+        for x in 0...arrayCount {
+            print(x)
+        }
+        
+        let coreDataPost = NearbyPostsEntity(context: dataContext)
+        coreDataPost.author = "Bobby"
+        coreDataPost.comments = [["author": "Harris"]]
+        
+        do {
+            try dataContext.save()
+        }
+        catch {
+        }
+    }
+    
+    
+    func readLocalData() {
+        
+        do {
+            self.localNearbyArray = try dataContext.fetch(NearbyPostsEntity.fetchRequest())
+        }
+        catch {
             
-            if let err = err {
-                print(err.localizedDescription)
-            } else {
-                
-                for document in querySnapshot!.documents {
-                    
-                    let postData = document.data()
-                    
-                    if let myArray = postData["comments"] as? [[String: AnyObject]] {
-                        print(myArray)
-                        print(myArray[0]["message"] as? String ?? "")
-                        print(myArray[1]["message"] as? String ?? "")
-                        
-                    }
-                    
-                    
+        }
+        
+        
+        let arrayCount: Int = localNearbyArray?.count ?? 0
+        
+        print("ARRAY COUNT")
+        print(arrayCount)
+        
+        
+        if arrayCount > 0 {
+            for x in 0...(arrayCount-1) {
+                print(x)
+                print(localNearbyArray?[x].author ?? nil)
+                print(localNearbyArray?[x].message ?? nil)
+                print(localNearbyArray?[x].comments ?? nil)
 
-                }
             }
         }
+        
+        
+//        for x in 0...arrayCount {
+//            print(x)
+//            print(localNearbyArray![x].author)
+//            print(localNearbyArray![x].author)
+//            print(localNearbyArray![x].author)
+//
+//
+//        }
+        
+//
+//        print("CORE DATA")
+//        print(localNearbyArray![3].author)
+//        print(localNearbyArray![3].message)
+//        print(localNearbyArray![3].comments)
 
+        
     }
+    
+
     
     //Reads posts from database and integrates into local array
     func loadPostsFromDatabase() {
@@ -86,16 +138,34 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                     
                     let postData = document.data()
                     
-                    if let postAuthor = postData["author"] as? String, let postMessage = postData["message"] as? String, let postTimestamp = postData["timestamp"] as? Double {
+                    if let postAuthor = postData["author"] as? String,
+                        let postMessage = postData["message"] as? String,
+                        let postScore = postData["score"] as? Int?,
+                        let postTimestamp = postData["timestamp"] as? Double,
+                        let postComments = postData["comments"] as? [[String: AnyObject]]?,
+                        let postID = document.documentID as String?
+                    {
+                                                
+                        let newPost = NearbyCellData(
+                            author: postAuthor,
+                            message: postMessage,
+                            score: postScore ?? nil,
+                            timestamp: postTimestamp,
+                            comments: postComments ?? nil,
+                            documentID: postID
+                        )
                         
-                        let newPost = NearbyCellData(author: postAuthor, message: postMessage, timestamp: postTimestamp)
+                        
+                        
+//                        print(newPost)
                         
                         NearbyArray.nearbyArray.append(newPost)
                                                 
                         DispatchQueue.main.async {
                             self.nearbyTableView.reloadData()
-                            
                         }
+                        
+                        
                     }
                 }
             }
@@ -104,11 +174,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     //Refreshes tableview after user returns to screen from new post
     override func viewDidAppear(_ animated: Bool) {
-        print("viewdidappear")
         DispatchQueue.main.async {
             self.nearbyTableView.reloadData()
         }
-        
     }
     
     
@@ -118,7 +186,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(NearbyArray.nearbyArray.count)
+//        print(NearbyArray.nearbyArray.count)
         return NearbyArray.nearbyArray.count
     }
     
@@ -140,11 +208,14 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         
         let timeDifference = (UserInfo.refreshTime ?? 0.0) - postTimestamp
         
-        let timeInMinutes = Int((timeDifference / 60.0))
+        var timeInMinutes = Int((timeDifference / 60.0))
         let timeInHours = Int(timeInMinutes / 60)
         let timeInDays = Int(timeInHours / 24)
         
         if timeInMinutes < 60 {
+            if timeInMinutes < 1{
+                timeInMinutes = 0
+            }
             return (String(timeInMinutes) + "m")
         } else if timeInMinutes >= 60 && timeInHours < 23 {
             return (String(timeInHours) + "h")
@@ -158,7 +229,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     //Handles functionality for cell selection
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCellIndex = indexPath.row
-        print(NearbyArray.nearbyArray[indexPath.row])
+//        print(NearbyArray.nearbyArray[indexPath.row])
         performSegue(withIdentifier: "postToComments", sender: self)
     }
     
@@ -180,10 +251,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if self.lastContentOffset < nearbyTableView.contentOffset.y {
             // did move up
-            print("SCROLLED DOWN")
         } else if self.lastContentOffset > nearbyTableView.contentOffset.y {
             // did move down
-            print("SCROLLED UP")
         } else {
             // didn't move
         }

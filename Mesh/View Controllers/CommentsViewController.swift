@@ -8,6 +8,7 @@
 
 import UIKit
 import QuartzCore
+import Firebase
 
 class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     
@@ -16,6 +17,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     @IBOutlet weak var commentsTextView: UITextView!
     @IBOutlet weak var commentsEditorView: UIView!
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var postCommentButton: UIButton!
     @IBOutlet weak var commentsTableView: UITableView!
     
     var viewTranslation = CGPoint(x: 0, y: 0)
@@ -25,8 +27,14 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     var keyboardHeight: Double?
     var screenWidth = UIScreen.main.bounds.width
     
+    let database = Firestore.firestore()
+    
+    var commentData: [String: AnyObject]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        overrideUserInterfaceStyle = .light
         
         postMessage.text = NearbyArray.nearbyArray[postArrayPosition ?? 0].message
 
@@ -54,12 +62,60 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         panRecognizer.delegate = self
 
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-
+        
+        
     }
+    
+    
+    
+    @IBAction func postCommentPressed(_ sender: Any) {
+        if commentsTextView.text != "" {
+            commentData = ["author" : UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject]
+            
+            
+            writeCommentToDatabase()
+            
+            NearbyArray.nearbyArray[postArrayPosition ?? 0].comments?.append(commentData!)
+            DispatchQueue.main.async {
+                self.commentsTableView.reloadData()
+            }
+            
+            commentsTextView.resignFirstResponder()
+            slideCommentEditorDown()
+            
+            
+            
+        }
+    }
+    
+    
+    func writeCommentToDatabase() {
+        
+        let docID: String = NearbyArray.nearbyArray[postArrayPosition ?? 0].documentID ?? ""
+        print(docID)
+        
+        let databaseRef = database.collection("posts").document(docID)
+
+
+        databaseRef.updateData([
+
+            "comments": FieldValue.arrayUnion([commentData!])
+
+        ]) { err in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                print("Document successfully written")
+            }
+        }
+        
+        
+        
+    }
+    
     
     //Slides comment editor view up over table view
     func textViewDidBeginEditing(_ textView: UITextView) {
-        print("GO")
         slideCommentEditorUp()
     }
     
@@ -71,20 +127,42 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     
     
+    
     //Determines number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("ARRAY TOTAL")
         print(NearbyArray.nearbyArray.count)
-        return NearbyArray.nearbyArray.count
+        print(NearbyArray.nearbyArray[postArrayPosition ?? 0].comments?.count ?? 0)
+        return (NearbyArray.nearbyArray[postArrayPosition ?? 0].comments?.count ?? 0) + 1
     }
     
     //Populates table cells with data from array
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let nearbyCellData = NearbyArray.nearbyArray[indexPath.row]
+//        let nearbyCellData = NearbyArray.nearbyArray[postArrayPosition ?? 0].comments?[indexPath.row]
         
+        print("cell it")
+        print(indexPath.row)
+        
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "NearbyTableCellIdentifier", for: indexPath) as! NearbyTableViewCell
-        cell.authorLabel?.text = String(nearbyCellData.author! )
-        cell.messageLabel?.text = String(nearbyCellData.message! )
-        cell.timestampLabel?.text = formatPostTime(postTimestamp: nearbyCellData.timestamp!)
+        
+        
+        if indexPath.row == (NearbyArray.nearbyArray[postArrayPosition ?? 0].comments?.count ?? 0) {
+            print("GO")
+            
+            cell.authorLabel?.text = "testcell"
+            cell.messageLabel?.text = "testcell"
+            cell.timestampLabel?.text = "testcell"
+            
+            return cell
+        }
+        
+        
+        cell.authorLabel?.text = NearbyArray.nearbyArray[postArrayPosition ?? 0].comments?[indexPath.row]["author"] as? String
+        
+        
+        cell.messageLabel?.text = NearbyArray.nearbyArray[postArrayPosition ?? 0].comments?[indexPath.row]["message"] as? String
+        cell.timestampLabel?.text = "5"
         
         return cell
         
@@ -95,7 +173,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         self.commentsEditorView.translatesAutoresizingMaskIntoConstraints = true
 
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 10, animations: {
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, animations: {
             self.commentsEditorView.frame.origin.y -= CGFloat(self.keyboardHeight ?? 0)
         })
         
@@ -184,10 +262,21 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 slideCommentEditorDown()
             }
             
-            //Detects a "swipe-like" gesture to dismiss VC
-            if velocity.x > 1750 {
+            
+            //Detects swipe after some pan
+            if viewTranslation.x > (screenWidth * 0.4) && velocity.x > 1000 {
                 
-                UIView.animate(withDuration: 5) {
+                UIView.animate(withDuration: 1) {
+                    self.view.transform = CGAffineTransform(translationX: -self.screenWidth, y: 0)
+                }
+                dismiss(animated: true, completion: nil)
+                
+            }
+            
+            //Detects a "swipe-like" gesture to dismiss VC
+            if velocity.x > 1350 {
+                
+                UIView.animate(withDuration: 1) {
                     self.view.transform = CGAffineTransform(translationX: -self.screenWidth, y: 0)
                 }
                 dismiss(animated: true, completion: nil)
@@ -205,7 +294,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                     
             //Prevents VC from sliding to the left
             if viewTranslation.x > 0 {
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                UIView.animate(withDuration: 0.05, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                     self.view.transform = CGAffineTransform(translationX: self.viewTranslation.x, y: 0)
                 })
                 
@@ -219,7 +308,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             //Bounced VC back to original position if not dragged past halfway point
             if viewTranslation.x < (screenWidth * 0.5) {
  
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                     self.view.transform = CGAffineTransform(translationX: 0, y: 0)
                 })
                 

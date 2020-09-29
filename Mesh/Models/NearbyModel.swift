@@ -8,17 +8,14 @@
 
 import Foundation
 
-struct NearbyCellData {
+public struct NearbyCellData {
     
     var author: String?
     var message: String?
-//    var score: Int?
+    var score: Int?
     var timestamp: Double?
-//    var comments: [[String: AnyObject]]
-    
-    
-
-    
+    var comments: [[String: AnyObject]]?
+    var documentID: String?
     
 }
 

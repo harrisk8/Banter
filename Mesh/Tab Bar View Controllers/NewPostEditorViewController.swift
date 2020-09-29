@@ -27,19 +27,24 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     var timestamp: Double = 0
 
     var testArray: [[String: Any]] = []
+    
         
     override func viewDidLoad() {
+        
+        overrideUserInterfaceStyle = .light
+        
         super.viewDidLoad()
         
         messageEditor.delegate = self
         
         messageEditor.becomeFirstResponder()
-
         
         organizePostingAsLabel()
         
-        testArray.append(["author" : "Chang", "message" : "what's good jimbo"])
-        testArray.append(["author" : "Jaci", "message" : "stuff, G"])
+        testArray.append(["author" : "Jack", "message" : "Hi everyone!"])
+        testArray.append(["author" : "Bob", "message" : "What's up?"])
+        testArray.append(["author" : "William", "message" : "Hello."])
+
 
     }
     
@@ -59,12 +64,19 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     //Handles writing new post to database
     func writePostToDatabase() {
         
+        let randomInt = Int.random(in: 1...100)
+        
         database.collection("posts").addDocument(data: [
+            
             "author": UserInfo.userAppearanceName,
             "authorID": UserInfo.userID ?? "",
+            "comments": testArray,
+            "locationCity": UserInfo.userCity ?? "",
+            "locationState": UserInfo.userState ?? "",
             "message": messageEditor.text ?? "",
-            "timestamp": timestamp,
-            "comments": testArray
+            "score": randomInt,
+            "timestamp": timestamp
+        
         ]) { err in
             if let err = err {
                 print(err.localizedDescription)
@@ -72,8 +84,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                 print("Document successfully written")
             }
         }
-        
     }
+    
     
     //Locally appends nearby array with new post.
     func appendNewPostToArray() {
@@ -110,6 +122,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     @IBAction func clearButtonPressed(_ sender: Any) {
         messageEditor.text = ""
+        characterCountLabel.text = "0/240"
     }
     
     
