@@ -56,6 +56,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         nearbyTableView.separatorInset = .zero
         
         loadPostsFromDatabase()
+        
 
     }
 
@@ -360,7 +361,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                             )
                             
                             NearbyArray.nearbyArray.append(newPost)
-                            print(newPost)
                             
                         
                                                     
@@ -420,6 +420,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+ 
     
     @IBAction func newPostButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: "navTopRightToNewPost", sender: self)
@@ -480,6 +481,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let commentsVC = segue.destination as? CommentsViewController {
             commentsVC.postArrayPosition = selectedCellIndex
+            commentsVC.modalPresentationCapturesStatusBarAppearance = true
         }
         
     }

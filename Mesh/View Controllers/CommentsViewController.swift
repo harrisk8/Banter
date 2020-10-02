@@ -35,17 +35,20 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     var didFastSwipe = false
     
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
         
         overrideUserInterfaceStyle = .light
+            
+        super.viewDidLoad()
+    
         
         postMessage.text = formattedPosts.formattedPostsArray[postArrayPosition ?? 0].message
         commentsArray = formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments
 
         commentsTableView.dataSource = self
         commentsTableView.delegate = self
-        commentsTableView.register(UINib(nibName: "NearbyTableViewCell", bundle: nil), forCellReuseIdentifier: "NearbyTableCellIdentifier")
+        commentsTableView.register(UINib(nibName: "NearbyTableCell", bundle: nil), forCellReuseIdentifier: "NearbyTableCell")
         commentsTableView.estimatedRowHeight = 150;
         commentsTableView.rowHeight = UITableView.automaticDimension;
         commentsTableView.layoutMargins = .zero
@@ -68,6 +71,17 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         
+        print("INFO")
+        print(postArrayPosition)
+        print(formattedPosts.formattedPostsArray[postArrayPosition ?? 0])
+        
+    }
+    
+
+    
+    //Changes status bar text to black to contrast against white background
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.darkContent
     }
     
     
@@ -102,6 +116,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             writeCommentToDatabase()
             
             formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments?.append(commentData!)
+            commentsArray?.append(commentData!)
             
             DispatchQueue.main.async {
                 self.commentsTableView.reloadData()
@@ -169,7 +184,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         print(indexPath.row)
         
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NearbyTableCellIdentifier", for: indexPath) as! NearbyTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NearbyTableCell", for: indexPath) as! NearbyTableCell
         
         
         if indexPath.row == (formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments?.count ?? 0) {
@@ -307,7 +322,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 
                 DispatchQueue.main.async {
 
-                    UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    UIView.animate(withDuration: 0.45, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                         self.view.frame.origin.x = CGFloat(self.screenWidth)
                     }, completion: { [weak self] _ in
                         self?.dismiss(animated: false, completion: nil)
@@ -345,8 +360,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         print(keyboardHeight!)
     }
     
-    //Changes status bar text to black to contrast against white background
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .darkContent
-    }
+    
+    
+    
 }

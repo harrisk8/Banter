@@ -28,6 +28,9 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
 
     var testArray: [[String: Any]] = []
     
+    var newDocumentID: String?
+    var newScore: Int32?
+    
     
         
     override func viewDidLoad() {
@@ -56,7 +59,6 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         if validateMessage() {
             timestamp = Date().timeIntervalSince1970
             writePostToDatabase()
-            appendNewPostToArray()
             dismiss(animated: true, completion: nil)
         }
     }
@@ -65,7 +67,10 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     //Handles writing new post to database
     func writePostToDatabase() {
         
-        let randomInt = Int.random(in: 1...100)
+        let randomInt: Int32 = Int32(Int.random(in: 1...100))
+        
+        newScore = randomInt
+        
                 
         var ref: DocumentReference? = nil
 
@@ -86,6 +91,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             } else {
                 print("Document successfully written")
                 print(ref?.documentID)
+                self.newDocumentID = ref?.documentID
+                self.appendNewPostToArray()
 
                 
             }
@@ -99,17 +106,20 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     //Locally appends nearby array with new post.
     func appendNewPostToArray() {
-        
-        let newPostCell = NearbyCellData(author: UserInfo.userAppearanceName, message: messageEditor.text ?? "", timestamp: timestamp)
+
         
         let newPostData = NearbyCellData(
             author: UserInfo.userAppearanceName,
-            comments: testArray as [[String : AnyObject]]
+            message: messageEditor.text,
+            score: newScore as Int32?,
+            timestamp: timestamp,
+            comments: testArray as [[String : AnyObject]],
+            documentID: newDocumentID
         )
         
         
         
-        formattedPosts.formattedPostsArray.insert(newPostCell, at: 0)
+        formattedPosts.formattedPostsArray.insert(newPostData, at: 0)
         
     }
     
