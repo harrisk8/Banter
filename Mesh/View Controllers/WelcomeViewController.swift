@@ -153,9 +153,6 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             self.phoneNumberTextField.becomeFirstResponder()
             self.slideScreenUp()
         }
-        
-    
-        
         phoneNumberButton.isUserInteractionEnabled = false
     }
     
@@ -166,7 +163,6 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             self.slideScreenDown()
             self.phoneNumberTextField.resignFirstResponder()
         }
-        
  
         phoneNumberButton.isUserInteractionEnabled = true
         enterValidNumberPlease.alpha = 0

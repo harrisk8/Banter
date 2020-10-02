@@ -15,6 +15,7 @@ class NearbyTableCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var postScoreLabel: UILabel!
+    @IBOutlet weak var commentLabel: UILabel!
     
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var dislikeButton: UIButton!

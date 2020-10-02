@@ -10,6 +10,10 @@ import UIKit
 import QuartzCore
 import Firebase
 
+protocol refreshNearbyTable {
+    func refreshtable()
+}
+
 class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet var screenView: UIView!
@@ -28,19 +32,23 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     var screenWidth = UIScreen.main.bounds.width
     
     let database = Firestore.firestore()
-    
+        
     var commentData: [String: AnyObject]?
     
     var commentsArray: [[String: AnyObject]]?
     
     var didFastSwipe = false
     
+    var delegate: refreshNearbyTable?
+
     
     override func viewDidLoad() {
         
+
         overrideUserInterfaceStyle = .light
             
         super.viewDidLoad()
+    
     
         
         postMessage.text = formattedPosts.formattedPostsArray[postArrayPosition ?? 0].message
@@ -126,6 +134,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             slideCommentEditorDown()
 
         }
+        
+        delegate?.refreshtable()
+
         
     }
     

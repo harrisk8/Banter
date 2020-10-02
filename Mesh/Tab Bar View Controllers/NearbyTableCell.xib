@@ -126,6 +126,7 @@
             <viewLayoutGuide key="safeArea" id="Gb6-u6-hLy"/>
             <connections>
                 <outlet property="authorLabel" destination="6eN-2q-HfA" id="2nN-a1-ncD"/>
+                <outlet property="commentLabel" destination="FNV-S6-TQg" id="mgj-aH-dYe"/>
                 <outlet property="dislikeButton" destination="r89-ZG-ika" id="PBq-5A-P7W"/>
                 <outlet property="likeButton" destination="TJh-dR-Rwx" id="64w-kc-KOx"/>
                 <outlet property="messageLabel" destination="GLf-qB-ol2" id="SX8-fp-LeB"/>

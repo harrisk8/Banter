@@ -9,10 +9,11 @@
 import UIKit
 import Firebase
 import CoreData
+import CoreLocation
 
 
-class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
+class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, refreshNearbyTable {
+    
     @IBOutlet weak var nearbyTableView: UITableView!
     
     let database = Firestore.firestore()
@@ -37,11 +38,17 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     var lastPostTimestamp: Double?
     
+    let manager = CLLocationManager()
+
         
     override func viewDidLoad() {
         super.viewDidLoad()
-            
         
+        locationManager()
+        
+        overrideUserInterfaceStyle = .light
+
+                    
         UserInfo.refreshTime = Date().timeIntervalSince1970
 
         nearbyTableView.dataSource = self
@@ -55,13 +62,64 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         nearbyTableView.layoutMargins = .zero
         nearbyTableView.separatorInset = .zero
         
-        loadPostsFromDatabase()
-        
+                
 
+    }
+    
+    
+    func locationManager() {
+
+        manager.requestWhenInUseAuthorization()
+
+        if CLLocationManager.locationServicesEnabled() {
+            manager.delegate = self
+            manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            manager.startUpdatingLocation()
+            print("LOCO GOOD")
+        }
+
+        lookUpCurrentLocation(completionHandler: {_ in
+
+            print("HI")
+        })
+    }
+    
+    
+    func lookUpCurrentLocation(completionHandler: @escaping (CLPlacemark?) -> Void ) {
+        // Use the last reported location.
+        if let lastLocation = self.manager.location {
+            let geocoder = CLGeocoder()
+                
+            // Look up the location and pass it to the completion handler
+            geocoder.reverseGeocodeLocation(lastLocation, completionHandler: { (placemarks, error) in
+                if error == nil {
+                    let firstLocation = placemarks?[0]
+                    completionHandler(firstLocation)
+                    print((firstLocation?.locality ?? "") + (firstLocation?.administrativeArea ?? ""))
+                    UserInfo.userCity = firstLocation?.locality ?? ""
+                    UserInfo.userState = firstLocation?.administrativeArea ?? ""
+                    self.loadPostsFromDatabase()
+                }
+                else {
+                 // An error occurred during geocoding.
+                    completionHandler(nil)
+                }
+            })
+        }
+        else {
+            // No location was available.
+            completionHandler(nil)
+        }
     }
 
     
-    
+    func refreshtable() {
+        print("DIDIT")
+        DispatchQueue.main.async {
+            self.nearbyTableView.reloadData()
+        }
+    }
+
     
 
     
@@ -98,16 +156,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                 fetchNewPosts()
             }
             
-    
-            
-            
-            
-            self.testArray?.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
-                return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
-            }
-            
         }
-        
         
         //New User Post Load, assumes locality has content
         if UserDefaults.standard.bool(forKey: "userLaunchedBefore") == false {
@@ -120,68 +169,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
 
         }
         
-//        database.collection("posts").getDocuments() { (querySnapshot, err) in
-//
-//            if let err = err {
-//                print(err.localizedDescription)
-//            } else {
-//
-//                for document in querySnapshot!.documents {
-//
-//                    let postData = document.data()
-//
-//                    if let postAuthor = postData["author"] as? String,
-//                        let postMessage = postData["message"] as? String,
-//                        let postScore = postData["score"] as? Int32?,
-//                        let postTimestamp = postData["timestamp"] as? Double,
-//                        let postComments = postData["comments"] as? [[String: AnyObject]]?,
-//                        let postID = document.documentID as String?
-//                    {
-//
-//                        let newPost = NearbyCellData(
-//                            author: postAuthor,
-//                            message: postMessage,
-//                            score: postScore ?? nil,
-//                            timestamp: postTimestamp,
-//                            comments: postComments ?? nil,
-//                            documentID: postID
-//                        )
-//
-//
-//
-//
-////                        print(newPost)
-//
-//                        NearbyArray.nearbyArray.append(newPost)
-//
-//                        DispatchQueue.main.async {
-//                            self.nearbyTableView.reloadData()
-//                        }
-//
-//
-//                    }
-//                }
-//
-//                self.testArray = NearbyArray.nearbyArray
-//
-//                self.testArray?.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
-//                    // you can have additional code here
-//                    return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
-//                }
-//
-//                for x in 0...(self.testArray!.count - 1) {
-//
-//
-//
-//                    let ts = self.testArray?[x].timestamp ?? 0.0
-//
-//
-////                    print(self.formatPostTime(postTimestamp: ts))
-//                }
-//
-//
-//            }
-//        }
     }
     
     func readLocalData() {
@@ -213,14 +200,12 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                 )
                 
                 formattedPosts.formattedPostsArray.append(transferCellData)
-                print(transferCellData)
-
             }
             
 
         }
-        print(formattedPosts.formattedPostsArray.count)
-        print(formattedPosts.formattedPostsArray)
+//        print(formattedPosts.formattedPostsArray.count)
+//        print(formattedPosts.formattedPostsArray)
         
     }
     
@@ -283,7 +268,11 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     //Fetches new posts after comparing previous timestamp to new timestamp (Existing users)
     func fetchNewPosts() {
         
-        database.collection("posts").whereField("timestamp", isGreaterThan: lastPostTimestamp!).getDocuments() { (querySnapshot, err) in
+        database.collection("posts")
+            .whereField("timestamp", isGreaterThan: lastPostTimestamp!)
+            .whereField("locationCity", isEqualTo: UserInfo.userCity ?? "")
+            .whereField("locationState", isEqualTo: UserInfo.userState ?? "")
+            .getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(err.localizedDescription)
                 print("nodocs")
@@ -328,13 +317,14 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
         
-        
-
     }
     
     func fetchAllPostsForLocality() {
         
-        database.collection("posts").getDocuments() { (querySnapshot, err) in
+        database.collection("posts")
+            .whereField("locationCity", isEqualTo: UserInfo.userCity ?? "")
+            .whereField("locationState", isEqualTo: UserInfo.userState ?? "")
+            .getDocuments() { (querySnapshot, err) in
                 
                 if let err = err {
                     print(err.localizedDescription)
@@ -405,9 +395,19 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
         }
         
-        lastPostTimestamp = formattedPosts.formattedPostsArray[0].timestamp ?? 0
-        print(lastPostTimestamp)
-        print(formattedPosts.formattedPostsArray)
+        if formattedPosts.formattedPostsArray.count > 0 {
+            
+            lastPostTimestamp = formattedPosts.formattedPostsArray[0].timestamp ?? 0
+            print(lastPostTimestamp)
+            print(formattedPosts.formattedPostsArray)
+            
+        } else {
+            lastPostTimestamp = 0.0
+        }
+        
+        
+        
+
         
         
         
@@ -415,6 +415,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     //Refreshes tableview after user returns to screen from new post
     override func viewDidAppear(_ animated: Bool) {
+        
         DispatchQueue.main.async {
             self.nearbyTableView.reloadData()
         }
@@ -436,10 +437,20 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         
         let nearbyCellData = formattedPosts.formattedPostsArray[indexPath.row]
         
+        let commentsCount: Int = Int(formattedPosts.formattedPostsArray[indexPath.row].comments?.count ?? 0)
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "NearbyTableCell", for: indexPath) as! NearbyTableCell
         cell.authorLabel?.text = String(nearbyCellData.author! )
         cell.messageLabel?.text = String(nearbyCellData.message! )
         cell.timestampLabel?.text = formatPostTime(postTimestamp: nearbyCellData.timestamp!)
+        
+        if commentsCount > 1 {
+            cell.commentLabel?.text = String(commentsCount) + " comments"
+        } else if commentsCount == 1 {
+            cell.commentLabel?.text = "1 comment"
+        } else {
+            cell.commentLabel?.text = ""
+        }
         
         return cell
         
@@ -482,6 +493,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         if let commentsVC = segue.destination as? CommentsViewController {
             commentsVC.postArrayPosition = selectedCellIndex
             commentsVC.modalPresentationCapturesStatusBarAppearance = true
+            commentsVC.delegate = self
         }
         
     }
