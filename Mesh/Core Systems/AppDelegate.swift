@@ -11,6 +11,7 @@ import CoreData
 import Firebase
 
 @UIApplicationMain
+
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -19,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UNUserNotificationCenter.current().delegate = self
         application.registerForRemoteNotifications() // here your alert with Permission will appear
         
+        isAppAlreadyLaunchedOnce()
 
         FirebaseApp.configure()
         
@@ -52,6 +54,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         return container
     }()
+    
+    func isAppAlreadyLaunchedOnce()->Bool{
+        
+        let defaults = UserDefaults.standard
+
+        if let isAppAlreadyLaunchedOnce = defaults.string(forKey: "isAppAlreadyLaunchedOnce"){
+            print("App already launched : \(isAppAlreadyLaunchedOnce)")
+            UserDefaults.standard.set(true, forKey: "userLaunchedBefore")
+            return true
+        }else{
+            defaults.set(true, forKey: "isAppAlreadyLaunchedOnce")
+            UserDefaults.standard.set(false, forKey: "userLaunchedBefore")
+            print("App launched first time")
+            return false
+        }
+    }
 
 
 }

@@ -91,27 +91,6 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             }
         }
 
-            
-//        database.collection("posts").addDocument(data: [
-//
-//            "author": UserInfo.userAppearanceName,
-//            "authorID": UserInfo.userID ?? "",
-//            "comments": testArray,
-//            "locationCity": UserInfo.userCity ?? "",
-//            "locationState": UserInfo.userState ?? "",
-//            "message": messageEditor.text ?? "",
-//            "score": randomInt,
-//            "timestamp": timestamp
-//
-//        ]) { err in
-//            if let err = err {
-//                print(err.localizedDescription)
-//            } else {
-//                print("Document successfully written")
-//
-//
-//            }
-//        }
         
         
     }
@@ -130,7 +109,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
         
         
-        NearbyArray.nearbyArray.insert(newPostCell, at: 0)
+        formattedPosts.formattedPostsArray.insert(newPostCell, at: 0)
         
     }
     

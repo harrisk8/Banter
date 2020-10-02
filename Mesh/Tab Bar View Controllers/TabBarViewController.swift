@@ -42,7 +42,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if item == (self.tabBar.items!)[0]{
-           print("Nearby")
+           print("Nearby1")
         }
         else if item == (self.tabBar.items!)[1]{
            print("Trending")

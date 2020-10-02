@@ -12,7 +12,7 @@ public struct NearbyCellData {
     
     var author: String?
     var message: String?
-    var score: Int?
+    var score: Int32?
     var timestamp: Double?
     var comments: [[String: AnyObject]]?
     var documentID: String?
@@ -24,4 +24,9 @@ struct NearbyArray {
     
     static var nearbyArray: [NearbyCellData] = []
     
+}
+
+struct formattedPosts {
+    
+    static var formattedPostsArray: [NearbyCellData] = []
 }

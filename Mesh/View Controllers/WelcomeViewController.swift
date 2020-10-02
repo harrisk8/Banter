@@ -148,15 +148,26 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     //Slides screen up and prepares for user to enter phone number
     @IBAction func phoneNumberButtonPressed(_ sender: Any) {
-        phoneNumberTextField.becomeFirstResponder()
-        slideScreenUp()
+        
+        DispatchQueue.main.async {
+            self.phoneNumberTextField.becomeFirstResponder()
+            self.slideScreenUp()
+        }
+        
+    
+        
         phoneNumberButton.isUserInteractionEnabled = false
     }
     
     //Slides screen down if user pressed back button
     @IBAction func backButtonPressed(_ sender: Any) {
-        slideScreenDown()
-        phoneNumberTextField.resignFirstResponder()
+        
+        DispatchQueue.main.async {
+            self.slideScreenDown()
+            self.phoneNumberTextField.resignFirstResponder()
+        }
+        
+ 
         phoneNumberButton.isUserInteractionEnabled = true
         enterValidNumberPlease.alpha = 0
     }
