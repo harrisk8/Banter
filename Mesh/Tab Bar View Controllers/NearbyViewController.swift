@@ -16,105 +16,123 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBOutlet weak var nearbyTableView: UITableView!
     
-    let database = Firestore.firestore()
-    
-    var selectedCellIndex: Int?
-    
-    var lastContentOffset: CGFloat = 0
-        
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    var previousTimestamp: Double?
-    var timestampRefreshed: Double?
-
+    let database = Firestore.firestore()
+    var locationManager = CLLocationManager()
+    private let refreshControl = UIRefreshControl()
     
     var testArray: [NearbyCellData]?
-    
-    
     var localNearbyArray: [NearbyPostsEntity]?
+    var refreshArray: [NearbyCellData]?
     
     var localDataScanned = false
     var newDataScanned = false
+    var selectedCellIndex: Int?
+    var lastContentOffset: CGFloat = 0
     
     var lastPostTimestamp: Double?
+    var previousTimestamp: Double?
+    var timestampRefreshed: Double?
     
-    let manager = CLLocationManager()
-
-        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationManager()
+        let userID = Auth.auth().currentUser!.uid
+        UserInfo.userID = userID
+    
+        locationManager.delegate = self
+        
+        //Checks if user has location enabled.
+        if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse) {
+            
+            //Location enabled. Continue to grab location and load view.
+            lookUpCurrentLocation(completionHandler: {_ in
+            })
+            
+        } else {
+            
+            //Prompt user to enable location, after continue to load view
+            setupLocationManager()
+        }
         
         overrideUserInterfaceStyle = .light
-
-                    
         UserInfo.refreshTime = Date().timeIntervalSince1970
-
+        
         nearbyTableView.dataSource = self
         nearbyTableView.delegate = self
-        
         nearbyTableView.register(UINib(nibName: "NearbyTableCell", bundle: nil), forCellReuseIdentifier: "NearbyTableCell")
-        
         nearbyTableView.estimatedRowHeight = 150;
         nearbyTableView.rowHeight = UITableView.automaticDimension;
-        
         nearbyTableView.layoutMargins = .zero
         nearbyTableView.separatorInset = .zero
+        nearbyTableView.refreshControl = refreshControl
         
-                
+        refreshControl.addTarget(self, action: #selector(refreshedTableView), for: .valueChanged)
+        
+        UserInfo.userState = "FL"
+        UserInfo.userCity = "Gainesville"
 
     }
-    
-    
-    func locationManager() {
-
-        manager.requestWhenInUseAuthorization()
-
-        if CLLocationManager.locationServicesEnabled() {
-            manager.delegate = self
-            manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            manager.startUpdatingLocation()
-            print("LOCO GOOD")
-        }
-
-        lookUpCurrentLocation(completionHandler: {_ in
-
-            print("HI")
-        })
+  
+    @objc func refreshedTableView() {
+        checkNewPostsForRefresh()
+        self.refreshControl.endRefreshing()
     }
     
-    
-    func lookUpCurrentLocation(completionHandler: @escaping (CLPlacemark?) -> Void ) {
-        // Use the last reported location.
-        if let lastLocation = self.manager.location {
-            let geocoder = CLGeocoder()
-                
-            // Look up the location and pass it to the completion handler
-            geocoder.reverseGeocodeLocation(lastLocation, completionHandler: { (placemarks, error) in
-                if error == nil {
-                    let firstLocation = placemarks?[0]
-                    completionHandler(firstLocation)
-                    print((firstLocation?.locality ?? "") + (firstLocation?.administrativeArea ?? ""))
-                    UserInfo.userCity = firstLocation?.locality ?? ""
-                    UserInfo.userState = firstLocation?.administrativeArea ?? ""
-                    self.loadPostsFromDatabase()
+    func checkNewPostsForRefresh() {
+        
+        database.collection("posts")
+            .whereField("timestamp", isGreaterThan: formattedPosts.formattedPostsArray[0].timestamp ?? 0)
+            .whereField("locationCity", isEqualTo: UserInfo.userCity ?? "")
+            .whereField("locationState", isEqualTo: UserInfo.userState ?? "")
+            .getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                for document in querySnapshot!.documents {
+                    let postData = document.data()
+                    
+                    if let postAuthor = postData["author"] as? String,
+                        let postMessage = postData["message"] as? String,
+                        let postScore = postData["score"] as? Int32?,
+                        let postTimestamp = postData["timestamp"] as? Double,
+                        let postComments = postData["comments"] as? [[String: AnyObject]]?,
+                        let postID = document.documentID as String?
+                    {
+                        let newPost = NearbyCellData(
+                            author: postAuthor,
+                            message: postMessage,
+                            score: postScore ?? 0,
+                            timestamp: postTimestamp,
+                            comments: postComments ?? nil,
+                            documentID: postID
+                        )
+                        
+                        print(newPost)
+                        formattedPosts.formattedPostsArray.insert(newPost, at: 0)
+                        
+                    }
                 }
-                else {
-                 // An error occurred during geocoding.
-                    completionHandler(nil)
+                
+                formattedPosts.formattedPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
+                    // you can have additional code here
+                    return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
                 }
-            })
-        }
-        else {
-            // No location was available.
-            completionHandler(nil)
+                
+                
+                DispatchQueue.main.async {
+                    self.nearbyTableView.reloadData()
+                }
+                
+                
+                
+            }
         }
     }
 
     
+    //Delegate method which is called when user closes comments VC, functionally updates comment counter on table cell
     func refreshtable() {
-        print("DIDIT")
         DispatchQueue.main.async {
             self.nearbyTableView.reloadData()
         }
@@ -210,7 +228,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func addPostsToCoreData() {
-        
         
         if NearbyArray.nearbyArray.count == 1 {
             
@@ -398,7 +415,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         if formattedPosts.formattedPostsArray.count > 0 {
             
             lastPostTimestamp = formattedPosts.formattedPostsArray[0].timestamp ?? 0
-            print(lastPostTimestamp)
+            print(lastPostTimestamp ?? 0.0)
             print(formattedPosts.formattedPostsArray)
             
         } else {
@@ -428,10 +445,14 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
 
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        print(NearbyArray.nearbyArray.count)
         return formattedPosts.formattedPostsArray.count
     }
+    
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -518,6 +539,73 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     @IBAction func unwind( _ seg: UIStoryboardSegue) {
         
     }
+    
+    func setupLocationManager() {
+           locationManager.requestWhenInUseAuthorization()
+       }
+
+       func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+           locationHandler()
+       }
+
+       func locationHandler() {
+
+           if CLLocationManager.locationServicesEnabled() == true {
+
+               if (CLLocationManager.authorizationStatus() == .denied) {
+                   // The user denied authorization
+                   print("LOCATION SERVICES: DENIED")
+
+               } else if (CLLocationManager.authorizationStatus() == .notDetermined) {
+                   // The user not determiend authorization
+                   print("LOCATION SERVICES: UNKNOWN")
+
+
+               } else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse) {
+                   print("LOCATION SERVICES: AUTHORIZED")
+                   lookUpCurrentLocation(completionHandler: {_ in
+                   })
+
+               } else {
+                   
+               }
+               
+           } else {
+               //Access to user location permission denied!
+           }
+       }
+       
+       func lookUpCurrentLocation(completionHandler: @escaping (CLPlacemark?) -> Void ) {
+           // Use the last reported location.
+           if let lastLocation = self.locationManager.location {
+               let geocoder = CLGeocoder()
+                   
+               // Look up the location and pass it to the completion handler
+               geocoder.reverseGeocodeLocation(lastLocation, completionHandler: { (placemarks, error) in
+                   
+                   if error == nil {
+                       let firstLocation = placemarks?[0]
+                       completionHandler(firstLocation)
+                       
+                       print((firstLocation?.locality ?? "") + (firstLocation?.administrativeArea ?? ""))
+                       UserInfo.userCity = firstLocation?.locality ?? ""
+                       UserInfo.userState = firstLocation?.administrativeArea ?? ""
+                    
+                       self.loadPostsFromDatabase()
+                       
+                   } else {
+                    // An error occurred during geocoding.
+                       completionHandler(nil)
+                       print("ERROR")
+                   }
+                   
+               })
+           } else {
+               // No location was available.
+               completionHandler(nil)
+               print("NON AVAIL")
+           }
+       }
     
     
     
