@@ -492,7 +492,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                 timeInMinutes = 0
             }
             return (String(timeInMinutes) + "m")
-        } else if timeInMinutes >= 60 && timeInHours < 23 {
+        } else if timeInMinutes >= 60 && timeInHours < 24 {
             return (String(timeInHours) + "h")
         } else {
             return (String(timeInDays) + "d")

@@ -7,20 +7,25 @@
 //
 
 import UIKit
+import Firebase
 
 class TrendingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    
-    
+
     @IBOutlet weak var trendingTableView: UITableView!
+    
+    
+    let database = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light
+        
         trendingTableView.dataSource = self
         trendingTableView.delegate = self
         
-        trendingTableView.register(UINib(nibName: "TestTableViewCell", bundle: nil), forCellReuseIdentifier: "TestCell")
+        trendingTableView.register(UINib(nibName: "TrendingTableCell", bundle: nil), forCellReuseIdentifier: "TrendingTableCell")
         
         trendingTableView.estimatedRowHeight = 150;
         trendingTableView.rowHeight = UITableView.automaticDimension;
@@ -28,26 +33,83 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
         trendingTableView.layoutMargins = .zero
         trendingTableView.separatorInset = .zero
         
-
-
+        fetchNewPosts()
     }
     
+    
+    func fetchNewPosts() {
+        
+        database.collection("posts").order(by: "score").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(err.localizedDescription)
+                print("nodocs")
+            } else {
+                for document in querySnapshot!.documents {
+                    let postData = document.data()
+                    
+                    if let postAuthor = postData["author"] as? String,
+                        let postMessage = postData["message"] as? String,
+                        let postScore = postData["score"] as? Int32?,
+                        let postTimestamp = postData["timestamp"] as? Double,
+                        let postComments = postData["comments"] as? [[String: AnyObject]]?,
+                        let postID = document.documentID as String?,
+                        let postLocationCity = postData["locationCity"] as? String,
+                        let postLocationState = postData["locationState"] as? String
+                    {
+
+                        
+                        let newPost = TrendingCellData(
+                            author: postAuthor,
+                            message: postMessage,
+                            score: postScore,
+                            timestamp: postTimestamp,
+                            comments: postComments,
+                            documentID: postID,
+                            postLocationCity: postLocationCity,
+                            postLocationState: postLocationState
+                        )
+                        
+                        formattedTrendingPosts.formattedTrendingPostsArray.append(newPost)
+                        
+                        print("NEWTRENDING")
+                        print(newPost)
+
+                        
+                    }
+                    
+                    
+                }
+                
+                DispatchQueue.main.async {
+                    self.trendingTableView.reloadData()
+                }
+                                
+                
+            }
+        }
+    }
+
+    
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(NearbyArray.nearbyArray.count)
-        return NearbyArray.nearbyArray.count
+        return formattedTrendingPosts.formattedTrendingPostsArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
-        let nearbyCellData = NearbyArray.nearbyArray[indexPath.row]
+        let trendingCellData = formattedTrendingPosts.formattedTrendingPostsArray[indexPath.row]
+    
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TrendingTableCell", for: indexPath) as! TrendingTableCell
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TestCell", for: indexPath) as! TestTableViewCell
-        cell.authorLabel?.text = String(nearbyCellData.author!) + " - " + (UserInfo.userCity ?? "Gainesville") + ", " + (UserInfo.userState ?? "FL")
-        cell.messageLabel?.text = String(nearbyCellData.message!)
+        cell.authorLabel?.text = String(trendingCellData.author!) + " - " + (UserInfo.userCity ?? "Gainesville") + ", " + (UserInfo.userState ?? "FL")
+        cell.messageLabel?.text = String(trendingCellData.message!)
 //        cell.locationLabel?.text = String(UserInfo.userCity!) + ", " + String(UserInfo.userState!)
-        cell.timestampLabel?.text = formatPostTime(postTimestamp: nearbyCellData.timestamp!)
-        
+        cell.timestampLabel?.text = formatPostTime(postTimestamp: trendingCellData.timestamp!)
+    
+
+    
         return cell
     }
     
@@ -62,7 +124,7 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
         
         if timeInMinutes < 60 {
             return (String(timeInMinutes) + "m")
-        } else if timeInMinutes >= 60 && timeInHours < 23 {
+        } else if timeInMinutes >= 60 && timeInHours < 24 {
             return (String(timeInHours) + "h")
         } else {
             return (String(timeInDays) + "d")

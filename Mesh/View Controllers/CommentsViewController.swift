@@ -92,6 +92,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         return UIStatusBarStyle.darkContent
     }
     
+    @IBAction func reportButtonPressed(_ sender: Any) {
+        performSegue(withIdentifier: "commentsToReport", sender: self)
+    }
+    
     
     //Detects if user taps talbe during editing process
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -224,9 +228,12 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         self.commentsEditorView.translatesAutoresizingMaskIntoConstraints = true
 
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, animations: {
-            self.commentsEditorView.frame.origin.y -= CGFloat(self.keyboardHeight ?? 0)
-        })
+        DispatchQueue.main.async {
+            
+            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, animations: {
+                self.commentsEditorView.frame.origin.y -= CGFloat(self.keyboardHeight ?? 0)
+            })
+        }
         
     }
     
@@ -323,6 +330,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                     UIView.animate(withDuration: 0.025, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                         self.view.frame.origin.x = CGFloat(self.viewTranslation.x)
                     })
+
                 }
             }
             
@@ -336,6 +344,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                     UIView.animate(withDuration: 0.45, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                         self.view.frame.origin.x = CGFloat(self.screenWidth)
                     }, completion: { [weak self] _ in
+                        self?.commentsTextView.resignFirstResponder()
                         self?.dismiss(animated: false, completion: nil)
                     })
                 }
