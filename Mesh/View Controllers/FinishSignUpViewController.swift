@@ -25,6 +25,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     var lastName = ""
     var dateOfBirth = ""
     
+    
     let database = Firestore.firestore()
 
     override func viewDidLoad() {

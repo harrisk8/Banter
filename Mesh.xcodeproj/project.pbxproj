@@ -19,6 +19,11 @@
 		6F7737B1251FD341006D70CC /* localDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6F7737AF251FD341006D70CC /* localDataModel.xcdatamodeld */; };
 		6F81595324F4670B00FB59BD /* NewPostDummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F81595224F4670B00FB59BD /* NewPostDummyViewController.swift */; };
 		6F81595824F46AAC00FB59BD /* NewPostEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F81595724F46AAC00FB59BD /* NewPostEditorViewController.swift */; };
+		6F837CC5252B772600A18420 /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F837CC4252B772600A18420 /* InboxViewController.swift */; };
+		6F837CCC252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F837CCA252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataClass.swift */; };
+		6F837CCD252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F837CCB252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataProperties.swift */; };
+		6F837CD0252C402300A18420 /* InboxTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F837CCE252C402300A18420 /* InboxTableCell.swift */; };
+		6F837CD1252C402300A18420 /* InboxTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F837CCF252C402300A18420 /* InboxTableCell.xib */; };
 		6F8605CC250F5128002AC4E9 /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8605CB250F5128002AC4E9 /* TrendingViewController.swift */; };
 		6F8605CF2510695D002AC4E9 /* TestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8605CD2510695D002AC4E9 /* TestTableViewCell.swift */; };
 		6F8605D02510695D002AC4E9 /* TestTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F8605CE2510695D002AC4E9 /* TestTableViewCell.xib */; };
@@ -65,6 +70,11 @@
 		6F7737B0251FD341006D70CC /* localDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = localDataModel.xcdatamodel; sourceTree = "<group>"; };
 		6F81595224F4670B00FB59BD /* NewPostDummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostDummyViewController.swift; sourceTree = "<group>"; };
 		6F81595724F46AAC00FB59BD /* NewPostEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostEditorViewController.swift; sourceTree = "<group>"; };
+		6F837CC4252B772600A18420 /* InboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InboxViewController.swift; path = "Mesh/View Controllers/InboxViewController.swift"; sourceTree = SOURCE_ROOT; };
+		6F837CCA252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastCommentTimestampEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6F837CCB252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastCommentTimestampEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		6F837CCE252C402300A18420 /* InboxTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTableCell.swift; sourceTree = "<group>"; };
+		6F837CCF252C402300A18420 /* InboxTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InboxTableCell.xib; sourceTree = "<group>"; };
 		6F8605CB250F5128002AC4E9 /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
 		6F8605CD2510695D002AC4E9 /* TestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTableViewCell.swift; sourceTree = "<group>"; };
 		6F8605CE2510695D002AC4E9 /* TestTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestTableViewCell.xib; sourceTree = "<group>"; };
@@ -139,6 +149,7 @@
 				6F6DF02324E79AE1009ACCDD /* AuthCodeViewController.swift */,
 				6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */,
 				6FE0CE80250DF66100A05AD7 /* CommentsViewController.swift */,
+				6F837CC4252B772600A18420 /* InboxViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -177,12 +188,14 @@
 			children = (
 				6F94A1E625257DA500284D92 /* NearbyTableCell.swift */,
 				6F94A1E725257DA500284D92 /* NearbyTableCell.xib */,
+				6F67E8D025295E3D00DB6771 /* TrendingTableCell.swift */,
+				6F67E8D125295E3D00DB6771 /* TrendingTableCell.xib */,
+				6F837CCE252C402300A18420 /* InboxTableCell.swift */,
+				6F837CCF252C402300A18420 /* InboxTableCell.xib */,
 				6F368C2B24F208F500C7E08C /* NearbyTableViewCell.swift */,
 				6F368C2C24F208F500C7E08C /* NearbyTableViewCell.xib */,
 				6F8605CD2510695D002AC4E9 /* TestTableViewCell.swift */,
 				6F8605CE2510695D002AC4E9 /* TestTableViewCell.xib */,
-				6F67E8D025295E3D00DB6771 /* TrendingTableCell.swift */,
-				6F67E8D125295E3D00DB6771 /* TrendingTableCell.xib */,
 			);
 			path = "Table View Cells";
 			sourceTree = "<group>";
@@ -190,6 +203,8 @@
 		6FBA045424F1A95A00FC1E1B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6F837CCA252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataClass.swift */,
+				6F837CCB252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataProperties.swift */,
 				6F94A1E22524215A00284D92 /* NearbyPostsEntity+CoreDataClass.swift */,
 				6F94A1E32524215A00284D92 /* NearbyPostsEntity+CoreDataProperties.swift */,
 				6FBA045D24F2005C00FC1E1B /* UserInfo.swift */,
@@ -328,6 +343,7 @@
 				6F94A1E925257DA600284D92 /* NearbyTableCell.xib in Resources */,
 				6FD5132224E36BAA0028DDAE /* Roboto-ThinItalic.ttf in Resources */,
 				6FD5132724E36BAA0028DDAE /* Roboto-LightItalic.ttf in Resources */,
+				6F837CD1252C402300A18420 /* InboxTableCell.xib in Resources */,
 				6FD5132024E36BAA0028DDAE /* Roboto-Thin.ttf in Resources */,
 				6FD5132124E36BAA0028DDAE /* Roboto-MediumItalic.ttf in Resources */,
 				6FFD62AC24DE370D00D5B96D /* LaunchScreen.storyboard in Resources */,
@@ -400,6 +416,7 @@
 				6F81595324F4670B00FB59BD /* NewPostDummyViewController.swift in Sources */,
 				6F8605CC250F5128002AC4E9 /* TrendingViewController.swift in Sources */,
 				6F7737B1251FD341006D70CC /* localDataModel.xcdatamodeld in Sources */,
+				6F837CC5252B772600A18420 /* InboxViewController.swift in Sources */,
 				6FFD62A424DE370D00D5B96D /* ViewController.swift in Sources */,
 				6FFD62B424DF27CC00D5B96D /* WelcomeViewController.swift in Sources */,
 				6F8605CF2510695D002AC4E9 /* TestTableViewCell.swift in Sources */,
@@ -411,14 +428,17 @@
 				6FBA045E24F2005C00FC1E1B /* UserInfo.swift in Sources */,
 				6FBA046024F2032100FC1E1B /* NearbyViewController.swift in Sources */,
 				6F94A1E825257DA600284D92 /* NearbyTableCell.swift in Sources */,
+				6F837CD0252C402300A18420 /* InboxTableCell.swift in Sources */,
 				6FAFC2B2252982C6003F7102 /* TrendingModel.swift in Sources */,
 				6FE0CE81250DF66100A05AD7 /* CommentsViewController.swift in Sources */,
 				6F368C2D24F208F500C7E08C /* NearbyTableViewCell.swift in Sources */,
 				6FBA045324F1A7E400FC1E1B /* NearbyModel.swift in Sources */,
 				6F81595824F46AAC00FB59BD /* NewPostEditorViewController.swift in Sources */,
 				6F67E8D225295E3D00DB6771 /* TrendingTableCell.swift in Sources */,
+				6F837CCC252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataClass.swift in Sources */,
 				6FFD62A024DE370D00D5B96D /* AppDelegate.swift in Sources */,
 				6FFD62A224DE370D00D5B96D /* SceneDelegate.swift in Sources */,
+				6F837CCD252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

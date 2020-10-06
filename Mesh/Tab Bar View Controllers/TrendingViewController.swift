@@ -57,7 +57,6 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
                         let postLocationState = postData["locationState"] as? String
                     {
 
-                        
                         let newPost = TrendingCellData(
                             author: postAuthor,
                             message: postMessage,
@@ -70,14 +69,14 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
                         )
                         
                         formattedTrendingPosts.formattedTrendingPostsArray.append(newPost)
-                        
-                        print("NEWTRENDING")
-                        print(newPost)
 
-                        
                     }
                     
-                    
+                }
+                
+                formattedTrendingPosts.formattedTrendingPostsArray.sort { (lhs: TrendingCellData, rhs: TrendingCellData) -> Bool in
+                    // you can have additional code here
+                    return lhs.score ?? 0 > rhs.score ?? 0
                 }
                 
                 DispatchQueue.main.async {
@@ -107,6 +106,7 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
         cell.messageLabel?.text = String(trendingCellData.message!)
 //        cell.locationLabel?.text = String(UserInfo.userCity!) + ", " + String(UserInfo.userState!)
         cell.timestampLabel?.text = formatPostTime(postTimestamp: trendingCellData.timestamp!)
+        cell.postScoreLabel?.text = String(trendingCellData.score!)
     
 
     

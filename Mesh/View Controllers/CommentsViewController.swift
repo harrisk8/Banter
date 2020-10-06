@@ -40,6 +40,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     var didFastSwipe = false
     
     var delegate: refreshNearbyTable?
+    
+    var commentTimestamp: Double?
 
     
     override func viewDidLoad() {
@@ -121,9 +123,16 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     @IBAction func postCommentPressed(_ sender: Any) {
         
-        if commentsTextView.text != "" {
+        //Slides comment editor up for message compsition if button pressed while editor is down
+        if commentsTextView.isFirstResponder == false {
+            slideCommentEditorUp()
+        }
+        
+        if commentsTextView.text != "" && commentsTextView.isFirstResponder == true {
             
-            commentData = ["author" : UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject]
+            commentTimestamp = Date().timeIntervalSince1970
+            
+            commentData = ["author" : UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject, "commentTimestamp" : commentTimestamp as AnyObject]
             
             writeCommentToDatabase()
             
@@ -155,7 +164,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
         databaseRef.updateData([
 
-            "comments": FieldValue.arrayUnion([commentData!])
+            "comments": FieldValue.arrayUnion([commentData!]),
+            "lastCommentTimestamp": commentTimestamp ?? 0.0
+            
 
         ]) { err in
             if let err = err {

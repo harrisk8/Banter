@@ -78,12 +78,13 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                         
             "author": UserInfo.userAppearanceName,
             "authorID": UserInfo.userID ?? "",
-            "comments": testArray,
+//            "comments": testArray,
             "locationCity": UserInfo.userCity ?? "",
             "locationState": UserInfo.userState ?? "",
             "message": messageEditor.text ?? "",
             "score": randomInt,
-            "timestamp": timestamp
+            "timestamp": timestamp,
+            "lastCommentTimestamp": 0.0
         
         ]) { err in
             if let err = err {

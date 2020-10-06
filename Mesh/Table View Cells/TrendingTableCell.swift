@@ -30,8 +30,6 @@ class TrendingTableCell: UITableViewCell {
             super.awakeFromNib()
             // Initialization code
             
-            randomInt = Int.random(in: 1...100)
-            postScoreLabel?.text = String(randomInt)
         }
 
         override func setSelected(_ selected: Bool, animated: Bool) {

@@ -436,6 +436,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         DispatchQueue.main.async {
             self.nearbyTableView.reloadData()
         }
+        
     }
     
  
@@ -464,6 +465,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         cell.authorLabel?.text = String(nearbyCellData.author! )
         cell.messageLabel?.text = String(nearbyCellData.message! )
         cell.timestampLabel?.text = formatPostTime(postTimestamp: nearbyCellData.timestamp!)
+        cell.postScoreLabel?.text = String(nearbyCellData.score!)
         
         if commentsCount > 1 {
             cell.commentLabel?.text = String(commentsCount) + " comments"
