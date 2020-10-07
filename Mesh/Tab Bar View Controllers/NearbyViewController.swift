@@ -33,10 +33,13 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     var lastPostTimestamp: Double?
     var previousTimestamp: Double?
     var timestampRefreshed: Double?
+        
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         let userID = Auth.auth().currentUser!.uid
         UserInfo.userID = userID
     
@@ -368,6 +371,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                             )
                             
                             NearbyArray.nearbyArray.append(newPost)
+                            formattedPosts.formattedPostsArray.append(newPost)
                             
                         
                                                     
@@ -376,8 +380,16 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                             }
                         }
                     }
-                    self.addPostsToCoreData()
+//                    self.addPostsToCoreData()
                     print(NearbyArray.nearbyArray.count)
+                    formattedPosts.formattedPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
+                        // you can have additional code here
+                        return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
+                    }
+                    DispatchQueue.main.async {
+                        self.nearbyTableView.reloadData()
+                    }
+                    
 
                 }
         
@@ -521,6 +533,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
+    
     // this delegate is called when the scrollView (i.e your UITableView) will start scrolling
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.lastContentOffset = nearbyTableView.contentOffset.y
@@ -593,7 +606,12 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                        UserInfo.userCity = firstLocation?.locality ?? ""
                        UserInfo.userState = firstLocation?.administrativeArea ?? ""
                     
-                       self.loadPostsFromDatabase()
+                        self.fetchAllPostsForLocality()
+                    
+                        
+                    
+//                       self.loadPostsFromDatabase()
+                        
                        
                    } else {
                     // An error occurred during geocoding.

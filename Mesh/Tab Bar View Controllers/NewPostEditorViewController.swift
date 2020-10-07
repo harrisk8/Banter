@@ -78,7 +78,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                         
             "author": UserInfo.userAppearanceName,
             "authorID": UserInfo.userID ?? "",
-//            "comments": testArray,
+            "comments": testArray,
             "locationCity": UserInfo.userCity ?? "",
             "locationState": UserInfo.userState ?? "",
             "message": messageEditor.text ?? "",

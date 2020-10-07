@@ -27,20 +27,46 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var lastCommentTimestamp: Double?
     
-    var newNotificationsArray: [NearbyCellData]?
+    var newNotificationsArray: [NearbyCellData] = []
+    
+    var selectedCellIndex: Int?
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light
+
 
         lastCommentTimestamp = UserDefaults.standard.double(forKey: "lastCommentTimestamp")
         
         print(lastCommentTimestamp)
         
+        
+        inboxTableView.dataSource = self
+        inboxTableView.delegate = self
+        
+        inboxTableView.register(UINib(nibName: "InboxTableCell", bundle: nil), forCellReuseIdentifier: "InboxTableCell")
+        
+        inboxTableView.estimatedRowHeight = 150;
+        inboxTableView.rowHeight = UITableView.automaticDimension;
+        
+        inboxTableView.layoutMargins = .zero
+        inboxTableView.separatorInset = .zero
+        
+//        fetchNewNotifications()
+        
+        print(UserInfo.userID)
 
     }
     
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCellIndex = indexPath.row
+        print(indexPath.row)
+        }
     
     
     
@@ -74,31 +100,50 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
                                 comments: postComments ?? nil,
                                 documentID: postID
                             )
-                                                        
-                            self.newNotificationsArray?.append(newPost)
+                            
+                            print(newPost)
+                            self.newNotificationsArray.append(newPost)
+                                                                                                                
+                            DispatchQueue.main.async {
+                                self.inboxTableView.reloadData()
+                            }
+                            
                                     
                         }
+                        
+                        self.newNotificationsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
+                            // you can have additional code here
+                            return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
+                        }
+                        
+                        
+                        print(self.newNotificationsArray)
+                        
+                        
                     }
+                    
+                    self.lastCommentTimestamp = self.newNotificationsArray[0].timestamp
+                    
                 }
             }
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return newNotificationsArray?.count ?? 0
+        return InboxArray.inboxArrayNew.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
                 
-        let lastCommentDictionary: [[String: AnyObject]] = (newNotificationsArray?[indexPath.row].comments)!
+        let lastCommentDictionary: [[String: AnyObject]] = (InboxArray.inboxArrayNew[indexPath.row].comments)!
         
         let lastComment: [String: AnyObject] = lastCommentDictionary.last!
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "InboxableCell", for: indexPath) as! InboxTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "InboxTableCell", for: indexPath) as! InboxTableCell
         
-        cell.headerLabel.text = lastComment["author"] as? String
+        cell.headerLabel.text = (lastComment["author"] as? String ?? "") + " commented on your post"
         cell.messageLabel.text = lastComment["message"] as? String
-        cell.timestampLabel.text = lastComment["timestamp"] as? String
+        cell.timestampLabel.text = "12m"
 
 
         
@@ -108,7 +153,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     func testFunc() {
         
         
-        for post in newNotificationsArray! {
+        for post in newNotificationsArray {
             
             
             

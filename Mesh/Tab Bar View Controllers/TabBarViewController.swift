@@ -7,15 +7,36 @@
 //
 
 import UIKit
+import Firebase
 
-class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
+
+class TabBarViewController: UITabBarController, UITabBarControllerDelegate, updateInboxBadge {
+    
+    
+    //Updates inbox badge count after delegate is called following Firebase query
+    func updateInboxBadge() {
+        self.tabBar.items![3].badgeValue = String(InboxArray.inboxArrayNew.count)
+    }
+    
     
     var userClickedNewPost = false
     
     let storyboardInstance = UIStoryboard(name: "Main", bundle: nil)
+    
+    let database = Firestore.firestore()
+    
+    let fetcher = InboxFetcher()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        InboxFetcher.delegate = self
+        
+        let userID = Auth.auth().currentUser!.uid
+        UserInfo.userID = userID
+                
+        fetcher.getNewNotifications()
         
         self.delegate = self
 
@@ -42,7 +63,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if item == (self.tabBar.items!)[0]{
-           print("Nearby1")
+           print("Nearby")
         }
         else if item == (self.tabBar.items!)[1]{
            print("Trending")
@@ -58,5 +79,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
            print("Profile")
         }
     }
+    
+    
 
 }

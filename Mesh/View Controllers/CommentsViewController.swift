@@ -126,6 +126,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         //Slides comment editor up for message compsition if button pressed while editor is down
         if commentsTextView.isFirstResponder == false {
             slideCommentEditorUp()
+            commentsTextView.becomeFirstResponder()
         }
         
         if commentsTextView.text != "" && commentsTextView.isFirstResponder == true {

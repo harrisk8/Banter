@@ -17,7 +17,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TrendingTableCell" rowHeight="108" id="DSf-W4-yez" userLabel="Trending Table Cell" customClass="InboxTableCell" customModule="Mesh" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InboxTableCell" rowHeight="134" id="DSf-W4-yez" userLabel="Inbox Table Cell" customClass="InboxTableCell" customModule="Mesh" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="370" height="109"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DSf-W4-yez" id="91b-Gt-hTG">
@@ -25,19 +25,25 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incognito commented on your post" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VnC-GI-t9G">
-                        <rect key="frame" x="10" y="5" width="355" height="21.5"/>
+                        <rect key="frame" x="10" y="8" width="355" height="21.5"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21.5" id="PFM-DI-8Bs"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="18"/>
                         <color key="textColor" red="0.13725490200000001" green="0.031372549020000001" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I am not sure if that is even correct..?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tdn-Yg-bFd">
-                        <rect key="frame" x="30" y="44.5" width="310" height="20.5"/>
+                        <rect key="frame" x="30" y="47.5" width="310" height="20.5"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20.5" id="QIT-0O-NfS"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zk7-ze-m4H">
-                        <rect key="frame" x="17.5" y="89.5" width="24" height="15"/>
+                        <rect key="frame" x="17.5" y="92.5" width="24" height="15"/>
                         <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="12"/>
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -45,13 +51,15 @@
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="VnC-GI-t9G" firstAttribute="top" secondItem="91b-Gt-hTG" secondAttribute="top" constant="5" id="Bxx-ML-2DB"/>
+                    <constraint firstItem="VnC-GI-t9G" firstAttribute="top" secondItem="91b-Gt-hTG" secondAttribute="top" constant="8" id="Bxx-ML-2DB"/>
                     <constraint firstAttribute="bottom" secondItem="Zk7-ze-m4H" secondAttribute="bottom" constant="4.5" id="ISH-RI-Lyf"/>
                     <constraint firstItem="Tdn-Yg-bFd" firstAttribute="centerX" secondItem="91b-Gt-hTG" secondAttribute="centerX" id="Lr9-SL-p7h"/>
                     <constraint firstItem="VnC-GI-t9G" firstAttribute="leading" secondItem="91b-Gt-hTG" secondAttribute="leading" constant="10" id="Mw1-l2-tvb"/>
                     <constraint firstItem="Tdn-Yg-bFd" firstAttribute="leading" secondItem="91b-Gt-hTG" secondAttribute="leading" constant="30" id="RN6-Nb-JXL"/>
                     <constraint firstAttribute="trailing" secondItem="VnC-GI-t9G" secondAttribute="trailing" constant="5" id="UpH-bl-uS2"/>
                     <constraint firstAttribute="trailing" secondItem="Tdn-Yg-bFd" secondAttribute="trailing" constant="30" id="ZFh-OD-8mt"/>
+                    <constraint firstItem="Tdn-Yg-bFd" firstAttribute="top" secondItem="VnC-GI-t9G" secondAttribute="bottom" constant="18" id="bEt-pl-Ij0"/>
+                    <constraint firstItem="Zk7-ze-m4H" firstAttribute="top" secondItem="Tdn-Yg-bFd" secondAttribute="bottom" constant="24.5" id="eCW-Ei-81e"/>
                     <constraint firstItem="Zk7-ze-m4H" firstAttribute="leading" secondItem="91b-Gt-hTG" secondAttribute="leading" constant="17.5" id="hTX-jF-tyt"/>
                     <constraint firstItem="Tdn-Yg-bFd" firstAttribute="centerY" secondItem="91b-Gt-hTG" secondAttribute="centerY" id="hjy-Nm-qK1"/>
                 </constraints>
