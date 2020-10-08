@@ -42,6 +42,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     var delegate: refreshNearbyTable?
     
     var commentTimestamp: Double?
+    
+    var segueFromInbox = false
+    
+    var inboxPostArrayPosition: Int?
 
     
     override func viewDidLoad() {
@@ -198,11 +202,24 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     //Determines number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("ARRAY TOTAL")
-        print(commentsArray?.count)
-        print(formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments?.count ?? 0)
-        print(commentsArray)
-        return (formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments?.count ?? 0)
+        
+        if segueFromInbox == false {
+            print("ARRAY TOTAL")
+            print(commentsArray?.count)
+            print(formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments?.count ?? 0)
+            print(commentsArray)
+            return (formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments?.count ?? 0)
+            
+        } else if segueFromInbox == true {
+            
+            print(InboxArray.inboxArrayNew[inboxPostArrayPosition ?? 0].comments?.count ?? 0)
+            return (InboxArray.inboxArrayNew[inboxPostArrayPosition ?? 0].comments?.count ?? 0)
+                        
+        }
+            
+            
+           return 10
+        
     }
     
     //Populates table cells with data from array

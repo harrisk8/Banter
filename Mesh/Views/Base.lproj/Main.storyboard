@@ -536,6 +536,9 @@
                         <viewLayoutGuide key="safeArea" id="Bmg-Na-G3Z"/>
                     </view>
                     <navigationItem key="navigationItem" title="Nearby" id="Nvr-CR-zE9">
+                        <barButtonItem key="leftBarButtonItem" title="Incognito" id="OBt-0s-tjd">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="JCi-Gl-xas">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V3D-4R-WSy">
                                 <rect key="frame" x="357" y="3.6666666666666679" width="37" height="37"/>
@@ -586,7 +589,7 @@
                                 <rect key="frame" x="16.666666666666657" y="335.66666666666669" width="381" height="1"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Posting as:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="aSg-RJ-Oah">
-                                <rect key="frame" x="29" y="438" width="216" height="20"/>
+                                <rect key="frame" x="29" y="426.66666666666669" width="216" height="20"/>
                                 <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="17"/>
                                 <color key="textColor" red="0.13725490200000001" green="0.031372549020000001" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -619,10 +622,18 @@
                                     <action selector="cancelPressed:" destination="gi6-cU-piE" eventType="touchUpInside" id="lVh-sX-OW2"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3vY-Fw-5xn">
+                                <rect key="frame" x="29" y="459" width="66" height="22"/>
+                                <state key="normal" image="Change Button"/>
+                                <connections>
+                                    <action selector="changePressed:" destination="gi6-cU-piE" eventType="touchUpInside" id="PYJ-cE-UWW"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="3vY-Fw-5xn" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.0245536" priority="999" id="0oK-Gs-5Ve"/>
                             <constraint firstItem="bJO-G7-HcL" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.0301339" priority="999" id="1xJ-Bz-5vt"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.2" id="5ah-PH-Ssa"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.0301339" priority="999" id="96l-Wj-xMz"/>
@@ -631,6 +642,7 @@
                             <constraint firstItem="kQM-PY-FJt" firstAttribute="centerX" secondItem="Hb9-XN-19l" secondAttribute="centerX" id="GFH-ap-IXC"/>
                             <constraint firstItem="bJO-G7-HcL" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.200483" id="Jsa-ef-ukA"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="255" id="PUL-Ea-FSJ"/>
+                            <constraint firstItem="3vY-Fw-5xn" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.15942" priority="999" id="Qge-v2-9Rp"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="trailing" secondItem="l8E-mQ-Hni" secondAttribute="trailing" constant="26" id="TOX-TZ-mZT"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" id="VPY-GC-oSH"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="centerX" secondItem="Hb9-XN-19l" secondAttribute="centerX" multiplier="0.4" id="WMq-x7-P8h"/>
@@ -639,12 +651,15 @@
                             <constraint firstItem="kQM-PY-FJt" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.75" id="fD4-mn-q3d"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.229282" priority="999" id="h3F-NV-8tE"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="trailing" secondItem="wmO-fd-Sbq" secondAttribute="trailing" priority="999" id="hlS-0a-SIo"/>
+                            <constraint firstItem="3vY-Fw-5xn" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="29" id="jX2-Lv-6VQ"/>
                             <constraint firstItem="bJO-G7-HcL" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.2" id="m4e-X2-ULD"/>
+                            <constraint firstItem="3vY-Fw-5xn" firstAttribute="top" secondItem="aSg-RJ-Oah" secondAttribute="bottom" constant="12.329999923706055" id="qLH-5h-FK0"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="leading" secondItem="aSg-RJ-Oah" secondAttribute="trailing" constant="10" id="thM-uP-ohs"/>
                             <constraint firstItem="wmO-fd-Sbq" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="34" id="uBY-Eo-5UK"/>
                             <constraint firstItem="bJO-G7-HcL" firstAttribute="centerX" secondItem="Hb9-XN-19l" secondAttribute="centerX" multiplier="1.6" id="vEt-4X-YZo"/>
                             <constraint firstItem="l8E-mQ-Hni" firstAttribute="top" secondItem="7vx-Gq-CZ2" secondAttribute="bottom" constant="34" id="vJo-HT-Me5"/>
-                            <constraint firstItem="aSg-RJ-Oah" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" id="w8A-6V-l0L"/>
+                            <constraint firstItem="3vY-Fw-5xn" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="33:448" id="vwB-9H-cRi"/>
+                            <constraint firstItem="aSg-RJ-Oah" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.975" id="w8A-6V-l0L"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="trailing" secondItem="1df-nF-71h" secondAttribute="trailing" constant="10" id="z7y-AN-VrR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="XHH-go-9o7"/>
@@ -654,11 +669,13 @@
                     </view>
                     <connections>
                         <outlet property="cancelButton" destination="bJO-G7-HcL" id="Grs-VB-vNG"/>
+                        <outlet property="changeButton" destination="3vY-Fw-5xn" id="9g1-qO-pNY"/>
                         <outlet property="characterCountLabel" destination="wmO-fd-Sbq" id="LIS-FM-Y18"/>
                         <outlet property="clearButton" destination="bJO-G7-HcL" id="zWe-YO-OCK"/>
                         <outlet property="messageEditor" destination="l8E-mQ-Hni" id="YQg-i3-lPJ"/>
                         <outlet property="postMessageButton" destination="1df-nF-71h" id="1rh-Hm-Toe"/>
                         <outlet property="postingAsLabel" destination="aSg-RJ-Oah" id="raQ-rd-FHA"/>
+                        <segue destination="vvS-C6-SEi" kind="presentation" identifier="newPostToChange" id="rG1-vR-Rms"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sVp-zP-pCn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -668,7 +685,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="5451" y="116"/>
+            <point key="canvasLocation" x="5450.7246376811599" y="115.84821428571428"/>
         </scene>
         <!--Comments View Controller-->
         <scene sceneID="kHr-cy-4PO">
@@ -805,6 +822,39 @@
             </objects>
             <point key="canvasLocation" x="7549" y="119"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="2AM-Tm-naN">
+            <objects>
+                <viewController id="vvS-C6-SEi" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="P2l-wh-ne4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Appear as:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vPT-lW-MVd">
+                                <rect key="frame" x="114.66666666666669" y="61.333333333333343" width="185" height="46"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="39"/>
+                                <color key="textColor" red="0.13725490200000001" green="0.031372549020000001" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Separator w Shadow" translatesAutoresizingMaskIntoConstraints="NO" id="PEo-yX-9B9">
+                                <rect key="frame" x="30" y="121.33333333333331" width="354" height="14"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="LlP-SE-NfW" firstAttribute="trailing" secondItem="PEo-yX-9B9" secondAttribute="trailing" constant="30" id="2XQ-eO-2FO"/>
+                            <constraint firstItem="vPT-lW-MVd" firstAttribute="centerY" secondItem="P2l-wh-ne4" secondAttribute="centerY" multiplier="0.2" id="6iB-uO-V2J"/>
+                            <constraint firstItem="PEo-yX-9B9" firstAttribute="top" secondItem="vPT-lW-MVd" secondAttribute="bottom" constant="14" id="9F5-kd-xcH"/>
+                            <constraint firstItem="PEo-yX-9B9" firstAttribute="leading" secondItem="LlP-SE-NfW" secondAttribute="leading" constant="30" id="D4w-EH-UvS"/>
+                            <constraint firstItem="vPT-lW-MVd" firstAttribute="centerX" secondItem="P2l-wh-ne4" secondAttribute="centerX" id="Zvz-Ce-aRT"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="LlP-SE-NfW"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lJJ-GV-DHM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8528.9855072463779" y="118.52678571428571"/>
+        </scene>
         <!--New Post Dummy View Controller-->
         <scene sceneID="zsh-Yg-nln">
             <objects>
@@ -869,13 +919,14 @@
                     <navigationItem key="navigationItem" title="Inbox" id="PY9-q7-otB"/>
                     <connections>
                         <outlet property="inboxTableView" destination="Wql-Ce-Jdg" id="2k1-PA-IvO"/>
+                        <segue destination="Xks-jQ-og6" kind="presentation" identifier="inboxToComments" modalPresentationStyle="overFullScreen" id="1jk-nY-q9F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AZg-hg-VJZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4846.376811594203" y="986.38392857142856"/>
         </scene>
-        <!--View Controller-->
+        <!--Profile-->
         <scene sceneID="i23-s3-nOL">
             <objects>
                 <viewController id="1sT-Da-6Pk" sceneMemberID="viewController">
@@ -885,7 +936,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="V4H-rT-Icp"/>
                     </view>
-                    <navigationItem key="navigationItem" id="vKp-Ts-G71"/>
+                    <navigationItem key="navigationItem" title="Profile" id="vKp-Ts-G71"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DqH-DX-oeZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1010,6 +1061,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="GAJ-WX-5Zx"/>
         <segue reference="VhC-5O-fwx"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -1018,6 +1070,7 @@
         <image name="Back Button - 1" width="83" height="27"/>
         <image name="Background" width="414" height="896"/>
         <image name="Cancel Button" width="83" height="27"/>
+        <image name="Change Button" width="66" height="21.666666030883789"/>
         <image name="Circle Slider" width="414" height="896"/>
         <image name="Clear Button" width="83" height="27"/>
         <image name="Feel the pulse" width="327" height="23"/>
@@ -1040,6 +1093,7 @@
         <image name="Profile Regular" width="25" height="25"/>
         <image name="Profile Selected" width="33.333332061767578" height="29.666666030883789"/>
         <image name="Separator Line" width="381" height="1"/>
+        <image name="Separator w Shadow" width="393" height="14"/>
         <image name="Top Right Nav New Post Icon" width="24" height="24"/>
         <image name="Trending Regular" width="26" height="26"/>
         <image name="Trending Selected" width="33.333332061767578" height="31.666666030883789"/>

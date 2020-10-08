@@ -13,6 +13,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
+    @IBOutlet weak var changeButton: UIButton!
     
     @IBOutlet weak var postMessageButton: UIButton!
     
@@ -200,5 +201,10 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
     }
+    
+    @IBAction func changePressed(_ sender: Any) {
+        performSegue(withIdentifier: "newPostToChange", sender: self)
+    }
+    
 
 }

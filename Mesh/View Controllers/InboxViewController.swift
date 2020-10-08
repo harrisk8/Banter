@@ -61,13 +61,28 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     }
     
+    func getPostData() {
+        let thedocid = InboxArray.inboxArrayNew[selectedCellIndex!].documentID
+        print(thedocid)
+    }
+    
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCellIndex = indexPath.row
         print(indexPath.row)
+        getPostData()
+//        performSegue(withIdentifier: "inboxToComments", sender: self)
         }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let commentsVCForInbox = segue.destination as? CommentsViewController {
+            commentsVCForInbox.inboxPostArrayPosition = selectedCellIndex
+            commentsVCForInbox.modalPresentationCapturesStatusBarAppearance = true
+            commentsVCForInbox.segueFromInbox = true
+        }
+    }
     
     
     func fetchNewNotifications() {
