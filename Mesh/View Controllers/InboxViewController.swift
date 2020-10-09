@@ -116,7 +116,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
                                 documentID: postID
                             )
                             
-                            print(newPost)
+//                            print(newPost)
                             self.newNotificationsArray.append(newPost)
                                                                                                                 
                             DispatchQueue.main.async {

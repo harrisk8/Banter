@@ -57,7 +57,7 @@ class InboxFetcher {
                         )
                         
                         print("NEWPOSTSFORNOTIF")
-                        print(newPost)
+//                        print(newPost)
                         InboxArray.inboxArrayNew.append(newPost)
                         
                

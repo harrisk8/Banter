@@ -16,13 +16,14 @@ public struct NearbyCellData {
     var timestamp: Double?
     var comments: [[String: AnyObject]]?
     var documentID: String?
+    var loadedFromCoreData: Bool?
     
 }
 
 
 struct NearbyArray {
     
-    static var nearbyArray: [NearbyCellData] = []
+    static var newlyFetchedNearbyPosts: [NearbyCellData] = []
     
 }
 
