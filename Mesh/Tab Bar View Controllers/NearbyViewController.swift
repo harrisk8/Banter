@@ -77,13 +77,12 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         UserInfo.userState = "FL"
         UserInfo.userCity = "Gainesville"
         
-        testingUpdate()
+//        testingUpdate()
 
     }
     
     func testingUpdate() {
-        
-        
+    
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         
         let dataContext = appDelegate.persistentContainer.viewContext
@@ -91,10 +90,13 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "NearbyPostsEntity")
         
         fetchRequest.predicate = NSPredicate(format: "documentID = %@", "ZIl5WzaDXWN3ASkNquRz")
+        
         do {
+            
             let test = try dataContext.fetch(fetchRequest)
             
-            let objectUpdate = test[0] as! NSManagedObject
+            let objectUpdate = test as! NSManagedObject
+            
             objectUpdate.setValue("NEWMESSAGE", forKey: "message")
             
             do {
@@ -103,10 +105,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             catch {
                 print(error)
             }
-            
- 
-            
-    
             
         }
         catch {
@@ -306,18 +304,16 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                     
                 }
                 
+            }
+                
                 print("NEW CONTENT")
                 print(NearbyArray.newlyFetchedNearbyPosts.count)
                 print(NearbyArray.newlyFetchedNearbyPosts)
                 self.addPostsToCoreData()
                 self.organizeArrayForTableView()
-                
-            }
-                                
         }
-        
-        
     }
+    
     
     //Fetches all posts for user's location if no existing Core Data content is detected.
     func fetchAllPostsForLocality() {
@@ -490,16 +486,34 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCellIndex = indexPath.row
         print(formattedPosts.formattedPostsArray[indexPath.row])
-//        performSegue(withIdentifier: "postToComments", sender: self)
+        performSegue(withIdentifier: "postToComments", sender: self)
     }
     
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if let commentsVC = segue.destination as? CommentsViewController {
+            
             commentsVC.postArrayPosition = selectedCellIndex
             commentsVC.modalPresentationCapturesStatusBarAppearance = true
             commentsVC.delegate = self
+            
+            if formattedPosts.formattedPostsArray[selectedCellIndex ?? 0].loadedFromCoreData == false {
+                //Post was newly loaded- no need to re-query database
+                
+                commentsVC.postLoadedFromCoreData = false
+                
+            } else {
+                //Post was loaded from Core Data. Refresh with database query
+                
+                commentsVC.postLoadedFromCoreData = true
+                
+                //Prevents post from being redudantly updated if user opens again
+                formattedPosts.formattedPostsArray[selectedCellIndex ?? 0].loadedFromCoreData = false
+                
+            }
+            
         }
         
     }
@@ -592,6 +606,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                // No location was available.
                completionHandler(nil)
                print("NON AVAIL")
+            UserInfo.userCity = "Gainesville"
+            UserInfo.userState = "FL"
+            self.loadPostsFromDatabase()
            }
        }
     

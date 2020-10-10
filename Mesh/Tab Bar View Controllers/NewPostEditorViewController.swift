@@ -116,7 +116,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             score: newScore as Int32?,
             timestamp: timestamp,
             comments: testArray as [[String : AnyObject]],
-            documentID: newDocumentID
+            documentID: newDocumentID,
+            loadedFromCoreData: false
         )
         
         

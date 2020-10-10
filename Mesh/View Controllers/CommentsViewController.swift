@@ -46,6 +46,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     var segueFromInbox = false
     
     var inboxPostArrayPosition: Int?
+    
+    var postLoadedFromCoreData: Bool?
 
     
     override func viewDidLoad() {
@@ -54,11 +56,24 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         overrideUserInterfaceStyle = .light
             
         super.viewDidLoad()
-    
-    
         
         postMessage.text = formattedPosts.formattedPostsArray[postArrayPosition ?? 0].message
-        commentsArray = formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments
+
+    
+        if postLoadedFromCoreData == true {
+            print("OLD POST")
+            updateOldPostData()
+            
+        } else {
+            print("NEWPOST")
+            commentsArray = formattedPosts.formattedPostsArray[self.postArrayPosition ?? 0].comments
+
+            DispatchQueue.main.async {
+                self.commentsTableView.reloadData()
+            }
+        }
+    
+        
 
         commentsTableView.dataSource = self
         commentsTableView.delegate = self
@@ -67,29 +82,77 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         commentsTableView.rowHeight = UITableView.automaticDimension;
         commentsTableView.layoutMargins = .zero
         commentsTableView.separatorInset = .zero
-        
         commentsTextView.delegate = self
         commentsTextView.backgroundColor = UIColor.white
         commentsTextView.layer.cornerRadius = 5.0
         commentsTextView.clipsToBounds = true
-        
         commentsEditorView.layer.cornerRadius = 20.0
         commentsEditorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleDismiss))
-
         view.addGestureRecognizer(panRecognizer)
-
         panRecognizer.delegate = self
 
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+    }
+    
+    func updateOldPostData() {
         
+        let databaseRef = database.collection("posts").document(formattedPosts.formattedPostsArray[postArrayPosition ?? 0].documentID!)
         
-        print("INFO")
-        print(postArrayPosition)
-        print(formattedPosts.formattedPostsArray[postArrayPosition ?? 0])
+        databaseRef.getDocument { (document, error) in
+            
+        if let document = document, document.exists {
+            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+            print("Document data: \(dataDescription)")
+            print("FETCHEDDOC")
+            print(document.data() as Any)
+            
+            let postData = document.data()
+            
+            if let postAuthor = postData?["author"] as? String,
+                let postMessage = postData?["message"] as? String,
+                let postScore = postData?["score"] as? Int32?,
+                let postTimestamp = postData?["timestamp"] as? Double,
+                let postComments = postData?["comments"] as? [[String: AnyObject]]?,
+                let postID = document.documentID as String?
+            {
+                let updatedPostCell = NearbyCellData(
+                    author: postAuthor,
+                    message: postMessage,
+                    score: postScore,
+                    timestamp: postTimestamp,
+                    comments: postComments,
+                    documentID: postID,
+                    loadedFromCoreData: true
+                )
+                
+                formattedPosts.formattedPostsArray.remove(at: self.postArrayPosition ?? 0)
+                formattedPosts.formattedPostsArray.append(updatedPostCell)
+                
+                formattedPosts.formattedPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
+                    // you can have additional code here
+                    return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
+                    
+                }
+                
+                self.commentsArray = formattedPosts.formattedPostsArray[self.postArrayPosition ?? 0].comments
+
+                DispatchQueue.main.async {
+                    self.commentsTableView.reloadData()
+                }
+                
+            }
+            
+        } else {
+            print("Document does not exist")
+        }
+
+        }
         
     }
+    
     
 
     
@@ -129,11 +192,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         //Slides comment editor up for message compsition if button pressed while editor is down
         if commentsTextView.isFirstResponder == false {
-            slideCommentEditorUp()
             commentsTextView.becomeFirstResponder()
-        }
-        
-        if commentsTextView.text != "" && commentsTextView.isFirstResponder == true {
+
+        } else if commentsTextView.text != "" && commentsTextView.isFirstResponder == true {
             
             commentTimestamp = Date().timeIntervalSince1970
             
@@ -151,7 +212,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             commentsTextView.resignFirstResponder()
             slideCommentEditorDown()
 
+            
         }
+        
+        
         
         delegate?.refreshtable()
 
@@ -204,10 +268,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if segueFromInbox == false {
-            print("ARRAY TOTAL")
-            print(commentsArray?.count)
-            print(formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments?.count ?? 0)
-            print(commentsArray)
+            
             return (formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments?.count ?? 0)
             
         } else if segueFromInbox == true {
@@ -302,7 +363,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     //This delegate is called when the scrollView (i.e your UITableView) will start scrolling
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.lastContentOffset = commentsTableView.contentOffset.y
-        print("Scroll")
         pointsScrolled = 0
     }
 
