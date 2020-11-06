@@ -20,14 +20,15 @@ public struct NearbyCellData {
     
 }
 
-
-struct NearbyArray {
+//Struct to contain new posts fetched from server at startup
+struct newlyFetchedNearbyPosts {
     
-    static var newlyFetchedNearbyPosts: [NearbyCellData] = []
+    static var newlyFetchedNearbyPostsArray: [NearbyCellData] = []
     
 }
 
-struct formattedPosts {
+//Struct to contain array that merges old Core Data posts and new posts
+struct nearbyPostsFinal {
     
-    static var formattedPostsArray: [NearbyCellData] = []
+    static var finalNearbyPostsArray: [NearbyCellData] = []
 }

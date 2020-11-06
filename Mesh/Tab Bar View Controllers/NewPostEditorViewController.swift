@@ -8,8 +8,15 @@
 
 import UIKit
 import Firebase
+import CoreData
 
-class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
+class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, updatePostingAsName {
+    
+    
+    func updatePostingAsLabel() {
+        print("NEWNAMEUDPATE")
+        organizePostingAsLabel()
+    }
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
@@ -32,6 +39,10 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     var newDocumentID: String?
     var newScore: Int32?
     
+    let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+    let randomInt: Int32 = Int32(Int.random(in: 1...100))
+
     
         
     override func viewDidLoad() {
@@ -52,6 +63,10 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
 
 
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        print("viewappeared")
+    }
     
     
     //Post button functionality - validates message, assigns timestamp, writes, and dismisses VC.
@@ -67,9 +82,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     //Handles writing new post to database
     func writePostToDatabase() {
-        
-        let randomInt: Int32 = Int32(Int.random(in: 1...100))
-        
+                
         newScore = randomInt
         
                 
@@ -80,8 +93,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             "author": UserInfo.userAppearanceName,
             "authorID": UserInfo.userID ?? "",
             "comments": testArray,
-            "locationCity": UserInfo.userCity ?? "",
-            "locationState": UserInfo.userState ?? "",
+            "locationCity": "Gainesville",
+            "locationState": "FL",
             "message": messageEditor.text ?? "",
             "score": randomInt,
             "timestamp": timestamp,
@@ -92,9 +105,10 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                 print(err.localizedDescription)
             } else {
                 print("Document successfully written")
-                print(ref?.documentID)
+                print(ref?.documentID ?? "")
                 self.newDocumentID = ref?.documentID
                 self.appendNewPostToArray()
+                self.addNewPostToCoreData()
 
                 
             }
@@ -104,7 +118,25 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
     }
     
-    
+    func addNewPostToCoreData() {
+        
+        let coreDataPostCell = NearbyPostsEntity(context: dataContext)
+                    
+        coreDataPostCell.author = UserInfo.userAppearanceName
+        coreDataPostCell.comments = testArray as NSObject
+        coreDataPostCell.documentID = newDocumentID
+        coreDataPostCell.message = messageEditor.text ?? ""
+        coreDataPostCell.score = randomInt
+        coreDataPostCell.timestamp = timestamp
+        
+        
+        do {
+            try dataContext.save()
+        }
+        catch {
+        }
+        
+    }
     
     //Locally appends nearby array with new post.
     func appendNewPostToArray() {
@@ -122,7 +154,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
         
         
-        formattedPosts.formattedPostsArray.insert(newPostData, at: 0)
+        nearbyPostsFinal.finalNearbyPostsArray.insert(newPostData, at: 0)
         
     }
     
@@ -171,7 +203,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
         let attributedPartOne = NSMutableAttributedString(string: "Posting as: ", attributes: partOneAttributes)
         
-        let attributedPartTwo = NSMutableAttributedString(string: UserInfo.userAppearanceName, attributes: partTwoAttributes)
+        let attributedPartTwo = NSMutableAttributedString(string: UserInfo.userAppearanceName ?? "", attributes: partTwoAttributes)
 
         attributedPartOne.append(attributedPartTwo)
         
@@ -207,5 +239,18 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         performSegue(withIdentifier: "newPostToChange", sender: self)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let appearingAsVC = segue.destination as? AppearAsViewController {
+            
+          
+            appearingAsVC.delegate = self
+            
+        }
+    }
+    
 
+    
+    
+    
 }

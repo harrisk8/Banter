@@ -78,7 +78,8 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
                 print(err.localizedDescription)
             } else {
                 print("Document successfully written")
-                print(ref!.documentID)
+                print("USER DOC ID:")
+                print(ref?.documentID)
             }
         }
     }

@@ -57,7 +57,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         super.viewDidLoad()
         
-        postMessage.text = formattedPosts.formattedPostsArray[postArrayPosition ?? 0].message
+        postMessage.text = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].message
 
     
         if postLoadedFromCoreData == true {
@@ -66,7 +66,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         } else {
             print("NEWPOST")
-            commentsArray = formattedPosts.formattedPostsArray[self.postArrayPosition ?? 0].comments
+            commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments
 
             DispatchQueue.main.async {
                 self.commentsTableView.reloadData()
@@ -99,7 +99,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     func updateOldPostData() {
         
-        let databaseRef = database.collection("posts").document(formattedPosts.formattedPostsArray[postArrayPosition ?? 0].documentID!)
+        let databaseRef = database.collection("posts").document(nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].documentID ?? "")
         
         databaseRef.getDocument { (document, error) in
             
@@ -128,16 +128,16 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                     loadedFromCoreData: true
                 )
                 
-                formattedPosts.formattedPostsArray.remove(at: self.postArrayPosition ?? 0)
-                formattedPosts.formattedPostsArray.append(updatedPostCell)
+                nearbyPostsFinal.finalNearbyPostsArray.remove(at: self.postArrayPosition ?? 0)
+                nearbyPostsFinal.finalNearbyPostsArray.append(updatedPostCell)
                 
-                formattedPosts.formattedPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
+                nearbyPostsFinal.finalNearbyPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
                     // you can have additional code here
                     return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
                     
                 }
                 
-                self.commentsArray = formattedPosts.formattedPostsArray[self.postArrayPosition ?? 0].comments
+                self.commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments
 
                 DispatchQueue.main.async {
                     self.commentsTableView.reloadData()
@@ -202,7 +202,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
             writeCommentToDatabase()
             
-            formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments?.append(commentData!)
+            nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].comments?.append(commentData!)
             commentsArray?.append(commentData!)
             
             DispatchQueue.main.async {
@@ -225,7 +225,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     func writeCommentToDatabase() {
         
-        let docID: String = formattedPosts.formattedPostsArray[postArrayPosition ?? 0].documentID ?? ""
+        let docID: String = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].documentID ?? ""
         print(docID)
         
         let databaseRef = database.collection("posts").document(docID)
@@ -269,7 +269,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         if segueFromInbox == false {
             
-            return (formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments?.count ?? 0)
+            return (nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].comments?.count ?? 0)
             
         } else if segueFromInbox == true {
             
@@ -292,7 +292,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "NearbyTableCell", for: indexPath) as! NearbyTableCell
         
         
-        if indexPath.row == (formattedPosts.formattedPostsArray[postArrayPosition ?? 0].comments?.count ?? 0) {
+        if indexPath.row == (nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].comments?.count ?? 0) {
             print("GO")
             
             cell.authorLabel?.text = "testcell"
