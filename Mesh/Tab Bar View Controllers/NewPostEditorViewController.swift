@@ -32,7 +32,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     let database = Firestore.firestore()
     
-    var timestamp: Double = 0
+    var timestampOfPostCreated: Double = 0
 
     var testArray: [[String: Any]] = []
     
@@ -42,8 +42,9 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     let randomInt: Int32 = Int32(Int.random(in: 1...100))
-
     
+    var timestampForFetchingPostsBeforeUsersPost: Double?
+
         
     override func viewDidLoad() {
         
@@ -73,31 +74,27 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     @IBAction func postMessagePressed(_ sender: Any) {
         print("write")
         if validateMessage() {
-            timestamp = Date().timeIntervalSince1970
+            timestampOfPostCreated = Date().timeIntervalSince1970
             writePostToDatabase()
-            dismiss(animated: true, completion: nil)
         }
     }
     
     
     //Handles writing new post to database
     func writePostToDatabase() {
-                
-        newScore = randomInt
-        
-                
+                        
         var ref: DocumentReference? = nil
 
         ref = database.collection("posts").addDocument(data: [
                         
-            "author": UserInfo.userAppearanceName,
+            "author": UserInfo.userAppearanceName as Any,
             "authorID": UserInfo.userID ?? "",
             "comments": testArray,
             "locationCity": "Gainesville",
             "locationState": "FL",
             "message": messageEditor.text ?? "",
             "score": randomInt,
-            "timestamp": timestamp,
+            "timestamp": timestampOfPostCreated,
             "lastCommentTimestamp": 0.0
         
         ]) { err in
@@ -106,9 +103,28 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             } else {
                 print("Document successfully written")
                 print(ref?.documentID ?? "")
+                
+                
+                
                 self.newDocumentID = ref?.documentID
+                
+                //Add user generated post to nearbyFinal array and then to Core Data
                 self.appendNewPostToArray()
                 self.addNewPostToCoreData()
+                
+                if nearbyPostsFinal.finalNearbyPostsArray.count != 0 {
+                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray = []
+                    self.timestampForFetchingPostsBeforeUsersPost = nearbyPostsFinal.finalNearbyPostsArray[1].timestamp ?? 0.0
+                    print(self.timestampForFetchingPostsBeforeUsersPost)
+                    print(self.timestampOfPostCreated)
+                    self.fetchPostsBeforeUsersPost()
+                } else {
+                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray = []
+                    self.timestampForFetchingPostsBeforeUsersPost = 0.0
+                    self.fetchPostsBeforeUsersPost()
+                }
+                
+                //IF STATEMENT EXECUTE ONLY IF NEARBY ARRAY IS NOT EMPTY TO AVOID CRASH CUZ OF NIL
 
                 
             }
@@ -118,6 +134,118 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
     }
     
+    func fetchPostsBeforeUsersPost() {
+        
+        database.collection("posts")
+            .whereField("timestamp", isGreaterThan: timestampForFetchingPostsBeforeUsersPost ?? 0.0)
+                .whereField("locationCity", isEqualTo: UserInfo.userCity ?? "")
+                .whereField("locationState", isEqualTo: UserInfo.userState ?? "")
+               .getDocuments() { (querySnapshot, err) in
+               if let err = err {
+                   print(err.localizedDescription)
+                   print("nodocs")
+               } else {
+                   for document in querySnapshot!.documents {
+                       let postData = document.data()
+                       
+                       if let postAuthor = postData["author"] as? String,
+                           let postMessage = postData["message"] as? String,
+                           let postScore = postData["score"] as? Int32?,
+                           let postTimestamp = postData["timestamp"] as? Double,
+                           let postComments = postData["comments"] as? [[String: AnyObject]]?,
+                           let postID = document.documentID as String?
+                       {
+                           let newPost = NearbyCellData(
+                               author: postAuthor,
+                               message: postMessage,
+                               score: postScore ?? 0,
+                               timestamp: postTimestamp,
+                               comments: postComments ?? nil,
+                               documentID: postID,
+                               loadedFromCoreData: false
+                            )
+                           
+                           newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.append(newPost)
+                           
+                       }
+                       
+                   }
+                
+               }
+                   
+                   //Prevents app from crashing if there are no new posts to load
+                if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0 {
+                    print("No new posts before the user created theirs")
+                    self.organizeNearbyArray()
+                    UserDefaults.standard.set(self.timestampOfPostCreated, forKey: "lastTimestampPulledFromServer")
+
+                        
+                } else if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count != 0 {
+                    UserDefaults.standard.set(self.timestampOfPostCreated, forKey: "lastTimestampPulledFromServer")
+                    
+                    self.appendPostsFetched()
+                    self.organizeNearbyArray()
+                   }
+        
+                   print("Number of new posts: " + String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count))
+                   print("NEW Post")
+                   print(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray)
+
+           }
+        
+        
+        
+    }
+    
+    func appendPostsFetched() {
+        
+        if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 1 {
+            
+            let coreDataPostCell = NearbyPostsEntity(context: dataContext)
+                        
+            coreDataPostCell.author = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].author
+            coreDataPostCell.comments = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].comments as NSArray?
+            coreDataPostCell.documentID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].documentID
+            coreDataPostCell.message = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].message
+            coreDataPostCell.score = (newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].score as Int32?) ?? 0
+            coreDataPostCell.timestamp = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp ?? 0.0
+            
+            print("Adding one post from refresh to Core Data")
+            
+            do {
+                try dataContext.save()
+            }
+            catch {
+            }
+            
+        } else if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count > 1 {
+            
+            for x in 0...((newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count) - 1) {
+                
+                let coreDataPostCell = NearbyPostsEntity(context: dataContext)
+                            
+                coreDataPostCell.author = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].author
+                coreDataPostCell.comments = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].comments as NSArray?
+                coreDataPostCell.documentID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].documentID
+                coreDataPostCell.message = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].message
+                coreDataPostCell.score = (newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].score as Int32?) ?? 0
+                coreDataPostCell.timestamp = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].timestamp ?? 0.0
+                
+                print("Adding multiple posts to Core Data")
+                
+                do {
+                    try dataContext.save()
+                }
+                catch {
+                }
+                
+            }
+        } else {
+            print("No new posts to add to Core Data")
+        }
+    }
+    
+    //Adds the post created by the user to Core Data
     func addNewPostToCoreData() {
         
         let coreDataPostCell = NearbyPostsEntity(context: dataContext)
@@ -127,7 +255,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         coreDataPostCell.documentID = newDocumentID
         coreDataPostCell.message = messageEditor.text ?? ""
         coreDataPostCell.score = randomInt
-        coreDataPostCell.timestamp = timestamp
+        coreDataPostCell.timestamp = timestampOfPostCreated
         
         
         do {
@@ -138,23 +266,36 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
     }
     
-    //Locally appends nearby array with new post.
+    //Locally appends nearby array with new post created by the user.
     func appendNewPostToArray() {
 
-        
         let newPostData = NearbyCellData(
             author: UserInfo.userAppearanceName,
             message: messageEditor.text,
-            score: newScore as Int32?,
-            timestamp: timestamp,
+            score: randomInt,
+            timestamp: timestampOfPostCreated,
             comments: testArray as [[String : AnyObject]],
             documentID: newDocumentID,
             loadedFromCoreData: false
         )
         
-        
-        
         nearbyPostsFinal.finalNearbyPostsArray.insert(newPostData, at: 0)
+        
+    }
+    
+    func organizeNearbyArray() {
+        
+        nearbyPostsFinal.finalNearbyPostsArray.append(contentsOf: newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray)
+        
+        //Sort by timestamp
+        nearbyPostsFinal.finalNearbyPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
+            return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
+        }
+        
+        if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count != 0 {
+            nearbyPostsFinal.finalNearbyPostsArray.remove(at: 0)
+        }
+        dismiss(animated: true, completion: nil)
         
     }
     

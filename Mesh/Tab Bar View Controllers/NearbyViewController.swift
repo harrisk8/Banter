@@ -30,9 +30,11 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     var lastCoreDataTimestamp: Double?
     var timestampRefreshed: Double?
+    var lastTimestampPulledFromServer = 0.0
     
     var oldNearbyPosts: [NearbyCellData] = []
     var newlyFetchedPosts: [NearbyCellData] = []
+    var refreshFetchedPosts: [NearbyCellData] = []
         
     
     
@@ -253,7 +255,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     func fetchNewPosts() {
         
         database.collection("posts")
-            .whereField("timestamp", isGreaterThan: lastCoreDataTimestamp!)
+            .whereField("timestamp", isGreaterThan: lastTimestampPulledFromServer)
             .whereField("locationCity", isEqualTo: UserInfo.userCity ?? "")
             .whereField("locationState", isEqualTo: UserInfo.userState ?? "")
             .getDocuments() { (querySnapshot, err) in
@@ -288,6 +290,15 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                 
             }
                 
+                //Prevents app from crashing if there are no new posts to load
+                if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0 {
+                    //No new posts
+                    
+                } else if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count != 0 {
+                    self.lastTimestampPulledFromServer = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp ?? 0.0
+                    UserDefaults.standard.set(self.lastTimestampPulledFromServer, forKey: "lastTimestampPulledFromServer")
+                }
+     
                 print("Number of new posts: " + String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count))
                 print("NEW Post")
                 print(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray)
@@ -332,6 +343,15 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                             newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.append(newPost)
                             
                         }
+                    }
+                    
+                    //Sets lastTimestampPulledFromServer to 0 if user launches for first time in location with zero content
+                    if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0 {
+                        self.lastTimestampPulledFromServer = 0.0
+                        UserDefaults.standard.set(0.0, forKey: "lastTimestampPulledFromServer")
+                    } else if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count != 0 {
+                        self.lastTimestampPulledFromServer = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp ?? 0.0
+                        UserDefaults.standard.set(self.lastTimestampPulledFromServer, forKey: "lastTimestampPulledFromServer")
                     }
                     
                     self.addPostsToCoreData()
@@ -386,11 +406,16 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             lastCoreDataTimestamp = 0.0
         }
         
+        lastTimestampPulledFromServer = UserDefaults.standard.double(forKey: "lastTimestampPulledFromServer")
+        
         
     }
     
     //Refreshes tableview after user returns to screen from new post
     override func viewDidAppear(_ animated: Bool) {
+        
+        lastTimestampPulledFromServer = UserDefaults.standard.double(forKey: "lastTimestampPulledFromServer")
+
         
         DispatchQueue.main.async {
             self.nearbyTableView.reloadData()
@@ -423,7 +448,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         cell.authorLabel?.text = String(nearbyCellData.author ?? "")
         cell.messageLabel?.text = String(nearbyCellData.message! )
         cell.timestampLabel?.text = formatPostTime(postTimestamp: nearbyCellData.timestamp!)
-        cell.postScoreLabel?.text = String(nearbyCellData.score!)
+        cell.postScoreLabel?.text = String(nearbyCellData.score ?? 0)
         
         if commentsCount > 1 {
             cell.commentLabel?.text = String(commentsCount) + " comments"
@@ -531,23 +556,23 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
 
         if CLLocationManager.locationServicesEnabled() == true {
 
-        if (CLLocationManager.authorizationStatus() == .denied) {
-            // The user denied authorization
-            print("LOCATION SERVICES: DENIED")
+            if (CLLocationManager.authorizationStatus() == .denied) {
+                // The user denied authorization
+                print("LOCATION SERVICES: DENIED")
 
-        } else if (CLLocationManager.authorizationStatus() == .notDetermined) {
-            // The user not determiend authorization
-            print("LOCATION SERVICES: UNKNOWN")
+            } else if (CLLocationManager.authorizationStatus() == .notDetermined) {
+                // The user not determiend authorization
+                print("LOCATION SERVICES: UNKNOWN")
 
+            } else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse) {
+                print("LOCATION SERVICES: AUTHORIZED")
+                lookUpCurrentLocation(completionHandler: {_ in
+                    })
 
-        } else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse) {
-            print("LOCATION SERVICES: AUTHORIZED")
-            lookUpCurrentLocation(completionHandler: {_ in
-                })
-
-        } else {
-                   
-        }
+            } else {
+                   print("Please enable location in settings")
+            }
+            
                
         } else {
             //Access to user location permission denied!
@@ -591,8 +616,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
            }
        }
     
-    
     @objc func refreshedTableView() {
+        refreshFetchedPosts = []
         checkNewPostsForRefresh()
         self.refreshControl.endRefreshing()
     }
@@ -602,7 +627,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         print("Checking for new posts")
         
         database.collection("posts")
-            .whereField("timestamp", isGreaterThan: nearbyPostsFinal.finalNearbyPostsArray[0].timestamp ?? 0)
+            .whereField("timestamp", isGreaterThan: lastTimestampPulledFromServer)
             .whereField("locationCity", isEqualTo: UserInfo.userCity ?? "")
             .whereField("locationState", isEqualTo: UserInfo.userState ?? "")
             .getDocuments() { (querySnapshot, err) in
@@ -629,26 +654,88 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                         )
                         
                         print(newPost)
-                        nearbyPostsFinal.finalNearbyPostsArray.insert(newPost, at: 0)
+                        
+                        //Appends new post to intermediate refresh array
+                        self.refreshFetchedPosts.insert(newPost, at: 0)
                         
                     }
                 }
                 
-                nearbyPostsFinal.finalNearbyPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
-                    // you can have additional code here
-                    return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
+                //Updates lastTimestampPulledFromServer only if new post is fetched
+                if self.refreshFetchedPosts.count != 0 {
+                    //Stores the latest timestamp of data pulled from server.
+                    self.lastTimestampPulledFromServer = self.refreshFetchedPosts[0].timestamp ?? 0.0
+                    
+                    //Stores latest timestamp to user defaults
+                    UserDefaults.standard.set(self.lastTimestampPulledFromServer, forKey: "lastTimestampPulledFromServer")
                 }
                 
+                //Adds all posts from the intermediate refresh array to final nearby array
+                nearbyPostsFinal.finalNearbyPostsArray.append(contentsOf: self.refreshFetchedPosts)
+                
+                //Sort by timestamp
+                nearbyPostsFinal.finalNearbyPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
+                    return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
+                }
                 
                 DispatchQueue.main.async {
                     self.nearbyTableView.reloadData()
                 }
                 
-                
+                self.addPostsPulledFromRefreshToCoreData()
             }
         }
     }
 
+    func addPostsPulledFromRefreshToCoreData() {
+                
+        if refreshFetchedPosts.count == 1 {
+            
+            let coreDataPostCell = NearbyPostsEntity(context: dataContext)
+                        
+            coreDataPostCell.author = refreshFetchedPosts[0].author
+            coreDataPostCell.comments = refreshFetchedPosts[0].comments as NSArray?
+            coreDataPostCell.documentID = refreshFetchedPosts[0].documentID
+            coreDataPostCell.message = refreshFetchedPosts[0].message
+            coreDataPostCell.score = (refreshFetchedPosts[0].score as Int32?) ?? 0
+            coreDataPostCell.timestamp = refreshFetchedPosts[0].timestamp ?? 0.0
+            
+            print("Adding one post from refresh to Core Data")
+            
+            do {
+                try dataContext.save()
+            }
+            catch {
+            }
+            
+        } else if refreshFetchedPosts.count > 1 {
+            
+            for x in 0...((refreshFetchedPosts.count) - 1) {
+                
+                let coreDataPostCell = NearbyPostsEntity(context: dataContext)
+                            
+                coreDataPostCell.author = refreshFetchedPosts[x].author
+                coreDataPostCell.comments = refreshFetchedPosts[x].comments as NSArray?
+                coreDataPostCell.documentID = refreshFetchedPosts[x].documentID
+                coreDataPostCell.message = refreshFetchedPosts[x].message
+                coreDataPostCell.score = (refreshFetchedPosts[x].score as Int32?) ?? 0
+                coreDataPostCell.timestamp = refreshFetchedPosts[x].timestamp ?? 0.0
+                
+                print("Adding multiple posts to Core Data")
+                
+                do {
+                    try dataContext.save()
+                }
+                catch {
+                }
+                
+            }
+        } else {
+            print("No new posts to add to Core Data")
+        }
+        
+                
+    }
     
     //Delegate method which is called when user closes comments VC, functionally updates comment counter on table cell
     func refreshtable() {

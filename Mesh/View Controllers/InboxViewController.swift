@@ -30,7 +30,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     var newNotificationsArray: [NearbyCellData] = []
     
     var selectedCellIndex: Int?
-    
+        
     
     
     override func viewDidLoad() {
@@ -41,7 +41,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
 
         lastCommentTimestamp = UserDefaults.standard.double(forKey: "lastCommentTimestamp")
         
-        print(lastCommentTimestamp)
+        print(lastCommentTimestamp ?? 0)
         
         
         inboxTableView.dataSource = self
@@ -55,15 +55,15 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
         inboxTableView.layoutMargins = .zero
         inboxTableView.separatorInset = .zero
         
-//        fetchNewNotifications()
+        fetchNewNotifications()
         
-        print(UserInfo.userID)
+        print(UserInfo.userID ?? "")
 
     }
     
     func getPostData() {
         let thedocid = InboxArray.inboxArrayNew[selectedCellIndex!].documentID
-        print(thedocid)
+        print(thedocid ?? "")
     }
     
     
@@ -89,7 +89,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     
         database.collection("posts")
             .whereField("authorID", isEqualTo: UserInfo.userID ?? "")
-            .whereField("lastCommentTimestamp", isGreaterThan: lastCommentTimestamp ?? 0.0)
+            .whereField("lastCommentTimestamp", isGreaterThan: 0)
             .getDocuments() { (querySnapshot, err) in
                 
                 if let err = err {
