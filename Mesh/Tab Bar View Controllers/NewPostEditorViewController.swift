@@ -88,8 +88,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         ref = database.collection("posts").addDocument(data: [
                         
             "author": UserInfo.userAppearanceName as Any,
-            "authorID": UserInfo.userID ?? "",
-            "comments": testArray,
+            "userDocID": UserInfo.userCollectionDocID ?? "",
+//            "comments": testArray,
             "locationCity": "Gainesville",
             "locationState": "FL",
             "message": messageEditor.text ?? "",
@@ -110,9 +110,14 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                 
                 //Add user generated post to nearbyFinal array and then to Core Data
                 self.appendNewPostToArray()
-                self.addNewPostToCoreData()
                 
-                if nearbyPostsFinal.finalNearbyPostsArray.count != 0 {
+                if nearbyPostsFinal.finalNearbyPostsArray.count == 1 {
+                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray = []
+                    self.timestampForFetchingPostsBeforeUsersPost = nearbyPostsFinal.finalNearbyPostsArray[0].timestamp ?? 0.0
+                    print(self.timestampForFetchingPostsBeforeUsersPost)
+                    print(self.timestampOfPostCreated)
+                    self.fetchPostsBeforeUsersPost()
+                } else if nearbyPostsFinal.finalNearbyPostsArray.count > 1 {
                     newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray = []
                     self.timestampForFetchingPostsBeforeUsersPost = nearbyPostsFinal.finalNearbyPostsArray[1].timestamp ?? 0.0
                     print(self.timestampForFetchingPostsBeforeUsersPost)
@@ -124,6 +129,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                     self.fetchPostsBeforeUsersPost()
                 }
                 
+                
+                
                 //IF STATEMENT EXECUTE ONLY IF NEARBY ARRAY IS NOT EMPTY TO AVOID CRASH CUZ OF NIL
 
                 
@@ -133,6 +140,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
         
     }
+    
     
     func fetchPostsBeforeUsersPost() {
         
@@ -153,7 +161,9 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                            let postScore = postData["score"] as? Int32?,
                            let postTimestamp = postData["timestamp"] as? Double,
                            let postComments = postData["comments"] as? [[String: AnyObject]]?,
-                           let postID = document.documentID as String?
+                           let postID = document.documentID as String?,
+                            let postUserDocID = postData["userDocID"] as? String
+                            
                        {
                            let newPost = NearbyCellData(
                                author: postAuthor,
@@ -162,7 +172,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                                timestamp: postTimestamp,
                                comments: postComments ?? nil,
                                documentID: postID,
-                               loadedFromCoreData: false
+                               loadedFromCoreData: false,
+                               userDocID: postUserDocID
                             )
                            
                            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.append(newPost)
@@ -209,6 +220,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             coreDataPostCell.message = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].message
             coreDataPostCell.score = (newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].score as Int32?) ?? 0
             coreDataPostCell.timestamp = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp ?? 0.0
+            coreDataPostCell.userDocID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].userDocID
             
             print("Adding one post from refresh to Core Data")
             
@@ -230,6 +242,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                 coreDataPostCell.message = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].message
                 coreDataPostCell.score = (newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].score as Int32?) ?? 0
                 coreDataPostCell.timestamp = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].timestamp ?? 0.0
+                coreDataPostCell.userDocID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].userDocID
+
                 
                 print("Adding multiple posts to Core Data")
                 
@@ -247,6 +261,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     //Adds the post created by the user to Core Data
     func addNewPostToCoreData() {
+        print("Appending the users post to core data")
         
         let coreDataPostCell = NearbyPostsEntity(context: dataContext)
                     
@@ -256,6 +271,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         coreDataPostCell.message = messageEditor.text ?? ""
         coreDataPostCell.score = randomInt
         coreDataPostCell.timestamp = timestampOfPostCreated
+        coreDataPostCell.userDocID = UserInfo.userCollectionDocID
         
         
         do {
@@ -276,7 +292,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             timestamp: timestampOfPostCreated,
             comments: testArray as [[String : AnyObject]],
             documentID: newDocumentID,
-            loadedFromCoreData: false
+            loadedFromCoreData: false,
+            userDocID: UserInfo.userCollectionDocID
         )
         
         nearbyPostsFinal.finalNearbyPostsArray.insert(newPostData, at: 0)

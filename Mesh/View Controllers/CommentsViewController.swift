@@ -35,7 +35,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
     var commentData: [String: AnyObject]?
     
-    var commentsArray: [[String: AnyObject]]?
+    var notificationData: [String: AnyObject]?
+    
+    var commentsArray: [[String: AnyObject]] = []
     
     var didFastSwipe = false
     
@@ -60,20 +62,25 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         postMessage.text = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].message
 
     
-        if postLoadedFromCoreData == true {
-            print("OLD POST")
-            updateOldPostData()
-            
-        } else {
-            print("NEWPOST")
-            commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments
-
-            DispatchQueue.main.async {
-                self.commentsTableView.reloadData()
-            }
-        }
-    
+//        if postLoadedFromCoreData == true {
+//            print("OLD POST")
+//            updateOldPostData()
+//
+//        } else {
+//            print("NEWPOST")
+//            commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments
+//
+//            DispatchQueue.main.async {
+//                self.commentsTableView.reloadData()
+//            }
+//        }
         
+        
+        
+        commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments ?? []
+
+        print("COMMENT ARRAY COUNT")
+        print(commentsArray.count)
 
         commentsTableView.dataSource = self
         commentsTableView.delegate = self
@@ -97,61 +104,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
     }
     
-    func updateOldPostData() {
-        
-        let databaseRef = database.collection("posts").document(nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].documentID ?? "")
-        
-        databaseRef.getDocument { (document, error) in
-            
-        if let document = document, document.exists {
-            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-            print("Document data: \(dataDescription)")
-            print("FETCHEDDOC")
-            print(document.data() as Any)
-            
-            let postData = document.data()
-            
-            if let postAuthor = postData?["author"] as? String,
-                let postMessage = postData?["message"] as? String,
-                let postScore = postData?["score"] as? Int32?,
-                let postTimestamp = postData?["timestamp"] as? Double,
-                let postComments = postData?["comments"] as? [[String: AnyObject]]?,
-                let postID = document.documentID as String?
-            {
-                let updatedPostCell = NearbyCellData(
-                    author: postAuthor,
-                    message: postMessage,
-                    score: postScore,
-                    timestamp: postTimestamp,
-                    comments: postComments,
-                    documentID: postID,
-                    loadedFromCoreData: true
-                )
-                
-                nearbyPostsFinal.finalNearbyPostsArray.remove(at: self.postArrayPosition ?? 0)
-                nearbyPostsFinal.finalNearbyPostsArray.append(updatedPostCell)
-                
-                nearbyPostsFinal.finalNearbyPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
-                    // you can have additional code here
-                    return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
-                    
-                }
-                
-                self.commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments
 
-                DispatchQueue.main.async {
-                    self.commentsTableView.reloadData()
-                }
-                
-            }
-            
-        } else {
-            print("Document does not exist")
-        }
-
-        }
-        
-    }
     
     
 
@@ -171,22 +124,14 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         print("tap")
         print(indexPath.row)
         
-        
         if commentsTextView.isFirstResponder == true {
             commentsTextView.resignFirstResponder()
             slideCommentEditorDown()
             
         }
-  
-    
         commentsTableView.deselectRow(at: indexPath, animated: false)
         print("deselect")
-
     }
-    
-  
-    
-
     
     @IBAction func postCommentPressed(_ sender: Any) {
         
@@ -200,10 +145,14 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
             commentData = ["author" : UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject, "commentTimestamp" : commentTimestamp as AnyObject]
             
+            notificationData = ["author": "asdf" as AnyObject]
+            
             writeCommentToDatabase()
             
             nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].comments?.append(commentData!)
-            commentsArray?.append(commentData!)
+            
+            commentsArray.append(commentData!)
+            print(commentsArray.count)
             
             DispatchQueue.main.async {
                 self.commentsTableView.reloadData()
@@ -214,12 +163,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
             
         }
-        
-        
-        
         delegate?.refreshtable()
 
-        
     }
     
     
@@ -242,10 +187,33 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 print(err.localizedDescription)
             } else {
                 print("Document successfully written")
+                self.writeNotificationToDatabase()
             }
         }
         
+    }
+    
+    func writeNotificationToDatabase() {
         
+        let userDocID: String = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].userDocID ?? ""
+        
+
+
+        database.collection("users").document(userDocID).collection("notifications").addDocument(data:[
+
+            "comments": FieldValue.arrayUnion([commentData!]),
+            "commentTimestamp": commentTimestamp ?? 0.0,
+            "userDocID": UserInfo.userCollectionDocID,
+            "author": UserInfo.userAppearanceName
+            
+
+        ]) { err in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                print("Document successfully written")
+            }
+        }
         
     }
     
@@ -268,8 +236,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if segueFromInbox == false {
-            
-            return (nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].comments?.count ?? 0)
+                        
+            return commentsArray.count ?? 0
             
         } else if segueFromInbox == true {
             
@@ -303,10 +271,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         }
         
         
-        cell.authorLabel?.text = commentsArray?[indexPath.row]["author"] as? String
-        
-        
-        cell.messageLabel?.text = commentsArray?[indexPath.row]["message"] as? String
+        cell.authorLabel?.text = commentsArray[indexPath.row]["author"] as? String
+        cell.messageLabel?.text = commentsArray[indexPath.row]["message"] as? String
         cell.timestampLabel?.text = "5"
         
         return cell
@@ -470,6 +436,62 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     }
     
     
-    
+    func updateOldPostData() {
+        
+        let databaseRef = database.collection("posts").document(nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].documentID ?? "")
+        
+        databaseRef.getDocument { (document, error) in
+            
+        if let document = document, document.exists {
+            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+            print("Document data: \(dataDescription)")
+            print("FETCHEDDOC")
+            print(document.data() as Any)
+            
+            let postData = document.data()
+            
+            if let postAuthor = postData?["author"] as? String,
+                let postMessage = postData?["message"] as? String,
+                let postScore = postData?["score"] as? Int32?,
+                let postTimestamp = postData?["timestamp"] as? Double,
+                let postComments = postData?["comments"] as? [[String: AnyObject]]?,
+                let postID = document.documentID as String?,
+                let postUserDocID = postData?["userDocID"] as? String
+            {
+                let updatedPostCell = NearbyCellData(
+                    author: postAuthor,
+                    message: postMessage,
+                    score: postScore,
+                    timestamp: postTimestamp,
+                    comments: postComments,
+                    documentID: postID,
+                    loadedFromCoreData: true,
+                    userDocID: postUserDocID
+                )
+                
+                nearbyPostsFinal.finalNearbyPostsArray.remove(at: self.postArrayPosition ?? 0)
+                nearbyPostsFinal.finalNearbyPostsArray.append(updatedPostCell)
+                
+                nearbyPostsFinal.finalNearbyPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
+                    // you can have additional code here
+                    return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
+                    
+                }
+                
+                self.commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments ?? []
+
+                DispatchQueue.main.async {
+                    self.commentsTableView.reloadData()
+                }
+                
+            }
+            
+        } else {
+            print("Document does not exist")
+        }
+
+        }
+        
+    }
     
 }

@@ -48,6 +48,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                 
         let userID = Auth.auth().currentUser!.uid
         UserInfo.userID = userID
+        print(UserInfo.userID)
     
         locationManager.delegate = self
         
@@ -81,6 +82,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         UserInfo.userAppearanceName = "Harris"
         
 //        testingUpdate()
+        
+        getUserDocID()
 
     }
     
@@ -131,6 +134,10 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             
             print("EXISTING USER")
             
+            UserInfo.userCollectionDocID = UserDefaults.standard.string(forKey: "userCollectionDocID")
+            print("USERDOCID")
+            print(UserInfo.userCollectionDocID)
+            
             readLocalData()
             retrieveLastPostTimestamp()
                         
@@ -158,6 +165,37 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
+    func getUserDocID() {
+        
+        database.collection("users")
+            .whereField("userID", isEqualTo: UserInfo.userID ?? "")
+        .getDocuments() { (querySnapshot, err) in
+            
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                
+                for document in querySnapshot!.documents {
+                    
+                    let postData = document.data()
+                    
+                    if let postID = document.documentID as String? {
+                        
+                        UserInfo.userCollectionDocID = postID
+                        print("PULLED NEW DOC ID")
+                        print(UserInfo.userCollectionDocID)
+                        UserDefaults.standard.set(UserInfo.userCollectionDocID, forKey: "userCollectionDocID")
+                    
+                    }
+                }
+
+            }
+        }
+        
+    }
+        
+        
+    
     func readLocalData() {
             
         do {
@@ -184,7 +222,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                     timestamp: oldPostsFetchedFromCoreData?[x].timestamp as Double?,
                     comments: oldPostsFetchedFromCoreData?[x].comments as? [[String: AnyObject]],
                     documentID: oldPostsFetchedFromCoreData?[x].documentID as String?,
-                    loadedFromCoreData: true
+                    loadedFromCoreData: true,
+                    userDocID: oldPostsFetchedFromCoreData?[x].userDocID as String?
                 )
                 
                 //Add post pulled from Core Data to old posts array (intermediate array)
@@ -210,6 +249,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             coreDataPostCell.message = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].message
             coreDataPostCell.score = (newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].score as Int32?) ?? 0
             coreDataPostCell.timestamp = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp ?? 0.0
+            coreDataPostCell.userDocID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].userDocID ?? ""
+            
             
             print("Adding one new post to CoreData")
             
@@ -231,6 +272,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                 coreDataPostCell.message = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].message
                 coreDataPostCell.score = (newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].score as Int32?) ?? 0
                 coreDataPostCell.timestamp = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].timestamp ?? 0.0
+                coreDataPostCell.userDocID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].userDocID ?? ""
+
                 
                 print("Adding multiple posts to Core Data")
                 
@@ -271,7 +314,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                         let postScore = postData["score"] as? Int32?,
                         let postTimestamp = postData["timestamp"] as? Double,
                         let postComments = postData["comments"] as? [[String: AnyObject]]?,
-                        let postID = document.documentID as String?
+                        let postID = document.documentID as String?,
+                        let postUserDocID = postData["userDocID"] as? String
                     {
                         let newPost = NearbyCellData(
                             author: postAuthor,
@@ -280,7 +324,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                             timestamp: postTimestamp,
                             comments: postComments ?? nil,
                             documentID: postID,
-                            loadedFromCoreData: false                        )
+                            loadedFromCoreData: false,
+                            userDocID: postUserDocID
+                            )
                         
                         newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.append(newPost)
                         
@@ -329,7 +375,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                             let postScore = postData["score"] as? Int32?,
                             let postTimestamp = postData["timestamp"] as? Double,
                             let postComments = postData["comments"] as? [[String: AnyObject]]?,
-                            let postID = document.documentID as String?
+                            let postID = document.documentID as String?,
+                            let postUserDocID = postData["userDocID"] as? String
+
                         {
                             let newPost = NearbyCellData(
                                 author: postAuthor,
@@ -337,7 +385,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                                 score: postScore ?? 0,
                                 timestamp: postTimestamp,
                                 comments: postComments ?? nil,
-                                documentID: postID
+                                documentID: postID,
+                                userDocID: postUserDocID
                             )
                             
                             newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.append(newPost)

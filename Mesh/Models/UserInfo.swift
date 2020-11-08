@@ -19,5 +19,6 @@ class UserInfo {
     static var userState: String?
     static var refreshTime: Double?
     static var keyboardHeight: Double?
+    static var userCollectionDocID: String?
 
 }

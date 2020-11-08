@@ -2,7 +2,7 @@
 //  NearbyPostsEntity+CoreDataProperties.swift
 //  Mesh
 //
-//  Created by Harris Kapoor on 10/8/20.
+//  Created by Harris Kapoor on 11/7/20.
 //  Copyright © 2020 Avidi Technologies. All rights reserved.
 //
 //
@@ -21,8 +21,9 @@ extension NearbyPostsEntity {
     @NSManaged public var comments: NSObject?
     @NSManaged public var documentID: String?
     @NSManaged public var message: String?
+    @NSManaged public var postUUID: UUID?
     @NSManaged public var score: Int32
     @NSManaged public var timestamp: Double
-    @NSManaged public var postUUID: UUID?
+    @NSManaged public var userDocID: String?
 
 }

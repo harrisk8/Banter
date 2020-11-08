@@ -147,6 +147,8 @@
 		6F56A1B7252D61C4005CB028 /* CoreData Models */ = {
 			isa = PBXGroup;
 			children = (
+				6F56A1BA252FB2DD005CB028 /* NearbyPostsEntity+CoreDataClass.swift */,
+				6F56A1BB252FB2DD005CB028 /* NearbyPostsEntity+CoreDataProperties.swift */,
 				6F837CCA252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataClass.swift */,
 				6F837CCB252BAE0800A18420 /* LastCommentTimestampEntity+CoreDataProperties.swift */,
 			);
@@ -254,8 +256,6 @@
 		6FFD629324DE370D00D5B96D = {
 			isa = PBXGroup;
 			children = (
-				6F56A1BA252FB2DD005CB028 /* NearbyPostsEntity+CoreDataClass.swift */,
-				6F56A1BB252FB2DD005CB028 /* NearbyPostsEntity+CoreDataProperties.swift */,
 				6FFD629E24DE370D00D5B96D /* Mesh */,
 				6FFD629D24DE370D00D5B96D /* Products */,
 				5C20677268755A7D16E21738 /* Pods */,
