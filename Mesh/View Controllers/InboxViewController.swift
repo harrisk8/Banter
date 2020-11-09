@@ -12,10 +12,7 @@ import Firebase
 
 class InboxViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    
-    
     @IBOutlet weak var inboxTableView: UITableView!
-    
     
     let database = Firestore.firestore()
     
@@ -31,7 +28,6 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var selectedCellIndex: Int?
         
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -9,6 +9,7 @@
 import UIKit
 import QuartzCore
 import Firebase
+import CoreData
 
 protocol refreshNearbyTable {
     func refreshtable()
@@ -51,6 +52,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     var postLoadedFromCoreData: Bool?
 
+    let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var docID: String = ""
+
     
     override func viewDidLoad() {
         
@@ -81,6 +86,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
         print("COMMENT ARRAY COUNT")
         print(commentsArray.count)
+        
+        if commentsArray.count == 0 {
+            nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments = []
+        }
 
         commentsTableView.dataSource = self
         commentsTableView.delegate = self
@@ -101,6 +110,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         panRecognizer.delegate = self
 
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        docID = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].documentID ?? ""
+
 
     }
     
@@ -143,13 +155,15 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
             commentTimestamp = Date().timeIntervalSince1970
             
-            commentData = ["author" : UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject, "commentTimestamp" : commentTimestamp as AnyObject]
+            commentData = ["author" : UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject, "commentTimestamp" : commentTimestamp as AnyObject, "userDocID" : UserInfo.userCollectionDocID as AnyObject]
             
-            notificationData = ["author": "asdf" as AnyObject]
+            notificationData = ["author": UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject, "notificationTimestamp" : commentTimestamp as AnyObject]
             
             writeCommentToDatabase()
             
             nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].comments?.append(commentData!)
+            
+            //Create function to update coredata
             
             commentsArray.append(commentData!)
             print(commentsArray.count)
@@ -160,9 +174,15 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
             commentsTextView.resignFirstResponder()
             slideCommentEditorDown()
+            
+            print("CommentsArray content:")
+            print(commentsArray)
+            
+            testingUpdate()
 
             
         }
+        
         delegate?.refreshtable()
 
     }
@@ -170,52 +190,27 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     func writeCommentToDatabase() {
         
-        let docID: String = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].documentID ?? ""
+        
         print(docID)
         
         let databaseRef = database.collection("posts").document(docID)
 
-
         databaseRef.updateData([
 
-            "comments": FieldValue.arrayUnion([commentData!]),
-            "lastCommentTimestamp": commentTimestamp ?? 0.0
+            "comments": FieldValue.arrayUnion([commentData as Any]),
+            "lastCommentTimestamp": commentTimestamp ?? 0.0,
+            "notifications": FieldValue.arrayUnion([notificationData as Any])
             
-
         ]) { err in
             if let err = err {
                 print(err.localizedDescription)
             } else {
                 print("Document successfully written")
-                self.writeNotificationToDatabase()
             }
         }
         
     }
     
-    func writeNotificationToDatabase() {
-        
-        let userDocID: String = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].userDocID ?? ""
-        
-
-
-        database.collection("users").document(userDocID).collection("notifications").addDocument(data:[
-
-            "comments": FieldValue.arrayUnion([commentData!]),
-            "commentTimestamp": commentTimestamp ?? 0.0,
-            "userDocID": UserInfo.userCollectionDocID,
-            "author": UserInfo.userAppearanceName
-            
-
-        ]) { err in
-            if let err = err {
-                print(err.localizedDescription)
-            } else {
-                print("Document successfully written")
-            }
-        }
-        
-    }
     
     
     //Slides comment editor view up over table view
@@ -237,7 +232,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         if segueFromInbox == false {
                         
-            return commentsArray.count ?? 0
+            return commentsArray.count 
             
         } else if segueFromInbox == true {
             
@@ -254,21 +249,21 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     //Populates table cells with data from array
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        print(indexPath.row)
         
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "NearbyTableCell", for: indexPath) as! NearbyTableCell
         
         
-        if indexPath.row == (nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].comments?.count ?? 0) {
-            print("GO")
-            
-            cell.authorLabel?.text = "testcell"
-            cell.messageLabel?.text = "testcell"
-            cell.timestampLabel?.text = "testcell"
-            
-            return cell
-        }
+//        if indexPath.row == (nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].comments?.count ?? 0) {
+//
+//            print("GO")
+//
+//            cell.authorLabel?.text = "testcell"
+//            cell.messageLabel?.text = "testcell"
+//            cell.timestampLabel?.text = "testcell"
+//
+//            return cell
+//        }
         
         
         cell.authorLabel?.text = commentsArray[indexPath.row]["author"] as? String
@@ -302,6 +297,39 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
         }
     
+    }
+    
+    //Updates user's posted comment to CoreData for the appropriate object. Predicated by docID
+    func testingUpdate() {
+    
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        
+        let dataContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "NearbyPostsEntity")
+        
+        fetchRequest.predicate = NSPredicate(format: "documentID = %@", docID)
+        
+        do {
+            
+            let test = try dataContext.fetch(fetchRequest)
+            
+            let objectUpdate = test as NSObject
+            
+            objectUpdate.setValue(commentsArray, forKey: "comments")
+            
+            do {
+                try dataContext.save()
+            }
+            catch {
+                print(error)
+            }
+            
+        }
+        catch {
+            print(error)
+        }
+        
     }
     
     //Converts timestamp from 'seconds since 1970' to readable format
