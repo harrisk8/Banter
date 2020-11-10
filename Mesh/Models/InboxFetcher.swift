@@ -19,16 +19,17 @@ protocol updateInboxBadge {
 class InboxFetcher {
     
     let database = Firestore.firestore()
+    
     var lastCommentTimestamp = UserDefaults.standard.double(forKey: "lastCommentTimestamp")
     
     static var delegate: updateInboxBadge?
 
     func getNewNotifications() {
         
-        print("GO")
+        print("Fetching new notifications")
         
         database.collection("posts")
-        .whereField("authorID", isEqualTo: UserInfo.userID ?? "")
+        .whereField("userDocID", isEqualTo: "DzlKdTwTGSM5WdMQikmF")
         .whereField("lastCommentTimestamp", isGreaterThan: 0)
         .getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -36,6 +37,7 @@ class InboxFetcher {
                 print("nodocs")
             } else {
                 for document in querySnapshot!.documents {
+                    
                     let postData = document.data()
                     
                     if let postAuthor = postData["author"] as? String,
@@ -44,7 +46,9 @@ class InboxFetcher {
                         let postTimestamp = postData["timestamp"] as? Double,
                         let postComments = postData["comments"] as? [[String: AnyObject]]?,
                         let postID = document.documentID as String?,
-                        let postLastCommentTimestamp = postData["lastCommentTimestamp"] as? Double
+                        let postLastCommentTimestamp = postData["lastCommentTimestamp"] as? Double,
+                        let postNotifications = postData["notifications"] as? [[String: AnyObject]]?,
+                        let postUserDocID = postData["userDocID"] as? String
                     {
                         let newPost = InboxCellData(
                             author: postAuthor,
@@ -53,19 +57,54 @@ class InboxFetcher {
                             timestamp: postTimestamp,
                             comments: postComments ?? nil,
                             documentID: postID,
-                            lastCommentTimestamp: postLastCommentTimestamp
+                            lastCommentTimestamp: postLastCommentTimestamp,
+                            notifications: postNotifications ?? nil,
+                            userDocID: postUserDocID
                         )
                         
-                        print("NEWPOSTSFORNOTIF")
+                        print("Adding post to inbox array")
 //                        print(newPost)
                         InboxArray.inboxArrayNew.append(newPost)
+                        print(newPost)
                         
-               
                     }
-                    
-                    
-                    
+    
                 }
+                
+
+                if InboxArray.inboxArrayNew.count != 0 {
+                    
+                    for x in 0...(InboxArray.inboxArrayNew.count - 1) {
+                        
+//                        if InboxArray.inboxArrayNew[x].notifications?.count != 0 {
+//
+//                            NotificationArrayData.testInboxArray?.append(contentsOf: InboxArray.inboxArrayNew[x].notifications ?? [])
+//
+//                        }
+                        
+                        print("INBOX ARRAY POST")
+                        print(InboxArray.inboxArrayNew[x])
+                        
+                        print("INBOX ARRAY NOTIFS")
+                        print(InboxArray.inboxArrayNew[x].notifications as Any)
+                        print(InboxArray.inboxArrayNew[x].notifications?.count)
+                        
+                        
+                        NotificationArrayData.testInboxArray.append(contentsOf: InboxArray.inboxArrayNew[x].notifications ?? [])
+                        
+//                        for y in 0...((InboxArray.inboxArrayNew[x].notifications?.count ?? 1)){
+//
+//                            NotificationArrayData.testInboxArray?.append(InboxArray.inboxArrayNew[x].notifications?[y] ?? [:])
+//
+//                        }
+                        
+
+                    
+                    }
+                }
+                
+                print("NOTIFICATIONS ARE:")
+                print(NotificationArrayData.testInboxArray as Any)
                 
                 
                 InboxArray.inboxArrayNew.sort { (lhs: InboxCellData, rhs: InboxCellData) -> Bool in

@@ -133,9 +133,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
                         
                     }
                     
-                    
-                    self.lastCommentTimestamp = self.newNotificationsArray[0].timestamp ?? 0
-                    
+                                    
                 }
             }
     }

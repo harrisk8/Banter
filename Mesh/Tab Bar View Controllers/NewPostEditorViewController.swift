@@ -124,7 +124,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                     print(self.timestampOfPostCreated)
                     self.fetchPostsBeforeUsersPost()
                 } else {
-                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray = []
+                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0
                     self.timestampForFetchingPostsBeforeUsersPost = 0.0
                     self.fetchPostsBeforeUsersPost()
                 }
@@ -266,7 +266,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         let coreDataPostCell = NearbyPostsEntity(context: dataContext)
                     
         coreDataPostCell.author = UserInfo.userAppearanceName
-        coreDataPostCell.comments = testArray as NSObject
+        coreDataPostCell.comments = [] as NSObject
         coreDataPostCell.documentID = newDocumentID
         coreDataPostCell.message = messageEditor.text ?? ""
         coreDataPostCell.score = randomInt
@@ -290,7 +290,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             message: messageEditor.text,
             score: randomInt,
             timestamp: timestampOfPostCreated,
-            comments: testArray as [[String : AnyObject]],
+            comments: [] as [[String : AnyObject]],
             documentID: newDocumentID,
             loadedFromCoreData: false,
             userDocID: UserInfo.userCollectionDocID

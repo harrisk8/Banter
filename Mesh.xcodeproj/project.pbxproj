@@ -213,10 +213,10 @@
 			children = (
 				6FBA045D24F2005C00FC1E1B /* UserInfo.swift */,
 				6FBA045224F1A7E400FC1E1B /* NearbyModel.swift */,
-				6F56A1B8252FB270005CB028 /* CoreDataModel.swift */,
 				6FAFC2B1252982C6003F7102 /* TrendingModel.swift */,
 				6F837CD2252D1EA700A18420 /* InboxModel.swift */,
 				6F56A1B5252D5E01005CB028 /* InboxFetcher.swift */,
+				6F56A1B8252FB270005CB028 /* CoreDataModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

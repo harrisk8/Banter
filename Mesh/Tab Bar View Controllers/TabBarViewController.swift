@@ -15,7 +15,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate, upda
     
     //Updates inbox badge count after delegate is called following Firebase query
     func updateInboxBadge() {
-        self.tabBar.items![3].badgeValue = String(InboxArray.inboxArrayNew.count)
+        self.tabBar.items![3].badgeValue = String(NotificationArrayData.testInboxArray.count ?? 0)
     }
     
     

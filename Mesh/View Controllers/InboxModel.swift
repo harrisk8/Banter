@@ -20,14 +20,30 @@ public struct InboxCellData {
     var comments: [[String: AnyObject]]?
     var documentID: String?
     var lastCommentTimestamp: Double?
+    var notifications: [[String: AnyObject]]?
+    var userDocID: String?
     
 }
+
 
 public struct InboxArray {
     
     static var inboxArrayNew: [InboxCellData] = []
     
     
+}
+
+public struct NotificationData {
+    var author: String?
+    var message: String?
+    var documentID: String?
+}
+
+public struct NotificationArrayData {
+    
+    static var notificationArray: [NotificationData]?
+    
+    static var testInboxArray: [[String: AnyObject]] = []
 }
 
 

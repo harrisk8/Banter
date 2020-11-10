@@ -158,6 +158,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             UserDefaults.standard.set(timestampRefreshed, forKey: "lastRefreshTimestamp")
             print(UserDefaults.standard.double(forKey: "lastRefreshTimestamp"))
             
+            //Sets lastCommentTimestamp to 0 when user launches for first time, used for notif
+            UserDefaults.standard.set(0, forKey: "lastCommentTimestamp")
+            
             fetchAllPostsForLocality()
             organizeArrayForTableView()
 
