@@ -38,19 +38,27 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Circle Slider" translatesAutoresizingMaskIntoConstraints="NO" id="9xW-93-fDU">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <gestureRecognizers/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="9xW-93-fDU" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="59c-XT-qXb"/>
                             <constraint firstItem="Tu6-9s-yfb" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="9aQ-3O-zM5"/>
+                            <constraint firstItem="9xW-93-fDU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Cbn-qi-qZr"/>
                             <constraint firstItem="Tu6-9s-yfb" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="DqB-lR-ff7"/>
                             <constraint firstAttribute="bottom" secondItem="Tu6-9s-yfb" secondAttribute="bottom" id="GWX-xK-eBB"/>
                             <constraint firstItem="ftV-Te-3mF" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.75" id="RGB-vk-Oy3"/>
                             <constraint firstItem="PnB-eD-DP3" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Yiz-PR-OMW"/>
                             <constraint firstItem="PnB-eD-DP3" firstAttribute="width" secondItem="Tu6-9s-yfb" secondAttribute="width" multiplier="0.417874" id="egA-Zu-1yW"/>
                             <constraint firstItem="ftV-Te-3mF" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="f6l-6W-cdG"/>
+                            <constraint firstItem="9xW-93-fDU" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="g7D-Ou-sRV"/>
                             <constraint firstItem="Tu6-9s-yfb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mYf-3z-f5n"/>
                             <constraint firstItem="ftV-Te-3mF" firstAttribute="width" secondItem="Tu6-9s-yfb" secondAttribute="width" multiplier="0.676329" id="nrQ-gX-Qwd"/>
                             <constraint firstItem="PnB-eD-DP3" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.6" id="pQ2-q0-rIL"/>
+                            <constraint firstAttribute="bottom" secondItem="9xW-93-fDU" secondAttribute="bottom" id="r7f-Dd-5MG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -62,5 +70,6 @@
     </scenes>
     <resources>
         <image name="Background" width="414" height="896"/>
+        <image name="Circle Slider" width="414" height="896"/>
     </resources>
 </document>

@@ -72,7 +72,6 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     //Post button functionality - validates message, assigns timestamp, writes, and dismisses VC.
     @IBAction func postMessagePressed(_ sender: Any) {
-        print("write")
         if validateMessage() {
             timestampOfPostCreated = Date().timeIntervalSince1970
             writePostToDatabase()
@@ -104,27 +103,24 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                 print("Document successfully written")
                 print(ref?.documentID ?? "")
                 
-                
-                
                 self.newDocumentID = ref?.documentID
                 
                 //Add user generated post to nearbyFinal array and then to Core Data
                 self.appendNewPostToArray()
                 
                 if nearbyPostsFinal.finalNearbyPostsArray.count == 1 {
+                    self.addNewPostToCoreData()
                     newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray = []
                     self.timestampForFetchingPostsBeforeUsersPost = nearbyPostsFinal.finalNearbyPostsArray[0].timestamp ?? 0.0
-                    print(self.timestampForFetchingPostsBeforeUsersPost)
-                    print(self.timestampOfPostCreated)
                     self.fetchPostsBeforeUsersPost()
+                    
                 } else if nearbyPostsFinal.finalNearbyPostsArray.count > 1 {
                     newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray = []
                     self.timestampForFetchingPostsBeforeUsersPost = nearbyPostsFinal.finalNearbyPostsArray[1].timestamp ?? 0.0
-                    print(self.timestampForFetchingPostsBeforeUsersPost)
-                    print(self.timestampOfPostCreated)
                     self.fetchPostsBeforeUsersPost()
                 } else {
-                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0
+                    print("FIRST POST IN SYSTEM")
+                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray = []
                     self.timestampForFetchingPostsBeforeUsersPost = 0.0
                     self.fetchPostsBeforeUsersPost()
                 }
@@ -192,6 +188,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
 
                         
                 } else if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count != 0 {
+                    
                     UserDefaults.standard.set(self.timestampOfPostCreated, forKey: "lastTimestampPulledFromServer")
                     
                     self.appendPostsFetched()

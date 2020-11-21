@@ -25,7 +25,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incognito commented on your post" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VnC-GI-t9G">
-                        <rect key="frame" x="10" y="8" width="355" height="21.5"/>
+                        <rect key="frame" x="20" y="10" width="345" height="21.5"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21.5" id="PFM-DI-8Bs"/>
                         </constraints>
@@ -34,7 +34,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I am not sure if that is even correct..?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tdn-Yg-bFd">
-                        <rect key="frame" x="30" y="47.5" width="310" height="20.5"/>
+                        <rect key="frame" x="30" y="49.5" width="253" height="20.5"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20.5" id="QIT-0O-NfS"/>
                         </constraints>
@@ -43,25 +43,34 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zk7-ze-m4H">
-                        <rect key="frame" x="17.5" y="92.5" width="24" height="15"/>
+                        <rect key="frame" x="17.5" y="92.5" width="24" height="14.5"/>
                         <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="12"/>
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Notif Bubble Filled" translatesAutoresizingMaskIntoConstraints="NO" id="2FR-e7-Q5v">
+                        <rect key="frame" x="320" y="43" width="26" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="2FR-e7-Q5v" secondAttribute="height" multiplier="1:1" id="0Tu-F5-Uue"/>
+                            <constraint firstAttribute="height" constant="26" id="4Xs-Ru-4Ej"/>
+                            <constraint firstAttribute="width" constant="26" id="y8l-qW-Uuo"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="VnC-GI-t9G" firstAttribute="top" secondItem="91b-Gt-hTG" secondAttribute="top" constant="8" id="Bxx-ML-2DB"/>
+                    <constraint firstItem="2FR-e7-Q5v" firstAttribute="centerX" secondItem="91b-Gt-hTG" secondAttribute="centerX" multiplier="1.8" id="1wj-om-5vv"/>
+                    <constraint firstItem="VnC-GI-t9G" firstAttribute="top" secondItem="91b-Gt-hTG" secondAttribute="top" constant="10" id="Bxx-ML-2DB"/>
                     <constraint firstAttribute="bottom" secondItem="Zk7-ze-m4H" secondAttribute="bottom" constant="4.5" id="ISH-RI-Lyf"/>
-                    <constraint firstItem="Tdn-Yg-bFd" firstAttribute="centerX" secondItem="91b-Gt-hTG" secondAttribute="centerX" id="Lr9-SL-p7h"/>
-                    <constraint firstItem="VnC-GI-t9G" firstAttribute="leading" secondItem="91b-Gt-hTG" secondAttribute="leading" constant="10" id="Mw1-l2-tvb"/>
+                    <constraint firstItem="VnC-GI-t9G" firstAttribute="leading" secondItem="91b-Gt-hTG" secondAttribute="leading" constant="20" id="Mw1-l2-tvb"/>
                     <constraint firstItem="Tdn-Yg-bFd" firstAttribute="leading" secondItem="91b-Gt-hTG" secondAttribute="leading" constant="30" id="RN6-Nb-JXL"/>
                     <constraint firstAttribute="trailing" secondItem="VnC-GI-t9G" secondAttribute="trailing" constant="5" id="UpH-bl-uS2"/>
-                    <constraint firstAttribute="trailing" secondItem="Tdn-Yg-bFd" secondAttribute="trailing" constant="30" id="ZFh-OD-8mt"/>
+                    <constraint firstItem="2FR-e7-Q5v" firstAttribute="leading" secondItem="Tdn-Yg-bFd" secondAttribute="trailing" constant="37" id="ZFh-OD-8mt"/>
                     <constraint firstItem="Tdn-Yg-bFd" firstAttribute="top" secondItem="VnC-GI-t9G" secondAttribute="bottom" constant="18" id="bEt-pl-Ij0"/>
-                    <constraint firstItem="Zk7-ze-m4H" firstAttribute="top" secondItem="Tdn-Yg-bFd" secondAttribute="bottom" constant="24.5" id="eCW-Ei-81e"/>
+                    <constraint firstItem="Zk7-ze-m4H" firstAttribute="top" secondItem="Tdn-Yg-bFd" secondAttribute="bottom" constant="22.5" id="eCW-Ei-81e"/>
                     <constraint firstItem="Zk7-ze-m4H" firstAttribute="leading" secondItem="91b-Gt-hTG" secondAttribute="leading" constant="17.5" id="hTX-jF-tyt"/>
                     <constraint firstItem="Tdn-Yg-bFd" firstAttribute="centerY" secondItem="91b-Gt-hTG" secondAttribute="centerY" id="hjy-Nm-qK1"/>
+                    <constraint firstItem="2FR-e7-Q5v" firstAttribute="centerY" secondItem="91b-Gt-hTG" secondAttribute="centerY" id="pQV-zC-xCx"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="gyC-8b-mCC"/>
@@ -73,4 +82,7 @@
             <point key="canvasLocation" x="79.710144927536234" y="114.17410714285714"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="Notif Bubble Filled" width="63" height="63"/>
+    </resources>
 </document>

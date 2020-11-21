@@ -68,7 +68,8 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
         selectedCellIndex = indexPath.row
         print(indexPath.row)
         getPostData()
-//        performSegue(withIdentifier: "inboxToComments", sender: self)
+        performSegue(withIdentifier: "inboxToComments", sender: self)
+        NotificationArrayData.notificationArray?[selectedCellIndex ?? 0].opened = true
         }
     
     
@@ -137,6 +138,8 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             }
     }
+    
+    
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

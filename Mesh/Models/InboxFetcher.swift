@@ -63,7 +63,6 @@ class InboxFetcher {
                         )
                         
                         print("Adding post to inbox array")
-//                        print(newPost)
                         InboxArray.inboxArrayNew.append(newPost)
                         print(newPost)
                         
@@ -71,8 +70,17 @@ class InboxFetcher {
     
                 }
                 
+                
+                                
 
                 if InboxArray.inboxArrayNew.count != 0 {
+                    
+                    InboxArray.inboxArrayNew.sort { (lhs: InboxCellData, rhs: InboxCellData) -> Bool in
+                        // you can have additional code here
+                        return lhs.lastCommentTimestamp ?? 0 > rhs.lastCommentTimestamp ?? 0
+                    }
+                    
+//                    UserDefaults.standard.set(InboxArray.inboxArrayNew[0].timestamp, forKey: "lastCommentTimestamp")
                     
                     for x in 0...(InboxArray.inboxArrayNew.count - 1) {
                         
@@ -101,6 +109,8 @@ class InboxFetcher {
 
                     
                     }
+                } else {
+                    print("There are no notifications")
                 }
                 
                 print("NOTIFICATIONS ARE:")

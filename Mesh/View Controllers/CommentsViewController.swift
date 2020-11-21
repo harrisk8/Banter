@@ -64,7 +64,31 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         super.viewDidLoad()
         
-        postMessage.text = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].message
+        print(segueFromInbox)
+        
+        //Handles control flow if user proceeds from nearby tab
+        if segueFromInbox == false {
+            postMessage.text = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].message
+            commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments ?? []
+            
+            if commentsArray.count == 0 {
+                nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments = []
+            }
+            
+            docID = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].documentID ?? ""
+
+        
+        } else {
+            //Handles control flow if user proceeds from inbox
+            
+            postMessage.text = InboxArray.inboxArrayNew[inboxPostArrayPosition ?? 0].message
+            
+            commentsArray = InboxArray.inboxArrayNew[inboxPostArrayPosition ?? 0].comments ?? []
+            
+            docID = InboxArray.inboxArrayNew[inboxPostArrayPosition ?? 0].documentID ?? ""
+            
+        }
+        
 
     
 //        if postLoadedFromCoreData == true {
@@ -82,14 +106,12 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         
         
-        commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments ?? []
+        
+    
 
         print("COMMENT ARRAY COUNT")
         print(commentsArray.count)
-        
-        if commentsArray.count == 0 {
-            nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments = []
-        }
+
 
         commentsTableView.dataSource = self
         commentsTableView.delegate = self
@@ -111,8 +133,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
-        docID = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].documentID ?? ""
-
 
     }
     
@@ -189,7 +209,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     
     func writeCommentToDatabase() {
-        
         
         print(docID)
         
@@ -281,7 +300,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
         DispatchQueue.main.async {
             
-            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, animations: {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, animations: {
                 self.commentsEditorView.frame.origin.y -= CGFloat(self.keyboardHeight ?? 0)
             })
         }
@@ -466,7 +485,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     func updateOldPostData() {
         
-        let databaseRef = database.collection("posts").document(nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].documentID ?? "")
+        let databaseRef = database.collection("posts").document(docID)
         
         databaseRef.getDocument { (document, error) in
             

@@ -37,6 +37,7 @@ public struct NotificationData {
     var author: String?
     var message: String?
     var documentID: String?
+    var opened: Bool?
 }
 
 public struct NotificationArrayData {
