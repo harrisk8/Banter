@@ -81,11 +81,11 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         } else {
             //Handles control flow if user proceeds from inbox
             
-            postMessage.text = InboxArray.inboxArrayNew[inboxPostArrayPosition ?? 0].message
+            postMessage.text = InboxArray.inboxArrayFetchedPosts[inboxPostArrayPosition ?? 0].message
             
-            commentsArray = InboxArray.inboxArrayNew[inboxPostArrayPosition ?? 0].comments ?? []
+            commentsArray = InboxArray.inboxArrayFetchedPosts[inboxPostArrayPosition ?? 0].comments ?? []
             
-            docID = InboxArray.inboxArrayNew[inboxPostArrayPosition ?? 0].documentID ?? ""
+            docID = InboxArray.inboxArrayFetchedPosts[inboxPostArrayPosition ?? 0].documentID ?? ""
             
         }
         
@@ -135,9 +135,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
 
     }
-    
-
-    
     
 
     
@@ -255,8 +252,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         } else if segueFromInbox == true {
             
-            print(InboxArray.inboxArrayNew[inboxPostArrayPosition ?? 0].comments?.count ?? 0)
-            return (InboxArray.inboxArrayNew[inboxPostArrayPosition ?? 0].comments?.count ?? 0)
+            print(InboxArray.inboxArrayFetchedPosts[inboxPostArrayPosition ?? 0].comments?.count ?? 0)
+            return (InboxArray.inboxArrayFetchedPosts[inboxPostArrayPosition ?? 0].comments?.count ?? 0)
                         
         }
             

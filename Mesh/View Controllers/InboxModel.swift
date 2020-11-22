@@ -25,24 +25,22 @@ public struct InboxCellData {
     
 }
 
-
 public struct InboxArray {
-    
-    static var inboxArrayNew: [InboxCellData] = []
-    
-    
+    static var inboxArrayFetchedPosts: [InboxCellData] = []
 }
+
 
 public struct NotificationData {
     var author: String?
     var message: String?
     var documentID: String?
     var opened: Bool?
+    var notificationTimestamp: Double?
 }
 
 public struct NotificationArrayData {
     
-    static var notificationArray: [NotificationData]?
+    static var notificationArray: [NotificationData] = []
     
     static var testInboxArray: [[String: AnyObject]] = []
 }

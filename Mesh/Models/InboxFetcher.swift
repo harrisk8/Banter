@@ -63,73 +63,68 @@ class InboxFetcher {
                         )
                         
                         print("Adding post to inbox array")
-                        InboxArray.inboxArrayNew.append(newPost)
+                        InboxArray.inboxArrayFetchedPosts.append(newPost)
                         print(newPost)
                         
                     }
-    
                 }
                 
-                
-                                
-
-                if InboxArray.inboxArrayNew.count != 0 {
+                //Adds posts with new comments to intermediate array
+                if InboxArray.inboxArrayFetchedPosts.count != 0 {
                     
-                    InboxArray.inboxArrayNew.sort { (lhs: InboxCellData, rhs: InboxCellData) -> Bool in
+                    InboxArray.inboxArrayFetchedPosts.sort { (lhs: InboxCellData, rhs: InboxCellData) -> Bool in
                         // you can have additional code here
                         return lhs.lastCommentTimestamp ?? 0 > rhs.lastCommentTimestamp ?? 0
                     }
                     
 //                    UserDefaults.standard.set(InboxArray.inboxArrayNew[0].timestamp, forKey: "lastCommentTimestamp")
                     
-                    for x in 0...(InboxArray.inboxArrayNew.count - 1) {
-                        
-//                        if InboxArray.inboxArrayNew[x].notifications?.count != 0 {
-//
-//                            NotificationArrayData.testInboxArray?.append(contentsOf: InboxArray.inboxArrayNew[x].notifications ?? [])
-//
-//                        }
-                        
-                        print("INBOX ARRAY POST")
-                        print(InboxArray.inboxArrayNew[x])
-                        
-                        print("INBOX ARRAY NOTIFS")
-                        print(InboxArray.inboxArrayNew[x].notifications as Any)
-                        print(InboxArray.inboxArrayNew[x].notifications?.count)
-                        
-                        
-                        NotificationArrayData.testInboxArray.append(contentsOf: InboxArray.inboxArrayNew[x].notifications ?? [])
-                        
-//                        for y in 0...((InboxArray.inboxArrayNew[x].notifications?.count ?? 1)){
-//
-//                            NotificationArrayData.testInboxArray?.append(InboxArray.inboxArrayNew[x].notifications?[y] ?? [:])
-//
-//                        }
-                        
-
-                    
+                    //Extracts ALL notifications from intermediate array and passes to second intermediate array
+                    for x in 0...(InboxArray.inboxArrayFetchedPosts.count - 1) {
+                        NotificationArrayData.testInboxArray.append(contentsOf: InboxArray.inboxArrayFetchedPosts[x].notifications ?? [])
                     }
                 } else {
                     print("There are no notifications")
                 }
                 
-                print("NOTIFICATIONS ARE:")
-                print(NotificationArrayData.testInboxArray as Any)
                 
                 
-                InboxArray.inboxArrayNew.sort { (lhs: InboxCellData, rhs: InboxCellData) -> Bool in
-                    // you can have additional code here
-                    return lhs.lastCommentTimestamp ?? 0 > rhs.lastCommentTimestamp ?? 0
+                
+                //Passes notification data into notifcation object, populates array with objects
+                if NotificationArrayData.testInboxArray.count != 0 {
+                    
+                    for x in 0...(NotificationArrayData.testInboxArray.count - 1) {
+                        
+                        //Extracts notifications that are only new
+                        if NotificationArrayData.testInboxArray[x]["notificationTimestamp"] as! Double > 0 {
+                            let newNotification = NotificationData(author: NotificationArrayData.testInboxArray[x]["author"] as? String,
+                                                                   message: NotificationArrayData.testInboxArray[x]["message"] as? String,
+                                                                   documentID: "FILL LATER",
+                                                                   opened: false,
+                                                                   notificationTimestamp: NotificationArrayData.testInboxArray[x]["notificationTimestamp"] as? Double
+                            )
+                            NotificationArrayData.notificationArray.append(newNotification)
+                        }
+                    }
+                    
+                    NotificationArrayData.notificationArray.sort { (lhs: NotificationData, rhs: NotificationData) -> Bool in
+                        // you can have additional code here
+                        return lhs.notificationTimestamp ?? 0 > rhs.notificationTimestamp ?? 0
+                    }
                 }
                 
+                print("New Notifications:")
+                print(NotificationArrayData.notificationArray.count)
+                print(NotificationArrayData.notificationArray)
+                
+                //Updates badge icon
                 InboxFetcher.self.delegate?.updateInboxBadge()
+                
             }
         }
+        
+        
+        
+        
     }
-    
-    
-    
-    
-    
-    
 }

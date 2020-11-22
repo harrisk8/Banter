@@ -58,7 +58,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func getPostData() {
-        let thedocid = InboxArray.inboxArrayNew[selectedCellIndex!].documentID
+        let thedocid = InboxArray.inboxArrayFetchedPosts[selectedCellIndex ?? 0].documentID
         print(thedocid ?? "")
     }
     
@@ -69,7 +69,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
         print(indexPath.row)
         getPostData()
         performSegue(withIdentifier: "inboxToComments", sender: self)
-        NotificationArrayData.notificationArray?[selectedCellIndex ?? 0].opened = true
+        NotificationArrayData.notificationArray[selectedCellIndex ?? 0].opened = true
         }
     
     
@@ -143,21 +143,25 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return InboxArray.inboxArrayNew.count
+        return NotificationArrayData.notificationArray.count
+        return InboxArray.inboxArrayFetchedPosts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
                 
-        let lastCommentDictionary: [[String: AnyObject]] = (InboxArray.inboxArrayNew[indexPath.row].comments)!
-        
-        let lastComment: [String: AnyObject] = lastCommentDictionary.last!
+//        let lastCommentDictionary: [[String: AnyObject]] = (InboxArray.inboxArrayFetchedPosts[indexPath.row].comments)!
+//
+//        let lastComment: [String: AnyObject] = lastCommentDictionary.last!
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "InboxTableCell", for: indexPath) as! InboxTableCell
         
-        cell.headerLabel.text = (lastComment["author"] as? String ?? "") + " commented on your post"
-        cell.messageLabel.text = lastComment["message"] as? String
-        cell.timestampLabel.text = "12m"
+//        cell.headerLabel.text = (lastComment["author"] as? String ?? "") + " commented on your post"
+//        cell.messageLabel.text = lastComment["message"] as? String
+//        cell.timestampLabel.text = "12m"
 
+        cell.headerLabel.text = (NotificationArrayData.notificationArray[indexPath.row].author ?? "") + " commented on your post"
+        cell.messageLabel.text = NotificationArrayData.notificationArray[indexPath.row].message
+        cell.timestampLabel.text = "12m"
 
         
         return cell
