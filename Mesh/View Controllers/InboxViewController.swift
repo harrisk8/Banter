@@ -17,9 +17,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     let database = Firestore.firestore()
     
     let lastTimestampContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    var lastCommentTimestampArray: [LastCommentTimestampEntity]?
-    
+        
     var lastCommentTimestampFinal: Double?
     
     var lastCommentTimestamp: Double?
@@ -67,7 +65,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCellIndex = indexPath.row
         print(indexPath.row)
-        getPostData()
+//        getPostData()
         performSegue(withIdentifier: "inboxToComments", sender: self)
         NotificationArrayData.notificationArray[selectedCellIndex ?? 0].opened = true
         }
@@ -167,61 +165,6 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
         return cell
     }
 
-    func testFunc() {
-        
-        
-        for post in newNotificationsArray {
-            
-            
-            
-        }
-    }
-    
-    
-    
-    
-    func addTestData() {
-        
-        let coreDataLastCommentTimestamp = LastCommentTimestampEntity(context: lastTimestampContext)
-                    
-        coreDataLastCommentTimestamp.lastCommentTimestamp = 100.0
-        
-        do {
-            try lastTimestampContext.save()
-        }
-        catch {
-        }
-        
-    }
-    
-    
-    func fetchLastCommentTimestamp() {
-        
-        do {
-            self.lastCommentTimestampArray = try lastTimestampContext.fetch(LastCommentTimestampEntity.fetchRequest())
-        }
-        catch {
-            
-        }
-        
-        let arrayCount: Int = lastCommentTimestampArray?.count ?? 0
-        
-        print("ARRAY COUNT")
-        print(arrayCount)
-        
-        if arrayCount > 0 {
-            for x in 0...(arrayCount-1) {
-        
-                print(x)
-                
-        
-            }
-            
-
-        }
-    
-    }
-    
-    
+ 
     
 }

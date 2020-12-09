@@ -294,9 +294,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                 
     }
     
-    
-    
-    
     //Fetches new posts after comparing previous timestamp to new timestamp (Existing users)
     func fetchNewPosts() {
         
@@ -344,7 +341,13 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                     //No new posts
                     
                 } else if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count != 0 {
+                    
                     self.lastTimestampPulledFromServer = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp ?? 0.0
+                    
+                    print("TIMESTAMP MARKER")
+                    print(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp)
+                    
+                    
                     UserDefaults.standard.set(self.lastTimestampPulledFromServer, forKey: "lastTimestampPulledFromServer")
                 }
      
@@ -457,6 +460,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             //Sets last timestamp to zero if Core Data is empty
             lastCoreDataTimestamp = 0.0
         }
+        
         
         lastTimestampPulledFromServer = UserDefaults.standard.double(forKey: "lastTimestampPulledFromServer")
         

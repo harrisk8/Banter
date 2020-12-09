@@ -55,10 +55,11 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var docID: String = ""
+    
+    var matchIndex: Int = 0
 
     
     override func viewDidLoad() {
-        
 
         overrideUserInterfaceStyle = .light
             
@@ -81,11 +82,21 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         } else {
             //Handles control flow if user proceeds from inbox
             
-            postMessage.text = InboxArray.inboxArrayFetchedPosts[inboxPostArrayPosition ?? 0].message
+            for x in (0...InboxArray.inboxArrayFetchedPosts.count-1) {
+                
+                if NotificationArrayData.notificationArray[inboxPostArrayPosition ?? 0].documentID == InboxArray.inboxArrayFetchedPosts[x].documentID {
+                    print("Match")
+                    print(NotificationArrayData.notificationArray[inboxPostArrayPosition ?? 0].documentID)
+                    print(InboxArray.inboxArrayFetchedPosts[x].documentID)
+                    matchIndex = x
+                }
+            }
             
-            commentsArray = InboxArray.inboxArrayFetchedPosts[inboxPostArrayPosition ?? 0].comments ?? []
+            postMessage.text = InboxArray.inboxArrayFetchedPosts[matchIndex].message
             
-            docID = InboxArray.inboxArrayFetchedPosts[inboxPostArrayPosition ?? 0].documentID ?? ""
+            commentsArray = InboxArray.inboxArrayFetchedPosts[matchIndex].comments ?? []
+            
+            docID = InboxArray.inboxArrayFetchedPosts[matchIndex].documentID ?? ""
             
         }
         
@@ -174,7 +185,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
             commentData = ["author" : UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject, "commentTimestamp" : commentTimestamp as AnyObject, "userDocID" : UserInfo.userCollectionDocID as AnyObject]
             
-            notificationData = ["author": UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject, "notificationTimestamp" : commentTimestamp as AnyObject]
+            notificationData = ["author": UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject, "notificationTimestamp" : commentTimestamp as AnyObject, "documentID": docID as AnyObject]
             
             writeCommentToDatabase()
             
@@ -252,8 +263,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         } else if segueFromInbox == true {
             
-            print(InboxArray.inboxArrayFetchedPosts[inboxPostArrayPosition ?? 0].comments?.count ?? 0)
-            return (InboxArray.inboxArrayFetchedPosts[inboxPostArrayPosition ?? 0].comments?.count ?? 0)
+            print(InboxArray.inboxArrayFetchedPosts[matchIndex].comments?.count ?? 0)
+            return (InboxArray.inboxArrayFetchedPosts[matchIndex].comments?.count ?? 0)
                         
         }
             

@@ -29,6 +29,11 @@ public struct InboxArray {
     static var inboxArrayFetchedPosts: [InboxCellData] = []
 }
 
+public struct IntermediateNotifData {
+    var notifications: [[String: AnyObject]]?
+    var documentID: String?
+}
+
 
 public struct NotificationData {
     var author: String?
