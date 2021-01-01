@@ -402,15 +402,26 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                     
                     //Sets lastTimestampPulledFromServer to 0 if user launches for first time in location with zero content
                     if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0 {
+                        
                         self.lastTimestampPulledFromServer = 0.0
                         UserDefaults.standard.set(0.0, forKey: "lastTimestampPulledFromServer")
+                        
+                        //Handles if there are posts in locality
                     } else if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count != 0 {
+                        
+                        //Sort and pull latest timestamp from server, set to UserDefaults
+                        newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
+                            return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
+                        }
+                        
                         self.lastTimestampPulledFromServer = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp ?? 0.0
                         UserDefaults.standard.set(self.lastTimestampPulledFromServer, forKey: "lastTimestampPulledFromServer")
+                        
                     }
                     
                     self.addPostsToCoreData()
                     self.organizeArrayForTableView()
+                    
                 }
             }
     }

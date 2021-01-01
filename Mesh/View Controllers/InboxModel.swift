@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 
-
+//Struct for posts with new notifications fetched from database
 public struct InboxCellData {
     
     var author: String?
@@ -25,16 +25,13 @@ public struct InboxCellData {
     
 }
 
+//Array to hold above-declared struct
 public struct InboxArray {
     static var inboxArrayFetchedPosts: [InboxCellData] = []
 }
 
-public struct IntermediateNotifData {
-    var notifications: [[String: AnyObject]]?
-    var documentID: String?
-}
 
-
+//Struct to hold notifications extracted from above-declared posts
 public struct NotificationData {
     var author: String?
     var message: String?
