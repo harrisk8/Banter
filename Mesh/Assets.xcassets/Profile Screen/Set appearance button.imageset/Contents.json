@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Toggle Incognito Button.png",
+      "filename" : "Set appearance name.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Toggle Incognito Button@2x.png",
+      "filename" : "Set appearance name@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Toggle Incognito Button@3x.png",
+      "filename" : "Set appearance name@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -16,20 +16,21 @@ protocol updateInboxBadge {
     
 }
 
-class InboxFetcher {
+
+class NotificationFetcher {
     
     let database = Firestore.firestore()
+    static var delegate: updateInboxBadge?
+
     
     var lastCommentTimestamp = UserDefaults.standard.double(forKey: "lastCommentTimestamp")
     
     //Used for extracting notifications in Step 2 because lastCommentTimestamp is updated after query but before notification processing
     var lastNotificationTimestamp = UserDefaults.standard.double(forKey: "lastCommentTimestamp")
 
-    static var delegate: updateInboxBadge?
 
     func getNewNotifications() {
-        
-        print(lastCommentTimestamp)
+
         
         print("Fetching new notifications")
         
@@ -40,8 +41,9 @@ class InboxFetcher {
         .getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(err.localizedDescription)
-                print("nodocs")
+                print("Error fetching documents")
             } else {
+                
                 for document in querySnapshot!.documents {
                     
                     let postData = document.data()
@@ -56,7 +58,7 @@ class InboxFetcher {
                         let postNotifications = postData["notifications"] as? [[String: AnyObject]]?,
                         let postUserDocID = postData["userDocID"] as? String
                     {
-                        let newPost = InboxCellData(
+                        let newPost = NotificationDataRaw(
                             author: postAuthor,
                             message: postMessage,
                             score: postScore ?? 0,
@@ -69,28 +71,30 @@ class InboxFetcher {
                         )
                         
                         print("Adding post to inbox array")
-                        InboxArray.inboxArrayFetchedPosts.append(newPost)
-                        print(newPost)
+                        NotificationArrayRaw.notificationArrayRaw.append(newPost)
                         
                     }
                 }
                 
                 //Step 1 - Adds posts (whole document) with new comments to intermediate array
-                if InboxArray.inboxArrayFetchedPosts.count != 0 {
+                if NotificationArrayRaw.notificationArrayRaw.count != 0 {
                     
-                    InboxArray.inboxArrayFetchedPosts.sort { (lhs: InboxCellData, rhs: InboxCellData) -> Bool in
+                    NotificationArrayRaw.notificationArrayRaw.sort { (lhs: NotificationDataRaw, rhs: NotificationDataRaw) -> Bool in
                         return lhs.lastCommentTimestamp ?? 0 > rhs.lastCommentTimestamp ?? 0
                     }
                     
                     //Update lastCommentTimestamp constant
-                    UserDefaults.standard.set(InboxArray.inboxArrayFetchedPosts[0].lastCommentTimestamp, forKey: "lastCommentTimestamp")
+                    UserDefaults.standard.set(NotificationArrayRaw.notificationArrayRaw[0].lastCommentTimestamp, forKey: "lastCommentTimestamp")
                     
+                    print(" - - - - - UPDATED TIME STAMP - - - - - ")
+                    print((NotificationArrayRaw.notificationArrayRaw[0].lastCommentTimestamp, forKey: "lastCommentTimestamp"))
                     print(UserDefaults.standard.double(forKey: "lastCommentTimestamp"))
                                         
                     //Extracts ALL notifications from intermediate array and passes to second intermediate array
-                    for x in 0...(InboxArray.inboxArrayFetchedPosts.count - 1) {
+                    for x in 0...(NotificationArrayRaw.notificationArrayRaw.count - 1) {
                         
-                        NotificationArrayData.testInboxArray.append(contentsOf: InboxArray.inboxArrayFetchedPosts[x].notifications ?? [])
+                        NotificationArrayData.notificationArrayUnsorted.append(contentsOf: NotificationArrayRaw.notificationArrayRaw[x].notifications ?? [])
+                        
                     }
                     
                 } else {
@@ -100,30 +104,28 @@ class InboxFetcher {
                 
                 
                 //Step 2 - Passes notification data from array into notifcation object, populates array with objects
-                if NotificationArrayData.testInboxArray.count != 0 {
+                if NotificationArrayData.notificationArrayUnsorted.count != 0 {
                     
-                    for x in 0...(NotificationArrayData.testInboxArray.count - 1) {
+                    for x in 0...(NotificationArrayData.notificationArrayUnsorted.count - 1) {
                         
                         //Extracts notifications that are only new
-                        if NotificationArrayData.testInboxArray[x]["notificationTimestamp"] as! Double > self.lastNotificationTimestamp {
+                        if NotificationArrayData.notificationArrayUnsorted[x]["notificationTimestamp"] as! Double > self.lastNotificationTimestamp {
                             
-                            let newNotification = NotificationData(author: NotificationArrayData.testInboxArray[x]["author"] as? String,
-                                                                   message: NotificationArrayData.testInboxArray[x]["message"] as? String,
-                                                                   documentID: NotificationArrayData.testInboxArray[x]["documentID"] as? String,
+                            let newNotification = NotificationDataFormatted(author: NotificationArrayData.notificationArrayUnsorted[x]["author"] as? String,
+                                                                   message: NotificationArrayData.notificationArrayUnsorted[x]["message"] as? String,
+                                                                   documentID: NotificationArrayData.notificationArrayUnsorted[x]["documentID"] as? String,
                                                                    opened: false,
-                                                                   notificationTimestamp: NotificationArrayData.testInboxArray[x]["notificationTimestamp"] as? Double
+                                                                   notificationTimestamp: NotificationArrayData.notificationArrayUnsorted[x]["notificationTimestamp"] as? Double
                             )
                             
                             
-                            NotificationArrayData.notificationArray.append(newNotification)
+                            NotificationArrayData.notificationArraySorted.append(newNotification)
                             
                         }
                         
                     }
-                    
-                    print(NotificationArrayData.notificationArray)
-                    
-                    NotificationArrayData.notificationArray.sort { (lhs: NotificationData, rhs: NotificationData) -> Bool in
+                                        
+                    NotificationArrayData.notificationArraySorted.sort { (lhs: NotificationDataFormatted, rhs: NotificationDataFormatted) -> Bool in
                         // you can have additional code here
                         return lhs.notificationTimestamp ?? 0 > rhs.notificationTimestamp ?? 0
                     }
@@ -132,11 +134,11 @@ class InboxFetcher {
                 }
                 
                 print("New Notifications:")
-                print(NotificationArrayData.notificationArray.count)
-                print(NotificationArrayData.notificationArray)
+                print(NotificationArrayData.notificationArraySorted.count)
+                print(NotificationArrayData.notificationArraySorted)
                 
                 //Updates badge icon
-                InboxFetcher.self.delegate?.updateInboxBadge()
+                NotificationFetcher.self.delegate?.updateInboxBadge()
                 
             }
         }

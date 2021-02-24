@@ -24,26 +24,30 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var postCommentButton: UIButton!
     @IBOutlet weak var commentsTableView: UITableView!
+    @IBOutlet weak var commentsTextViewBackground: UIView!
+    
+    let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let database = Firestore.firestore()
+    var delegate: refreshNearbyTable?
+
     
     var viewTranslation = CGPoint(x: 0, y: 0)
     var lastContentOffset: CGFloat = 0
+    
     var pointsScrolled = 0
-    var postArrayPosition: Int?
+    var postIndexInNearbyArray: Int?
     var keyboardHeight: Double?
     var screenWidth = UIScreen.main.bounds.width
     
-    let database = Firestore.firestore()
-        
+
     var commentData: [String: AnyObject]?
-    
     var notificationData: [String: AnyObject]?
     
     var commentsArray: [[String: AnyObject]] = []
     
     var didFastSwipe = false
     
-    var delegate: refreshNearbyTable?
-    
+
     var commentTimestamp: Double?
     
     var segueFromInbox = false
@@ -52,8 +56,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     var postLoadedFromCoreData: Bool?
 
-    let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
+
     var docID: String = ""
     
     var matchIndex: Int = 0
@@ -65,79 +68,54 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         super.viewDidLoad()
         
+        setUpUI()
+        
+        print(" - - - - - Segue from Inbox Status: - - - - - - ")
         print(segueFromInbox)
         
-        //Handles control flow if user proceeds from nearby tab
+        //Handles control flow if user enters VC from Nearby versus from Inbox
         if segueFromInbox == false {
-            postMessage.text = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].message
-            commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments ?? []
+            
+            postMessage.text = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].message
+            
+            commentsArray = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments ?? []
+            
+            docID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].documentID ?? ""
             
             if commentsArray.count == 0 {
-                nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments = []
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments = []
             }
             
-            docID = nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].documentID ?? ""
 
         
         } else {
             //Handles control flow if user proceeds from inbox
-            
-            for x in (0...InboxArray.inboxArrayFetchedPosts.count-1) {
+    
+            for x in (0...NotificationArrayRaw.notificationArrayRaw.count-1) {
                 
-                if NotificationArrayData.notificationArray[inboxPostArrayPosition ?? 0].documentID == InboxArray.inboxArrayFetchedPosts[x].documentID {
+                if NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID == NotificationArrayRaw.notificationArrayRaw[x].documentID {
                     print("Match")
-                    print(NotificationArrayData.notificationArray[inboxPostArrayPosition ?? 0].documentID)
-                    print(InboxArray.inboxArrayFetchedPosts[x].documentID)
+                    print(NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID)
+                    print(NotificationArrayRaw.notificationArrayRaw[x].documentID)
                     matchIndex = x
                 }
             }
             
-            postMessage.text = InboxArray.inboxArrayFetchedPosts[matchIndex].message
             
-            commentsArray = InboxArray.inboxArrayFetchedPosts[matchIndex].comments ?? []
             
-            docID = InboxArray.inboxArrayFetchedPosts[matchIndex].documentID ?? ""
+            postMessage.text = NotificationArrayRaw.notificationArrayRaw[matchIndex].message
+            
+            commentsArray = NotificationArrayRaw.notificationArrayRaw[matchIndex].comments ?? []
+            
+            docID = NotificationArrayRaw.notificationArrayRaw[matchIndex].documentID ?? ""
             
         }
         
 
-    
-//        if postLoadedFromCoreData == true {
-//            print("OLD POST")
-//            updateOldPostData()
-//
-//        } else {
-//            print("NEWPOST")
-//            commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments
-//
-//            DispatchQueue.main.async {
-//                self.commentsTableView.reloadData()
-//            }
-//        }
-        
-        
-        
-        
-    
 
-        print("COMMENT ARRAY COUNT")
+        print(" - - - - - COMMENT ARRAY COUNT - - - - ")
         print(commentsArray.count)
-
-
-        commentsTableView.dataSource = self
-        commentsTableView.delegate = self
-        commentsTableView.register(UINib(nibName: "NearbyTableCell", bundle: nil), forCellReuseIdentifier: "NearbyTableCell")
-        commentsTableView.estimatedRowHeight = 150;
-        commentsTableView.rowHeight = UITableView.automaticDimension;
-        commentsTableView.layoutMargins = .zero
-        commentsTableView.separatorInset = .zero
-        commentsTextView.delegate = self
-        commentsTextView.backgroundColor = UIColor.white
-        commentsTextView.layer.cornerRadius = 5.0
-        commentsTextView.clipsToBounds = true
-        commentsEditorView.layer.cornerRadius = 20.0
-        commentsEditorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-
+        
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleDismiss))
         view.addGestureRecognizer(panRecognizer)
         panRecognizer.delegate = self
@@ -147,35 +125,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
     }
     
-
-    
-    //Changes status bar text to black to contrast against white background
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return UIStatusBarStyle.darkContent
-    }
-    
-    @IBAction func reportButtonPressed(_ sender: Any) {
-        performSegue(withIdentifier: "commentsToReport", sender: self)
-    }
-    
-    
-    //Detects if user taps talbe during editing process
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("tap")
-        print(indexPath.row)
-        
-        if commentsTextView.isFirstResponder == true {
-            commentsTextView.resignFirstResponder()
-            slideCommentEditorDown()
-            
-        }
-        commentsTableView.deselectRow(at: indexPath, animated: false)
-        print("deselect")
-    }
-    
     @IBAction func postCommentPressed(_ sender: Any) {
         
-        //Slides comment editor up for message compsition if button pressed while editor is down
+        //Slides comment editor up if post button pressed while editor is down
         if commentsTextView.isFirstResponder == false {
             commentsTextView.becomeFirstResponder()
 
@@ -189,7 +141,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
             writeCommentToDatabase()
             
-            nearbyPostsFinal.finalNearbyPostsArray[postArrayPosition ?? 0].comments?.append(commentData!)
+            nearbyPostsFinal.finalNearbyPostsArray[postIndexInNearbyArray ?? 0].comments?.append(commentData!)
             
             //Create function to update coredata
             
@@ -206,7 +158,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             print("CommentsArray content:")
             print(commentsArray)
             
-            testingUpdate()
 
             
         }
@@ -215,7 +166,39 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
     }
     
+    @IBAction func userTappedCommentEditor(_ sender: Any) {
+        print("editor area has been tapped.")
+        commentsTextView.becomeFirstResponder()
+        //        slideCommentEditorUp()
+    }
     
+    
+    
+    //Changes status bar text to black to contrast against white background
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.darkContent
+    }
+    
+    @IBAction func reportButtonPressed(_ sender: Any) {
+        performSegue(withIdentifier: "commentsToReport", sender: self)
+    }
+    
+    
+    //Detects if user taps table during editing process
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("tap")
+        print(indexPath.row)
+        
+        if commentsTextView.isFirstResponder == true {
+            commentsTextView.resignFirstResponder()
+            slideCommentEditorDown()
+            
+        }
+        
+        commentsTableView.deselectRow(at: indexPath, animated: false)
+        print("deselect")
+    }
+
     func writeCommentToDatabase() {
         
         print(docID)
@@ -239,6 +222,39 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     }
     
     
+    func setUpUI() {
+        
+        commentsEditorView.translatesAutoresizingMaskIntoConstraints = true
+        commentsTextView.translatesAutoresizingMaskIntoConstraints = true
+        commentsTextViewBackground.translatesAutoresizingMaskIntoConstraints = true
+        
+        commentsEditorView.layer.shadowOpacity = 0.4
+        commentsEditorView.layer.shadowRadius = 3.5
+        commentsEditorView.layer.shadowColor = UIColor.black.cgColor
+        commentsEditorView.layer.masksToBounds = true
+        commentsEditorView.layer.shadowOffset = (CGSize(width: 0.0, height: 1.0))
+        commentsEditorView.layer.cornerRadius = 10
+        commentsEditorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        commentsEditorView.clipsToBounds = false
+        
+        
+        commentsTableView.dataSource = self
+        commentsTableView.delegate = self
+        commentsTableView.register(UINib(nibName: "NearbyTableCell", bundle: nil), forCellReuseIdentifier: "NearbyTableCell")
+        commentsTableView.estimatedRowHeight = 150;
+        commentsTableView.rowHeight = UITableView.automaticDimension;
+        commentsTableView.layoutMargins = .zero
+        commentsTableView.separatorInset = .zero
+        
+        commentsTextView.delegate = self
+        commentsTextView.layer.cornerRadius = 10
+        commentsTextView.clipsToBounds = true
+        
+        commentsTextViewBackground.clipsToBounds = true
+        commentsTextViewBackground.layer.cornerRadius = 17.5
+        
+    }
+    
     
     //Slides comment editor view up over table view
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -250,10 +266,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         dismiss(animated: true, completion: nil)
     }
     
-    
-    
-    
-    
     //Determines number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -263,8 +275,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         } else if segueFromInbox == true {
             
-            print(InboxArray.inboxArrayFetchedPosts[matchIndex].comments?.count ?? 0)
-            return (InboxArray.inboxArrayFetchedPosts[matchIndex].comments?.count ?? 0)
+            print(NotificationArrayRaw.notificationArrayRaw[matchIndex].comments?.count ?? 0)
+            return (NotificationArrayRaw.notificationArrayRaw[matchIndex].comments?.count ?? 0)
                         
         }
             
@@ -296,6 +308,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         cell.authorLabel?.text = commentsArray[indexPath.row]["author"] as? String
         cell.messageLabel?.text = commentsArray[indexPath.row]["message"] as? String
         cell.timestampLabel?.text = "5"
+        cell.contentView.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
         
         return cell
         
@@ -304,8 +317,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     //Slides comment text view editor up as keyboard slides up
     func slideCommentEditorUp() {
         
-        self.commentsEditorView.translatesAutoresizingMaskIntoConstraints = true
-
         DispatchQueue.main.async {
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, animations: {
@@ -325,39 +336,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         }
     
     }
-    
-    //Updates user's posted comment to CoreData for the appropriate object. Predicated by docID
-    func testingUpdate() {
-    
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        
-        let dataContext = appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "NearbyPostsEntity")
-        
-        fetchRequest.predicate = NSPredicate(format: "documentID = %@", docID)
-        
-        do {
-            
-            let test = try dataContext.fetch(fetchRequest)
-            
-            let objectUpdate = test as NSObject
-            
-            objectUpdate.setValue(commentsArray, forKey: "comments")
-            
-            do {
-                try dataContext.save()
-            }
-            catch {
-                print(error)
-            }
-            
-        }
-        catch {
-            print(error)
-        }
-        
-    }
+
     
     //Converts timestamp from 'seconds since 1970' to readable format
     func formatPostTime(postTimestamp: Double) -> String {
@@ -393,22 +372,22 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         if self.lastContentOffset < commentsTableView.contentOffset.y {
             
             //User Scrolled Down
-            
+        
         } else if self.lastContentOffset > commentsTableView.contentOffset.y  {
             //User Scrolled Up
             
             pointsScrolled += 1
-            print(pointsScrolled
-            )
+            print(pointsScrolled)
             
+            //Resigns editor if user scrolls up >100pts with editor open
             if pointsScrolled >= 100 && commentsTextView.isFirstResponder == true {
-                
                 slideCommentEditorDown()
                 self.commentsTextView.resignFirstResponder()
             }
             
         } else {
             //No scroll
+            
         }
     }
     
@@ -416,6 +395,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
                 
         self.view.translatesAutoresizingMaskIntoConstraints = true
+        
         let velocity = sender.velocity(in: view)
         
         switch sender.state {
@@ -425,7 +405,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
             viewTranslation = sender.translation(in: view)
 
-            //Detects downward swipe during edit
+            //Detects downward swipe during editing comment
             if viewTranslation.y > 20 && commentsTextView.isFirstResponder == true {
                 print("DOWNSWIPE")
                 commentsTextView.resignFirstResponder()
@@ -450,11 +430,11 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             if velocity.x > 1750 {
                 
                 DispatchQueue.main.async {
-
                     UIView.animate(withDuration: 0.45, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                         self.view.frame.origin.x = CGFloat(self.screenWidth)
                     }, completion: { [weak self] _ in
                         self?.commentsTextView.resignFirstResponder()
+                        self?.slideCommentEditorDown()
                         self?.dismiss(animated: false, completion: nil)
                     })
                 }
@@ -490,63 +470,5 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         print(keyboardHeight!)
     }
     
-    
-    func updateOldPostData() {
-        
-        let databaseRef = database.collection("posts").document(docID)
-        
-        databaseRef.getDocument { (document, error) in
-            
-        if let document = document, document.exists {
-            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-            print("Document data: \(dataDescription)")
-            print("FETCHEDDOC")
-            print(document.data() as Any)
-            
-            let postData = document.data()
-            
-            if let postAuthor = postData?["author"] as? String,
-                let postMessage = postData?["message"] as? String,
-                let postScore = postData?["score"] as? Int32?,
-                let postTimestamp = postData?["timestamp"] as? Double,
-                let postComments = postData?["comments"] as? [[String: AnyObject]]?,
-                let postID = document.documentID as String?,
-                let postUserDocID = postData?["userDocID"] as? String
-            {
-                let updatedPostCell = NearbyCellData(
-                    author: postAuthor,
-                    message: postMessage,
-                    score: postScore,
-                    timestamp: postTimestamp,
-                    comments: postComments,
-                    documentID: postID,
-                    loadedFromCoreData: true,
-                    userDocID: postUserDocID
-                )
-                
-                nearbyPostsFinal.finalNearbyPostsArray.remove(at: self.postArrayPosition ?? 0)
-                nearbyPostsFinal.finalNearbyPostsArray.append(updatedPostCell)
-                
-                nearbyPostsFinal.finalNearbyPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
-                    // you can have additional code here
-                    return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
-                    
-                }
-                
-                self.commentsArray = nearbyPostsFinal.finalNearbyPostsArray[self.postArrayPosition ?? 0].comments ?? []
-
-                DispatchQueue.main.async {
-                    self.commentsTableView.reloadData()
-                }
-                
-            }
-            
-        } else {
-            print("Document does not exist")
-        }
-
-        }
-        
-    }
     
 }

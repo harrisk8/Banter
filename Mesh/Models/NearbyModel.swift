@@ -16,7 +16,6 @@ public struct NearbyCellData {
     var timestamp: Double?
     var comments: [[String: AnyObject]]?
     var documentID: String?
-    var loadedFromCoreData: Bool?
     var userDocID: String?
     
 }

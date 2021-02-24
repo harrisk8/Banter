@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 
 //Struct for posts with new notifications fetched from database
-public struct InboxCellData {
+public struct NotificationDataRaw {
     
     var author: String?
     var message: String?
@@ -26,25 +26,33 @@ public struct InboxCellData {
 }
 
 //Array to hold above-declared struct
-public struct InboxArray {
-    static var inboxArrayFetchedPosts: [InboxCellData] = []
+public struct NotificationArrayRaw {
+    
+    static var notificationArrayRaw: [NotificationDataRaw] = []
+    
 }
 
 
 //Struct to hold notifications extracted from above-declared posts
-public struct NotificationData {
+public struct NotificationDataFormatted {
+    
     var author: String?
     var message: String?
     var documentID: String?
     var opened: Bool?
     var notificationTimestamp: Double?
+    
 }
 
+
+//Array to hold array of notifications, feeds Inbox tableview
 public struct NotificationArrayData {
     
-    static var notificationArray: [NotificationData] = []
+    static var notificationArrayUnsorted: [[String: AnyObject]] = []
     
-    static var testInboxArray: [[String: AnyObject]] = []
+    static var notificationArraySorted: [NotificationDataFormatted] = []
+    
+
 }
 
 

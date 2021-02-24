@@ -56,7 +56,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func getPostData() {
-        let thedocid = InboxArray.inboxArrayFetchedPosts[selectedCellIndex ?? 0].documentID
+        let thedocid = NotificationArrayRaw.notificationArrayRaw[selectedCellIndex ?? 0].documentID
         print(thedocid ?? "")
     }
     
@@ -67,15 +67,15 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
         print(indexPath.row)
 //        getPostData()
         performSegue(withIdentifier: "inboxToComments", sender: self)
-        NotificationArrayData.notificationArray[selectedCellIndex ?? 0].opened = true
+        NotificationArrayData.notificationArraySorted[selectedCellIndex ?? 0].opened = true
         }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let commentsVCForInbox = segue.destination as? CommentsViewController {
             commentsVCForInbox.inboxPostArrayPosition = selectedCellIndex
-            commentsVCForInbox.modalPresentationCapturesStatusBarAppearance = true
             commentsVCForInbox.segueFromInbox = true
+            commentsVCForInbox.modalPresentationCapturesStatusBarAppearance = true
         }
     }
     
@@ -141,8 +141,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return NotificationArrayData.notificationArray.count
-        return InboxArray.inboxArrayFetchedPosts.count
+        return NotificationArrayData.notificationArraySorted.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -157,8 +156,8 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
 //        cell.messageLabel.text = lastComment["message"] as? String
 //        cell.timestampLabel.text = "12m"
 
-        cell.headerLabel.text = (NotificationArrayData.notificationArray[indexPath.row].author ?? "") + " commented on your post"
-        cell.messageLabel.text = NotificationArrayData.notificationArray[indexPath.row].message
+        cell.headerLabel.text = (NotificationArrayData.notificationArraySorted[indexPath.row].author ?? "") + " commented on your post"
+        cell.messageLabel.text = NotificationArrayData.notificationArraySorted[indexPath.row].message
         cell.timestampLabel.text = "12m"
 
         

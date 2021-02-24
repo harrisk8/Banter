@@ -27,8 +27,8 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
     var phoneNumber: String?
     var authCode: String?
     
-    
-    
+    let database = Firestore.firestore()
+
     var keyboardHeight: Double?
     
 
@@ -79,9 +79,40 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
                 
                 //Stores userID in UserInfo class for local usage
                 UserInfo.userID = Auth.auth().currentUser?.uid ?? ""
+                
+                
             }
             
         })
+        
+    }
+    
+    func getUserDocID() {
+        
+        database.collection("users")
+            .whereField("userID", isEqualTo: UserInfo.userID ?? "")
+        .getDocuments() { (querySnapshot, err) in
+            
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                
+                for document in querySnapshot!.documents {
+                    
+                    let postData = document.data()
+                    
+                    if let postID = document.documentID as String? {
+                        
+                        UserInfo.userCollectionDocID = postID
+                        print("PULLED NEW DOC ID")
+                        print(UserInfo.userCollectionDocID)
+                        UserDefaults.standard.set(UserInfo.userCollectionDocID, forKey: "userCollectionDocID")
+                    
+                    }
+                }
+
+            }
+        }
         
     }
     

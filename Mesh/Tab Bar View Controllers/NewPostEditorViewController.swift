@@ -21,12 +21,10 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var changeButton: UIButton!
-    
     @IBOutlet weak var postMessageButton: UIButton!
     
     @IBOutlet weak var postingAsLabel: UILabel!
     @IBOutlet weak var characterCountLabel: UILabel!
-    
     
     @IBOutlet weak var messageEditor: UITextView!
     
@@ -74,7 +72,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     @IBAction func postMessagePressed(_ sender: Any) {
         if validateMessage() {
             timestampOfPostCreated = Date().timeIntervalSince1970
-            writePostToDatabase()
+            timestampForFetchingPostsBeforeUsersPost = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp
+            fetchPostsBeforeUsersPost()
         }
     }
     
@@ -92,7 +91,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             "locationCity": "Gainesville",
             "locationState": "FL",
             "message": messageEditor.text ?? "",
-            "score": randomInt,
+            "score": 0,
             "timestamp": timestampOfPostCreated,
             "lastCommentTimestamp": 0.0
         
@@ -107,41 +106,25 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                 
                 //Add user generated post to nearbyFinal array and then to Core Data
                 self.appendNewPostToArray()
-                
-                if nearbyPostsFinal.finalNearbyPostsArray.count == 1 {
-                    self.addNewPostToCoreData()
-                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray = []
-                    self.timestampForFetchingPostsBeforeUsersPost = nearbyPostsFinal.finalNearbyPostsArray[0].timestamp ?? 0.0
-                    self.fetchPostsBeforeUsersPost()
-                    
-                } else if nearbyPostsFinal.finalNearbyPostsArray.count > 1 {
-                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray = []
-                    self.timestampForFetchingPostsBeforeUsersPost = nearbyPostsFinal.finalNearbyPostsArray[1].timestamp ?? 0.0
-                    self.fetchPostsBeforeUsersPost()
-                } else {
-                    print("FIRST POST IN SYSTEM")
-                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray = []
-                    self.timestampForFetchingPostsBeforeUsersPost = 0.0
-                    self.fetchPostsBeforeUsersPost()
-                }
-                
-                
-                
-                //IF STATEMENT EXECUTE ONLY IF NEARBY ARRAY IS NOT EMPTY TO AVOID CRASH CUZ OF NIL
 
-                
             }
         }
-
         
         
     }
+
     
     
     func fetchPostsBeforeUsersPost() {
         
+        if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0 {
+            timestampForFetchingPostsBeforeUsersPost = 0.0
+        } else {
+            timestampForFetchingPostsBeforeUsersPost = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp ?? 0.0
+        }
+        
         database.collection("posts")
-            .whereField("timestamp", isGreaterThan: timestampForFetchingPostsBeforeUsersPost ?? 0.0)
+            .whereField("timestamp", isGreaterThan: timestampForFetchingPostsBeforeUsersPost)
                 .whereField("locationCity", isEqualTo: UserInfo.userCity ?? "")
                 .whereField("locationState", isEqualTo: UserInfo.userState ?? "")
                .getDocuments() { (querySnapshot, err) in
@@ -168,116 +151,29 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                                timestamp: postTimestamp,
                                comments: postComments ?? nil,
                                documentID: postID,
-                               loadedFromCoreData: false,
                                userDocID: postUserDocID
                             )
+                        
+                        print(" - - - -new post before users post - - - - ")
+                        print(newPost)
                            
-                           newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.append(newPost)
+                        newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.append(newPost)
+                        
+                        
                            
                        }
                        
                    }
                 
+                self.writePostToDatabase()
+                
                }
                    
-                   //Prevents app from crashing if there are no new posts to load
-                if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0 {
-                    print("No new posts before the user created theirs")
-                    self.organizeNearbyArray()
-                    UserDefaults.standard.set(self.timestampOfPostCreated, forKey: "lastTimestampPulledFromServer")
-
-                        
-                } else if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count != 0 {
-                    
-                    UserDefaults.standard.set(self.timestampOfPostCreated, forKey: "lastTimestampPulledFromServer")
-                    
-                    self.appendPostsFetched()
-                    self.organizeNearbyArray()
-                   }
-        
-                   print("Number of new posts: " + String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count))
-                   print("NEW Post")
-                   print(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray)
-
            }
         
-        
-        
     }
     
-    func appendPostsFetched() {
-        
-        if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 1 {
-            
-            let coreDataPostCell = NearbyPostsEntity(context: dataContext)
-                        
-            coreDataPostCell.author = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].author
-            coreDataPostCell.comments = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].comments as NSArray?
-            coreDataPostCell.documentID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].documentID
-            coreDataPostCell.message = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].message
-            coreDataPostCell.score = (newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].score as Int32?) ?? 0
-            coreDataPostCell.timestamp = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp ?? 0.0
-            coreDataPostCell.userDocID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].userDocID
-            
-            print("Adding one post from refresh to Core Data")
-            
-            do {
-                try dataContext.save()
-            }
-            catch {
-            }
-            
-        } else if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count > 1 {
-            
-            for x in 0...((newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count) - 1) {
-                
-                let coreDataPostCell = NearbyPostsEntity(context: dataContext)
-                            
-                coreDataPostCell.author = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].author
-                coreDataPostCell.comments = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].comments as NSArray?
-                coreDataPostCell.documentID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].documentID
-                coreDataPostCell.message = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].message
-                coreDataPostCell.score = (newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].score as Int32?) ?? 0
-                coreDataPostCell.timestamp = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].timestamp ?? 0.0
-                coreDataPostCell.userDocID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].userDocID
-
-                
-                print("Adding multiple posts to Core Data")
-                
-                do {
-                    try dataContext.save()
-                }
-                catch {
-                }
-                
-            }
-        } else {
-            print("No new posts to add to Core Data")
-        }
-    }
     
-    //Adds the post created by the user to Core Data
-    func addNewPostToCoreData() {
-        print("Appending the users post to core data")
-        
-        let coreDataPostCell = NearbyPostsEntity(context: dataContext)
-                    
-        coreDataPostCell.author = UserInfo.userAppearanceName
-        coreDataPostCell.comments = [] as NSObject
-        coreDataPostCell.documentID = newDocumentID
-        coreDataPostCell.message = messageEditor.text ?? ""
-        coreDataPostCell.score = randomInt
-        coreDataPostCell.timestamp = timestampOfPostCreated
-        coreDataPostCell.userDocID = UserInfo.userCollectionDocID
-        
-        
-        do {
-            try dataContext.save()
-        }
-        catch {
-        }
-        
-    }
     
     //Locally appends nearby array with new post created by the user.
     func appendNewPostToArray() {
@@ -285,30 +181,26 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         let newPostData = NearbyCellData(
             author: UserInfo.userAppearanceName,
             message: messageEditor.text,
-            score: randomInt,
+            score: 0,
             timestamp: timestampOfPostCreated,
             comments: [] as [[String : AnyObject]],
             documentID: newDocumentID,
-            loadedFromCoreData: false,
             userDocID: UserInfo.userCollectionDocID
         )
         
-        nearbyPostsFinal.finalNearbyPostsArray.insert(newPostData, at: 0)
+        newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.insert(newPostData, at: 0)
+        
+        organizeNearbyArray()
         
     }
     
     func organizeNearbyArray() {
         
-        nearbyPostsFinal.finalNearbyPostsArray.append(contentsOf: newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray)
-        
         //Sort by timestamp
-        nearbyPostsFinal.finalNearbyPostsArray.sort { (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
+        newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.sort{ (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
             return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
         }
         
-        if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count != 0 {
-            nearbyPostsFinal.finalNearbyPostsArray.remove(at: 0)
-        }
         dismiss(animated: true, completion: nil)
         
     }
@@ -403,9 +295,6 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             
         }
     }
-    
-
-    
     
     
 }

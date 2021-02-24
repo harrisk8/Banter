@@ -39,31 +39,6 @@
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Nem-yN-wkc">
-                        <rect key="frame" x="146" y="18.5" width="374" height="98"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJh-dR-Rwx">
-                                <rect key="frame" x="163.5" y="0.0" width="47" height="32"/>
-                                <state key="normal" image="Like Button Regular"/>
-                                <connections>
-                                    <action selector="likeButtonPressed:" destination="pXz-tJ-ADf" eventType="touchUpInside" id="ysB-e2-X2M"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJO-cC-3l8">
-                                <rect key="frame" x="176" y="33" width="22" height="32"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="19"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r89-ZG-ika">
-                                <rect key="frame" x="163.5" y="66" width="47" height="32"/>
-                                <state key="normal" image="Dislike Button Regular"/>
-                                <connections>
-                                    <action selector="dislikeButtonPressed:" destination="pXz-tJ-ADf" eventType="touchUpInside" id="XdB-0t-AwV"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                    </stackView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nwx-Ab-NO0">
                         <rect key="frame" x="0.0" y="0.0" width="370" height="29.5"/>
                         <subviews>
@@ -97,6 +72,31 @@
                             </label>
                         </subviews>
                     </stackView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Nem-yN-wkc">
+                        <rect key="frame" x="146" y="18.5" width="374" height="98"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJh-dR-Rwx">
+                                <rect key="frame" x="163.5" y="0.0" width="47" height="32"/>
+                                <state key="normal" image="Like Button Regular"/>
+                                <connections>
+                                    <action selector="likeButtonPressed:" destination="pXz-tJ-ADf" eventType="touchUpInside" id="ysB-e2-X2M"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJO-cC-3l8">
+                                <rect key="frame" x="176" y="33" width="22" height="32"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="19"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r89-ZG-ika">
+                                <rect key="frame" x="163.5" y="66" width="47" height="32"/>
+                                <state key="normal" image="Dislike Button Regular"/>
+                                <connections>
+                                    <action selector="dislikeButtonPressed:" destination="pXz-tJ-ADf" eventType="touchUpInside" id="XdB-0t-AwV"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FNV-S6-TQg">
                         <rect key="frame" x="194" y="112.5" width="84" height="18"/>
                         <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="15"/>
@@ -104,7 +104,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" red="0.97824136003392237" green="0.97351555636226095" blue="0.98296716370558379" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="zg2-iN-y4h" secondAttribute="bottom" constant="4.5" id="0r0-ii-njq"/>
                     <constraint firstItem="Nwx-Ab-NO0" firstAttribute="top" secondItem="x2w-k6-Hec" secondAttribute="top" id="Dmc-nR-h8V"/>
@@ -123,6 +123,7 @@
                     <constraint firstItem="Nwx-Ab-NO0" firstAttribute="leading" secondItem="x2w-k6-Hec" secondAttribute="leading" id="x0H-0n-kLN"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="Gb6-u6-hLy"/>
             <connections>
                 <outlet property="authorLabel" destination="6eN-2q-HfA" id="2nN-a1-ncD"/>

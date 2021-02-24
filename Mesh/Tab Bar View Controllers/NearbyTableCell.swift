@@ -6,6 +6,11 @@
 //  Copyright © 2020 Avidi Technologies. All rights reserved.
 //
 
+
+protocol CellDelegate: class {
+    func didTap(_ cell: NearbyTableCell)
+}
+
 import UIKit
 
 class NearbyTableCell: UITableViewCell {
@@ -39,11 +44,17 @@ class NearbyTableCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    weak var delegate: CellDelegate?
+    @IBAction func buttonPressed(_ sender: Any) {
+        delegate?.didTap(self)
+    }
+    
     @IBAction func likeButtonPressed(_ sender: Any) {
         
         
         if dislikedPost == true {
             print("DISLIKE -> LIKE")
+            delegate?.didTap(self)
             randomInt += 2
             likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
             dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
@@ -53,12 +64,16 @@ class NearbyTableCell: UITableViewCell {
         }
         
         if likedPost == false {
+            delegate?.didTap(self)
+
             print("LIKE")
             randomInt += 1
             likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
             postScoreLabel?.text = String(randomInt)
             likedPost = true
         } else if likedPost == true {
+            delegate?.didTap(self)
+
             print("Removing Like")
             randomInt -= 1
             likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)

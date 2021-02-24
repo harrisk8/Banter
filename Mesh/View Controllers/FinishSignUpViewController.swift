@@ -69,7 +69,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         
         let ref: DocumentReference? = nil
         database.collection("users").addDocument(data: [
-            "userID": UserInfo.userID!,
+            "userID": Auth.auth().currentUser?.uid ?? "",
             "first name": firstName,
             "last name": lastName,
             "date of birth": dateOfBirth
@@ -80,6 +80,8 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
                 print("Document successfully written")
                 print("USER DOC ID:")
                 print(ref?.documentID)
+                UserDefaults.standard.set(ref?.documentID, forKey: "userCollectionDocID")
+                UserDefaults.standard.set(true, forKey: "userAccountCreated")
             }
         }
     }
@@ -107,6 +109,10 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             dateOfBirthValid = true
         } else {
             print("DOB missing")
+        }
+        
+        if firstNameTextField.text != "" && lastNameTextField.text != "" && dateOfBirthTextField.text != "" {
+            print("Information valid")
         }
         
         if firstNameValid == true && lastNameValid == true && dateOfBirthValid == true {
