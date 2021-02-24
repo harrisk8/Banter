@@ -485,7 +485,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     func checkNewPostsForRefresh() {
         
         print("Checking for new posts")
-//        a
+//        a5
         
         if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0 {
             lastTimestampPulledFromServer = 0.0
