@@ -55,9 +55,8 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
     @IBAction func nextButtonPressed(_ sender: Any) {
         print("next pressed")
         if validateCode() {
-            print("Good code")
+            print("Sufficient digits")
             verifyAuthCode()
-            performSegue(withIdentifier: "authCodeScreenToFinishSignUpScreen", sender: self)
         } else {
             print("Bad code")
         }
@@ -74,11 +73,14 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
         Auth.auth().signIn(with: credential, completion: { authData, error in
             if let error = error {
                 print(error.localizedDescription)
+                print("INCORRECT CODE TRY AGAIN")
             } else {
                 print(Auth.auth().currentUser?.uid ?? "")
                 
                 //Stores userID in UserInfo class for local usage
                 UserInfo.userID = Auth.auth().currentUser?.uid ?? ""
+                
+                self.getUserDocID()
                 
                 
             }
@@ -89,27 +91,45 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
     
     func getUserDocID() {
         
-        database.collection("users")
-            .whereField("userID", isEqualTo: UserInfo.userID ?? "")
-        .getDocuments() { (querySnapshot, err) in
+        
+        print("trying to get doc)")
+        
+        database.collection("users").whereField("userID", isEqualTo: UserInfo.userID ?? "").getDocuments() { (querySnapshot, err) in
             
             if let err = err {
                 print(err.localizedDescription)
+                print(" - - - - THIS USER DOES NOT EXIST YET - - - - ")
+                self.performSegue(withIdentifier: "authCodeScreenToFinishSignUpScreen", sender: self)
             } else {
                 
-                for document in querySnapshot!.documents {
+                if querySnapshot!.documents.count == 0 {
                     
-                    let postData = document.data()
+                    print(" - - - - THIS USER DOES NOT EXIST YET - - - - ")
+                    self.performSegue(withIdentifier: "authCodeScreenToFinishSignUpScreen", sender: self)
                     
-                    if let postID = document.documentID as String? {
+                } else {
+                    
+                    print("User exists")
+                    
+                    for document in querySnapshot!.documents {
                         
-                        UserInfo.userCollectionDocID = postID
-                        print("PULLED NEW DOC ID")
-                        print(UserInfo.userCollectionDocID)
-                        UserDefaults.standard.set(UserInfo.userCollectionDocID, forKey: "userCollectionDocID")
-                    
+                        let postData = document.data()
+                        
+                        if let postID = document.documentID as String? {
+                            
+                            UserInfo.userCollectionDocID = postID
+                            print(" - - - - - Existing user with userDocID: - - - - - - ")
+                            print(postID)
+                            UserDefaults.standard.set(postID, forKey: "userCollectionDocID")
+                            UserDefaults.standard.set(true, forKey: "userAccountCreated")
+                            self.performSegue(withIdentifier: "existingUserAuthToNearby", sender: self)
+                        
+                        }
                     }
+                    
+                    
                 }
+                
 
             }
         }

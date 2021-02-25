@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6CF2F355B5884CAD02551477 /* Pods_Mesh.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2EC500CAC980DAA33F77D06 /* Pods_Mesh.framework */; };
+		6F0874AA25E6FA6C00E0A547 /* Typo_Round_Light_Demo.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6F0874A725E6F73300E0A547 /* Typo_Round_Light_Demo.otf */; };
 		6F4067A024F31ABA009CB580 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F40679F24F31ABA009CB580 /* GoogleService-Info.plist */; };
 		6F4067A324F4627F009CB580 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4067A224F4627F009CB580 /* TabBarViewController.swift */; };
 		6F56A1B6252D5E01005CB028 /* NotificationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F56A1B5252D5E01005CB028 /* NotificationFetcher.swift */; };
@@ -28,6 +29,7 @@
 		6F837CD1252C402300A18420 /* InboxTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F837CCF252C402300A18420 /* InboxTableCell.xib */; };
 		6F837CD3252D1EA700A18420 /* InboxModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F837CD2252D1EA700A18420 /* InboxModel.swift */; };
 		6F8605CC250F5128002AC4E9 /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8605CB250F5128002AC4E9 /* TrendingViewController.swift */; };
+		6F89349D25E70928006C5E01 /* mesh_text@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F89349C25E70928006C5E01 /* mesh_text@3x.png */; };
 		6F94A1E825257DA600284D92 /* NearbyTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F94A1E625257DA500284D92 /* NearbyTableCell.swift */; };
 		6F94A1E925257DA600284D92 /* NearbyTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F94A1E725257DA500284D92 /* NearbyTableCell.xib */; };
 		6FAFC2B2252982C6003F7102 /* TrendingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAFC2B1252982C6003F7102 /* TrendingModel.swift */; };
@@ -58,6 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6F0874A725E6F73300E0A547 /* Typo_Round_Light_Demo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Typo_Round_Light_Demo.otf; sourceTree = "<group>"; };
 		6F40679F24F31ABA009CB580 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6F4067A124F32C36009CB580 /* Mesh.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mesh.entitlements; sourceTree = "<group>"; };
 		6F4067A224F4627F009CB580 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +82,7 @@
 		6F837CCF252C402300A18420 /* InboxTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InboxTableCell.xib; sourceTree = "<group>"; };
 		6F837CD2252D1EA700A18420 /* InboxModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InboxModel.swift; path = "Mesh/View Controllers/InboxModel.swift"; sourceTree = SOURCE_ROOT; };
 		6F8605CB250F5128002AC4E9 /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
+		6F89349C25E70928006C5E01 /* mesh_text@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mesh_text@3x.png"; sourceTree = "<group>"; };
 		6F94A1E625257DA500284D92 /* NearbyTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NearbyTableCell.swift; path = "Mesh/Tab Bar View Controllers/NearbyTableCell.swift"; sourceTree = SOURCE_ROOT; };
 		6F94A1E725257DA500284D92 /* NearbyTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = NearbyTableCell.xib; path = "Mesh/Tab Bar View Controllers/NearbyTableCell.xib"; sourceTree = SOURCE_ROOT; };
 		6FAFC2B1252982C6003F7102 /* TrendingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingModel.swift; sourceTree = "<group>"; };
@@ -204,6 +208,7 @@
 				6F67E8D125295E3D00DB6771 /* TrendingTableCell.xib */,
 				6F837CCE252C402300A18420 /* InboxTableCell.swift */,
 				6F837CCF252C402300A18420 /* InboxTableCell.xib */,
+				6F89349C25E70928006C5E01 /* mesh_text@3x.png */,
 			);
 			path = "Table View Cells";
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 				6FD5131F24E36BAA0028DDAE /* Roboto-Regular.ttf */,
 				6FD5131424E36BA40028DDAE /* Roboto-Thin.ttf */,
 				6FD5131624E36BA50028DDAE /* Roboto-ThinItalic.ttf */,
+				6F0874A725E6F73300E0A547 /* Typo_Round_Light_Demo.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -348,6 +354,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F0874AA25E6FA6C00E0A547 /* Typo_Round_Light_Demo.otf in Resources */,
 				6F94A1E925257DA600284D92 /* NearbyTableCell.xib in Resources */,
 				6FD5132224E36BAA0028DDAE /* Roboto-ThinItalic.ttf in Resources */,
 				6FD5132724E36BAA0028DDAE /* Roboto-LightItalic.ttf in Resources */,
@@ -356,6 +363,7 @@
 				6FD5132124E36BAA0028DDAE /* Roboto-MediumItalic.ttf in Resources */,
 				6FFD62AC24DE370D00D5B96D /* LaunchScreen.storyboard in Resources */,
 				6FD5132324E36BAA0028DDAE /* Roboto-Italic.ttf in Resources */,
+				6F89349D25E70928006C5E01 /* mesh_text@3x.png in Resources */,
 				6FFD62A924DE370D00D5B96D /* Assets.xcassets in Resources */,
 				6FD5132424E36BAA0028DDAE /* Roboto-Bold.ttf in Resources */,
 				6FD5132824E36BAA0028DDAE /* Roboto-Medium.ttf in Resources */,

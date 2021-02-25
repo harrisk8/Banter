@@ -10,9 +10,6 @@
         <array key="Roboto-Light.ttf">
             <string>Roboto-Light</string>
         </array>
-        <array key="Roboto-Regular.ttf">
-            <string>Roboto-Regular</string>
-        </array>
     </customFonts>
     <scenes>
         <!--View Controller-->
@@ -30,34 +27,33 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <gestureRecognizers/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mesh" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="35" translatesAutoresizingMaskIntoConstraints="NO" id="PnB-eD-DP3">
-                                <rect key="frame" x="120.66666666666669" y="227.33333333333337" width="173" height="83"/>
-                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="70"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feel the pulse of your community." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="ftV-Te-3mF">
-                                <rect key="frame" x="67" y="324.66666666666669" width="280" height="23"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feel the pulse of your city." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="ftV-Te-3mF">
+                                <rect key="frame" x="67" y="311.66666666666669" width="280" height="23"/>
                                 <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mesh_text@3x" translatesAutoresizingMaskIntoConstraints="NO" id="UnV-1r-WaE">
+                                <rect key="frame" x="29" y="182.33333333333334" width="356" height="128.00000000000003"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="ftV-Te-3mF" firstAttribute="top" secondItem="UnV-1r-WaE" secondAttribute="bottom" constant="1.3333333333333144" id="3CT-9g-teR"/>
                             <constraint firstItem="9xW-93-fDU" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="59c-XT-qXb"/>
                             <constraint firstItem="Tu6-9s-yfb" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="9aQ-3O-zM5"/>
                             <constraint firstItem="9xW-93-fDU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Cbn-qi-qZr"/>
                             <constraint firstItem="Tu6-9s-yfb" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="DqB-lR-ff7"/>
                             <constraint firstAttribute="bottom" secondItem="Tu6-9s-yfb" secondAttribute="bottom" id="GWX-xK-eBB"/>
-                            <constraint firstItem="ftV-Te-3mF" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.75" id="RGB-vk-Oy3"/>
-                            <constraint firstItem="PnB-eD-DP3" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Yiz-PR-OMW"/>
-                            <constraint firstItem="PnB-eD-DP3" firstAttribute="width" secondItem="Tu6-9s-yfb" secondAttribute="width" multiplier="0.417874" id="egA-Zu-1yW"/>
+                            <constraint firstItem="UnV-1r-WaE" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.55" id="Kaj-ky-YCh"/>
                             <constraint firstItem="ftV-Te-3mF" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="f6l-6W-cdG"/>
                             <constraint firstItem="9xW-93-fDU" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="g7D-Ou-sRV"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="UnV-1r-WaE" secondAttribute="trailing" constant="29" id="j0W-aL-nac"/>
+                            <constraint firstItem="UnV-1r-WaE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="29" id="lN5-JR-Lep"/>
                             <constraint firstItem="Tu6-9s-yfb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mYf-3z-f5n"/>
                             <constraint firstItem="ftV-Te-3mF" firstAttribute="width" secondItem="Tu6-9s-yfb" secondAttribute="width" multiplier="0.676329" id="nrQ-gX-Qwd"/>
-                            <constraint firstItem="PnB-eD-DP3" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.6" id="pQ2-q0-rIL"/>
+                            <constraint firstItem="UnV-1r-WaE" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="r4y-Pe-Yf5"/>
                             <constraint firstAttribute="bottom" secondItem="9xW-93-fDU" secondAttribute="bottom" id="r7f-Dd-5MG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -71,5 +67,6 @@
     <resources>
         <image name="Background" width="414" height="896"/>
         <image name="Circle Slider" width="414" height="896"/>
+        <image name="mesh_text@3x" width="128" height="128"/>
     </resources>
 </document>

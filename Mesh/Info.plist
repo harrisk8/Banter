@@ -51,6 +51,8 @@
 		<string>Roboto-Regular.ttf</string>
 		<string>Roboto-Thin.ttf</string>
 		<string>Roboto-ThinItalic.ttf</string>
+		<string>Typo_Round_Light_Demo.otf</string>
+		<string></string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

@@ -72,24 +72,24 @@
                             </label>
                         </subviews>
                     </stackView>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Nem-yN-wkc">
-                        <rect key="frame" x="146" y="18.5" width="374" height="98"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="-7" translatesAutoresizingMaskIntoConstraints="NO" id="Nem-yN-wkc">
+                        <rect key="frame" x="146" y="14.5" width="374" height="106"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJh-dR-Rwx">
-                                <rect key="frame" x="163.5" y="0.0" width="47" height="32"/>
+                                <rect key="frame" x="153.5" y="0.0" width="67" height="40"/>
                                 <state key="normal" image="Like Button Regular"/>
                                 <connections>
                                     <action selector="likeButtonPressed:" destination="pXz-tJ-ADf" eventType="touchUpInside" id="ysB-e2-X2M"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJO-cC-3l8">
-                                <rect key="frame" x="176" y="33" width="22" height="32"/>
+                                <rect key="frame" x="176" y="33" width="22" height="40"/>
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="19"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r89-ZG-ika">
-                                <rect key="frame" x="163.5" y="66" width="47" height="32"/>
+                                <rect key="frame" x="163.5" y="66" width="47" height="40"/>
                                 <state key="normal" image="Dislike Button Regular"/>
                                 <connections>
                                     <action selector="dislikeButtonPressed:" destination="pXz-tJ-ADf" eventType="touchUpInside" id="XdB-0t-AwV"/>
@@ -140,6 +140,6 @@
     <resources>
         <image name="Author Icon" width="21" height="21"/>
         <image name="Dislike Button Regular" width="47" height="32"/>
-        <image name="Like Button Regular" width="47" height="32"/>
+        <image name="Like Button Regular" width="67" height="40"/>
     </resources>
 </document>

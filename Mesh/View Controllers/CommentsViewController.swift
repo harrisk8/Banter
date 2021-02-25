@@ -99,6 +99,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                     print(NotificationArrayRaw.notificationArrayRaw[x].documentID)
                     matchIndex = x
                 }
+                
+                // else run firebase Query with docID to get info?
             }
             
             
@@ -141,7 +143,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
             writeCommentToDatabase()
             
-            nearbyPostsFinal.finalNearbyPostsArray[postIndexInNearbyArray ?? 0].comments?.append(commentData!)
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments?.append(commentData!)
             
             //Create function to update coredata
             

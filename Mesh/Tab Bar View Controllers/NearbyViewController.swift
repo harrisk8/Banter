@@ -91,6 +91,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         
         
         getUserDocID()
+        
+        UserDefaults.standard.set(true, forKey: "userLaunchedBefore")
+
 
     }
     
