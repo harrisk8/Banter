@@ -8,6 +8,15 @@
 
 import Foundation
 
+enum voteType {
+    case like
+    case dislike
+    case removeLike
+    case removeDislike
+    case dislikeFromLike
+    case likeFromDislike
+}
+
 public struct NearbyCellData {
     
     var author: String?

@@ -141,7 +141,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return NotificationArrayData.notificationArraySorted.count
+        return NotificationArrayData.notificationArrayFinal.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -156,12 +156,36 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
 //        cell.messageLabel.text = lastComment["message"] as? String
 //        cell.timestampLabel.text = "12m"
 
-        cell.headerLabel.text = (NotificationArrayData.notificationArraySorted[indexPath.row].author ?? "") + " commented on your post"
-        cell.messageLabel.text = NotificationArrayData.notificationArraySorted[indexPath.row].message
-        cell.timestampLabel.text = "12m"
+        cell.headerLabel.text = (NotificationArrayData.notificationArrayFinal[indexPath.row].author ?? "") + " commented on your post"
+        cell.messageLabel.text = NotificationArrayData.notificationArrayFinal[indexPath.row].message
+        cell.timestampLabel.text = String(formatPostTime(postTimestamp: NotificationArrayData.notificationArrayFinal[indexPath.row].notificationTimestamp ?? 0.0))
 
         
         return cell
+    }
+    
+    
+    //Converts timestamp from 'seconds since 1970' to readable format
+    func formatPostTime(postTimestamp: Double) -> String {
+        
+        let timeDifference = (UserInfo.refreshTime ?? 0.0) - postTimestamp
+        
+        var timeInMinutes = Int((timeDifference / 60.0))
+        let timeInHours = Int(timeInMinutes / 60)
+        let timeInDays = Int(timeInHours / 24)
+        
+        if timeInMinutes < 60 {
+            if timeInMinutes < 1{
+                timeInMinutes = 0
+            }
+            return (String(timeInMinutes) + "m")
+        } else if timeInMinutes >= 60 && timeInHours < 24 {
+            return (String(timeInHours) + "h")
+        } else {
+            return (String(timeInDays) + "d")
+        }
+        
+    
     }
 
  

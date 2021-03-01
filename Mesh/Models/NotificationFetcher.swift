@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import Firebase
+import CoreData
+
 
 protocol updateInboxBadge {
     
@@ -19,8 +21,12 @@ protocol updateInboxBadge {
 
 class NotificationFetcher {
     
+    let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
     let database = Firestore.firestore()
     static var delegate: updateInboxBadge?
+    
+    var oldNotificationsFromCoreDataRaw: [NotificationEntity] = []
 
     
     var lastCommentTimestamp = UserDefaults.standard.double(forKey: "lastCommentTimestamp")
@@ -36,7 +42,7 @@ class NotificationFetcher {
         
         //Query for posts created by user with new comments 
         database.collection("posts")
-        .whereField("userDocID", isEqualTo: "DzlKdTwTGSM5WdMQikmF")
+            .whereField("userDocID", isEqualTo: UserDefaults.standard.string(forKey: "userCollectionDocID"))
         .whereField("lastCommentTimestamp", isGreaterThan: lastCommentTimestamp)
         .getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -137,10 +143,128 @@ class NotificationFetcher {
                 print(NotificationArrayData.notificationArraySorted.count)
                 print(NotificationArrayData.notificationArraySorted)
                 
+                NotificationArrayData.notificationArrayFinal.append(contentsOf: NotificationArrayData.notificationArraySorted)
+                
+                self.mergeOldNotificationsFromCoreData()
+                
+                self.addNotifcationsToCoreData()
+                
+                NotificationArrayData.notificationArrayFinal.sort { (lhs: NotificationDataFormatted, rhs: NotificationDataFormatted) -> Bool in
+                    // you can have additional code here
+                    return lhs.notificationTimestamp ?? 0 > rhs.notificationTimestamp ?? 0
+                }
+                
                 //Updates badge icon
                 NotificationFetcher.self.delegate?.updateInboxBadge()
                 
             }
         }
     }
+    
+    
+    
+    func addNotifcationsToCoreData() {
+        
+        if NotificationArrayData.notificationArraySorted.count == 1 {
+            
+            let notificationForCoreData = NotificationEntity(context: dataContext)
+            
+            notificationForCoreData.documentID = NotificationArrayData.notificationArraySorted[0].documentID
+            notificationForCoreData.message = NotificationArrayData.notificationArraySorted[0].message
+            notificationForCoreData.opened = NotificationArrayData.notificationArraySorted[0].opened ?? false
+            notificationForCoreData.notificationTimestamp = NotificationArrayData.notificationArraySorted[0].notificationTimestamp ?? 0
+            notificationForCoreData.author = NotificationArrayData.notificationArraySorted[0].author
+            
+            do {
+                try dataContext.save()
+            }
+            catch {
+            }
+            
+            print(" - - - - - Added following Notification to Core Data - - - - - - ")
+            print(notificationForCoreData)
+        
+        } else if NotificationArrayData.notificationArraySorted.count > 1 {
+            
+            for x in 0...(NotificationArrayData.notificationArraySorted.count - 1) {
+                
+                let notificationForCoreData = NotificationEntity(context: dataContext)
+                
+                notificationForCoreData.documentID = NotificationArrayData.notificationArraySorted[x].documentID
+                notificationForCoreData.message = NotificationArrayData.notificationArraySorted[x].message
+                notificationForCoreData.opened = NotificationArrayData.notificationArraySorted[x].opened ?? false
+                notificationForCoreData.notificationTimestamp = NotificationArrayData.notificationArraySorted[x].notificationTimestamp ?? 0
+                notificationForCoreData.author = NotificationArrayData.notificationArraySorted[x].author
+                
+                do {
+                    try dataContext.save()
+                }
+                catch {
+                    
+                }
+                
+                print(" - - - - - Added following Notification to Core Data - - - - - - ")
+                print(notificationForCoreData)
+                
+            }
+            
+        } else {
+            print(" - - - - - No new notifications to add to Core Data - - - - - - - ")
+        }
+        
+    }
+    
+    func mergeOldNotificationsFromCoreData() {
+        
+        do {
+            self.oldNotificationsFromCoreDataRaw = try dataContext.fetch(NotificationEntity.fetchRequest())
+        }
+        catch {
+            
+        }
+        
+        print(" - - - - Notifications in Core Data - - - - - ")
+        print(oldNotificationsFromCoreDataRaw.count)
+        
+        if oldNotificationsFromCoreDataRaw.count == 1 {
+            
+            let notificationFromCoreData = NotificationDataFormatted(
+                author: oldNotificationsFromCoreDataRaw[0].author,
+                message: oldNotificationsFromCoreDataRaw[0].message,
+                documentID: oldNotificationsFromCoreDataRaw[0].documentID,
+                opened: oldNotificationsFromCoreDataRaw[0].opened,
+                notificationTimestamp: oldNotificationsFromCoreDataRaw[0].notificationTimestamp
+            )
+            
+            NotificationArrayData.oldNotificationsFromCoreData.append(notificationFromCoreData)
+            NotificationArrayData.notificationArrayFinal.append(contentsOf: NotificationArrayData.oldNotificationsFromCoreData)
+            
+            print(" - - - - One notification pulled FROM Core Data - - - - - ")
+            
+        } else if oldNotificationsFromCoreDataRaw.count > 1 {
+            
+            for x in 0...(oldNotificationsFromCoreDataRaw.count - 1) {
+                
+                let notificationFromCoreData = NotificationDataFormatted(
+                    author: oldNotificationsFromCoreDataRaw[x].author,
+                    message: oldNotificationsFromCoreDataRaw[x].message,
+                    documentID: oldNotificationsFromCoreDataRaw[x].documentID,
+                    opened: oldNotificationsFromCoreDataRaw[x].opened,
+                    notificationTimestamp: oldNotificationsFromCoreDataRaw[x].notificationTimestamp
+                )
+                
+                NotificationArrayData.oldNotificationsFromCoreData.append(notificationFromCoreData)
+                NotificationArrayData.notificationArrayFinal.append(contentsOf: NotificationArrayData.oldNotificationsFromCoreData)
+
+                print(" - - - - - Added notification FROM core data - - - - - ")
+                print(notificationFromCoreData)
+
+            }
+
+        } else {
+            print(" - - - - -  No notifications in core data")
+        }
+        
+    }
+    
 }

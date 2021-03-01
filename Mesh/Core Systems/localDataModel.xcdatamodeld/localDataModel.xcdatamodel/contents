@@ -10,6 +10,13 @@
         <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="userDocID" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="NotificationEntity" representedClassName="NotificationEntity" syncable="YES">
+        <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="documentID" optional="YES" attributeType="String"/>
+        <attribute name="message" optional="YES" attributeType="String"/>
+        <attribute name="notificationTimestamp" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="opened" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
     <entity name="UserCreatedPostsEntity" representedClassName="UserCreatedPostsEntity" syncable="YES">
         <attribute name="author" optional="YES" attributeType="String"/>
         <attribute name="comments" optional="YES" attributeType="Transformable"/>
@@ -22,5 +29,6 @@
     <elements>
         <element name="NearbyPostsEntity" positionX="-54" positionY="0" width="128" height="163"/>
         <element name="UserCreatedPostsEntity" positionX="-36" positionY="81" width="128" height="148"/>
+        <element name="NotificationEntity" positionX="-45" positionY="90" width="128" height="118"/>
     </elements>
 </model>

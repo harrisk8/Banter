@@ -52,7 +52,9 @@ public struct NotificationArrayData {
     
     static var notificationArraySorted: [NotificationDataFormatted] = []
     
-
+    static var oldNotificationsFromCoreData: [NotificationDataFormatted] = []
+    
+    static var notificationArrayFinal: [NotificationDataFormatted] = []
 }
 
 

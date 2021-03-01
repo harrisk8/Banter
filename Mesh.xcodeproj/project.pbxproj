@@ -22,6 +22,7 @@
 		6F6F3E5A25DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6F3E5825DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataProperties.swift */; };
 		6F76834324F06C3C00B70F29 /* FinishSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */; };
 		6F7737B1251FD341006D70CC /* localDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6F7737AF251FD341006D70CC /* localDataModel.xcdatamodeld */; };
+		6F7E56B725EB03E7000E1C90 /* VotingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7E56B625EB03E7000E1C90 /* VotingModel.swift */; };
 		6F81595324F4670B00FB59BD /* NewPostDummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F81595224F4670B00FB59BD /* NewPostDummyViewController.swift */; };
 		6F81595824F46AAC00FB59BD /* NewPostEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F81595724F46AAC00FB59BD /* NewPostEditorViewController.swift */; };
 		6F837CC5252B772600A18420 /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F837CC4252B772600A18420 /* InboxViewController.swift */; };
@@ -30,6 +31,8 @@
 		6F837CD3252D1EA700A18420 /* InboxModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F837CD2252D1EA700A18420 /* InboxModel.swift */; };
 		6F8605CC250F5128002AC4E9 /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8605CB250F5128002AC4E9 /* TrendingViewController.swift */; };
 		6F89349D25E70928006C5E01 /* mesh_text@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F89349C25E70928006C5E01 /* mesh_text@3x.png */; };
+		6F8934A425E78F25006C5E01 /* NotificationEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8934A225E78F25006C5E01 /* NotificationEntity+CoreDataClass.swift */; };
+		6F8934A525E78F25006C5E01 /* NotificationEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8934A325E78F25006C5E01 /* NotificationEntity+CoreDataProperties.swift */; };
 		6F94A1E825257DA600284D92 /* NearbyTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F94A1E625257DA500284D92 /* NearbyTableCell.swift */; };
 		6F94A1E925257DA600284D92 /* NearbyTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F94A1E725257DA500284D92 /* NearbyTableCell.xib */; };
 		6FAFC2B2252982C6003F7102 /* TrendingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAFC2B1252982C6003F7102 /* TrendingModel.swift */; };
@@ -75,6 +78,7 @@
 		6F6F3E5825DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserCreatedPostsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishSignUpViewController.swift; sourceTree = "<group>"; };
 		6F7737B0251FD341006D70CC /* localDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = localDataModel.xcdatamodel; sourceTree = "<group>"; };
+		6F7E56B625EB03E7000E1C90 /* VotingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotingModel.swift; sourceTree = "<group>"; };
 		6F81595224F4670B00FB59BD /* NewPostDummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostDummyViewController.swift; sourceTree = "<group>"; };
 		6F81595724F46AAC00FB59BD /* NewPostEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostEditorViewController.swift; sourceTree = "<group>"; };
 		6F837CC4252B772600A18420 /* InboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InboxViewController.swift; path = "Mesh/View Controllers/InboxViewController.swift"; sourceTree = SOURCE_ROOT; };
@@ -83,6 +87,8 @@
 		6F837CD2252D1EA700A18420 /* InboxModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InboxModel.swift; path = "Mesh/View Controllers/InboxModel.swift"; sourceTree = SOURCE_ROOT; };
 		6F8605CB250F5128002AC4E9 /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
 		6F89349C25E70928006C5E01 /* mesh_text@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mesh_text@3x.png"; sourceTree = "<group>"; };
+		6F8934A225E78F25006C5E01 /* NotificationEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6F8934A325E78F25006C5E01 /* NotificationEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6F94A1E625257DA500284D92 /* NearbyTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NearbyTableCell.swift; path = "Mesh/Tab Bar View Controllers/NearbyTableCell.swift"; sourceTree = SOURCE_ROOT; };
 		6F94A1E725257DA500284D92 /* NearbyTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = NearbyTableCell.xib; path = "Mesh/Tab Bar View Controllers/NearbyTableCell.xib"; sourceTree = SOURCE_ROOT; };
 		6FAFC2B1252982C6003F7102 /* TrendingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingModel.swift; sourceTree = "<group>"; };
@@ -149,6 +155,8 @@
 		6F56A1B7252D61C4005CB028 /* CoreData Models */ = {
 			isa = PBXGroup;
 			children = (
+				6F8934A225E78F25006C5E01 /* NotificationEntity+CoreDataClass.swift */,
+				6F8934A325E78F25006C5E01 /* NotificationEntity+CoreDataProperties.swift */,
 				6F6F3E5825DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataProperties.swift */,
 				6F6F3E5725DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataClass.swift */,
 				6F56A1BA252FB2DD005CB028 /* NearbyPostsEntity+CoreDataClass.swift */,
@@ -221,6 +229,7 @@
 				6FAFC2B1252982C6003F7102 /* TrendingModel.swift */,
 				6F837CD2252D1EA700A18420 /* InboxModel.swift */,
 				6F56A1B5252D5E01005CB028 /* NotificationFetcher.swift */,
+				6F7E56B625EB03E7000E1C90 /* VotingModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -443,6 +452,7 @@
 				6F76834324F06C3C00B70F29 /* FinishSignUpViewController.swift in Sources */,
 				6F6F3E5925DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataClass.swift in Sources */,
 				6F6DF02424E79AE1009ACCDD /* AuthCodeViewController.swift in Sources */,
+				6F8934A425E78F25006C5E01 /* NotificationEntity+CoreDataClass.swift in Sources */,
 				6FBA045E24F2005C00FC1E1B /* UserInfo.swift in Sources */,
 				6FBA046024F2032100FC1E1B /* NearbyViewController.swift in Sources */,
 				6F94A1E825257DA600284D92 /* NearbyTableCell.swift in Sources */,
@@ -453,7 +463,9 @@
 				6F81595824F46AAC00FB59BD /* NewPostEditorViewController.swift in Sources */,
 				6F67E8D225295E3D00DB6771 /* TrendingTableCell.swift in Sources */,
 				6FFD62A024DE370D00D5B96D /* AppDelegate.swift in Sources */,
+				6F8934A525E78F25006C5E01 /* NotificationEntity+CoreDataProperties.swift in Sources */,
 				6FFD62A224DE370D00D5B96D /* SceneDelegate.swift in Sources */,
+				6F7E56B725EB03E7000E1C90 /* VotingModel.swift in Sources */,
 				6F664148254A3A7900550A37 /* AppearAsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

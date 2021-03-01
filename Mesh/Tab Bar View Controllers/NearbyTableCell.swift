@@ -7,8 +7,8 @@
 //
 
 
-protocol CellDelegate: class {
-    func didTap(_ cell: NearbyTableCell)
+protocol cellVotingDelegate: class {
+    func userPressedVoteButton(_ cell: NearbyTableCell, _ caseType: voteType)
 }
 
 import UIKit
@@ -44,70 +44,75 @@ class NearbyTableCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    weak var delegate: CellDelegate?
-    @IBAction func buttonPressed(_ sender: Any) {
-        delegate?.didTap(self)
-    }
+    weak var delegate: cellVotingDelegate?
     
     @IBAction func likeButtonPressed(_ sender: Any) {
         
         
-        if dislikedPost == true {
-            print("DISLIKE -> LIKE")
-            delegate?.didTap(self)
-            randomInt += 2
-            likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
+        if dislikedPost == true && likedPost == false {
+            
+//            print("Removing Dislike Via Like Button")
+            randomInt += 1
             dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
             dislikedPost = false
-            likedPost = true
-
-        }
-        
-        if likedPost == false {
-            delegate?.didTap(self)
-
-            print("LIKE")
+            postScoreLabel.text? = String(randomInt)
+            delegate?.userPressedVoteButton(self, .likeFromDislike)
+            
+        } else if likedPost == false && dislikedPost == false {
+            
+//            print("LIKE")
             randomInt += 1
             likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
             postScoreLabel?.text = String(randomInt)
             likedPost = true
+            delegate?.userPressedVoteButton(self, .like)
+            
         } else if likedPost == true {
-            delegate?.didTap(self)
-
-            print("Removing Like")
+            
+//            print("Removing Like")
             randomInt -= 1
             likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
             postScoreLabel?.text = String(randomInt)
             likedPost = false
+            delegate?.userPressedVoteButton(self, .removeLike)
+
         }
+        
     }
     
     
     @IBAction func dislikeButtonPressed(_ sender: Any) {
         
-        if likedPost == true {
-            randomInt -= 2
-            dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
+        if likedPost == true && dislikedPost == false {
+            
+//            print("Removing Like Via Dislike Button")
+            randomInt -= 1
             likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
             likedPost = false
-            dislikedPost = true
+            dislikedFromLike = true
+            postScoreLabel?.text = String(randomInt)
+            delegate?.userPressedVoteButton(self, .dislikeFromLike)
+
+        } else if dislikedPost == false && likedPost == false {
             
-        }
-        
-        
-        if dislikedPost == false {
-            print("DISLIKE")
+//            print("DISLIKE")
             randomInt -= 1
             dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
             postScoreLabel?.text = String(randomInt)
             dislikedPost = true
+            delegate?.userPressedVoteButton(self, .dislike)
+
         } else if dislikedPost == true {
-            print("Removing Dislike")
+            
+//            print("Removing Dislike")
             randomInt += 1
             dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
             postScoreLabel?.text = String(randomInt)
             dislikedPost = false
-            }
+            delegate?.userPressedVoteButton(self, .removeDislike)
+
+        }
+        
     }
     
 }

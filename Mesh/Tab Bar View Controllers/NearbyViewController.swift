@@ -12,13 +12,17 @@ import CoreData
 import CoreLocation
 
 
-class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, refreshNearbyTable, CellDelegate {
+class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, refreshNearbyTable, cellVotingDelegate {
     
     
-    func didTap(_ cell: NearbyTableCell) {
+    func userPressedVoteButton(_ cell: NearbyTableCell, _ caseType: voteType) {
     
-        let indexPath = self.nearbyTableView.indexPath(for: cell)
-        print(indexPath?[1])
+        //Extract and format array index for cell that was interacted with
+        let voteIndexPath = self.nearbyTableView.indexPath(for: cell)
+        let voteIndexPathRow = (voteIndexPath?[1] ?? 0)
+        
+        let vote = VotingModel()
+        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType)
     }
     
     

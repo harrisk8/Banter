@@ -60,6 +60,14 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         testArray.append(["author" : "Bob", "message" : "What's up?"])
         testArray.append(["author" : "William", "message" : "Hello."])
 
+        
+        
+        
+        if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0 {
+            timestampForFetchingPostsBeforeUsersPost = 0.0
+        } else {
+            timestampForFetchingPostsBeforeUsersPost = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp
+        }
 
     }
 
@@ -72,7 +80,6 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     @IBAction func postMessagePressed(_ sender: Any) {
         if validateMessage() {
             timestampOfPostCreated = Date().timeIntervalSince1970
-            timestampForFetchingPostsBeforeUsersPost = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp
             fetchPostsBeforeUsersPost()
         }
     }
