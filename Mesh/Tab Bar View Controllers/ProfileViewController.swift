@@ -8,19 +8,64 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UITextFieldDelegate {
 
-
+    
+    @IBOutlet weak var currentlyAppearingAsLabel: UILabel!
+    
+    @IBOutlet weak var nicknameTextfield: UITextField!
+    
+    
+    @IBOutlet weak var editNicknameButton: UIButton!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        nicknameTextfield.delegate = self
+    
+    }
+    @IBAction func changeAppearanceNameButtonPressed(_ sender: Any) {
+        
+    }
+    
+    
+    //Handles functionality for the nickname edit button
+    @IBAction func editPressed(_ sender: Any) {
+        //User is done editing nickname, validate then resign
+        if nicknameTextfield.isFirstResponder == true {
+            nicknameTextfield.resignFirstResponder()
+            editNicknameButton.setImage(UIImage(named: "Edit Nickname Button"), for: .normal)
+        } else {
+            //User selected edit button
+            nicknameTextfield.becomeFirstResponder()
+            editNicknameButton.setImage(UIImage(named: "Done Button 2"), for: .normal)
+        }
+    }
+    
+    
+    @IBAction func viewMyPostsButtonPressed(_ sender: Any) {
+    }
+    
+    func validateNickname() -> Bool {
+        return false
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setupTransparentNavigationBarWithWhiteText()
     }
     
+
+    override func viewDidLayoutSubviews() {
+        
+        
+        
+    }
 
  
 

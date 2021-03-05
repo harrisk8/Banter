@@ -52,6 +52,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
         messageEditor.delegate = self
         
+        messageEditor.layer.cornerRadius = 17.5
+        
         messageEditor.becomeFirstResponder()
         
         organizePostingAsLabel()

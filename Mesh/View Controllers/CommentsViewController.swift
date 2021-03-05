@@ -255,6 +255,12 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         commentsTextViewBackground.clipsToBounds = true
         commentsTextViewBackground.layer.cornerRadius = 17.5
         
+//        commentsTextViewBackground.layer.shadowOpacity = 0.4
+//        commentsTextViewBackground.layer.shadowRadius = 3.5
+//        commentsTextViewBackground.layer.shadowColor = UIColor.black.cgColor
+//        commentsTextViewBackground.layer.shadowOffset = (CGSize(width: 0.0, height: 0.0))
+//        commentsTextViewBackground.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
     }
     
     
