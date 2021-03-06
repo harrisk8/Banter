@@ -8,6 +8,7 @@
 
 
 protocol cellVotingDelegate: class {
+    
     func userPressedVoteButton(_ cell: NearbyTableCell, _ caseType: voteType)
 }
 

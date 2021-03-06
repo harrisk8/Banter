@@ -57,6 +57,10 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         
         if validateUserInfo() {
             print("CONTINUE")
+            UserDefaults.standard.set(firstNameTextField.text, forKey: "userFirstName")
+            UserDefaults.standard.set(lastNameTextField.text, forKey: "userLastName")
+            
+            
             createNewUser()
             performSegue(withIdentifier: "finishSignUpToNearby", sender: self)
         } else {
@@ -78,10 +82,15 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
                 print(err.localizedDescription)
             } else {
                 print("Document successfully written")
-                print("USER DOC ID:")
+                
+                print(" - - - - - NEW userDocID: - - - - - - ")
                 print(ref?.documentID)
+                UserInfo.userCollectionDocID = ref?.documentID
+                UserInfo.userFirstName = self.firstNameTextField.text
                 UserDefaults.standard.set(ref?.documentID, forKey: "userCollectionDocID")
+                UserDefaults.standard.set(self.firstNameTextField.text, forKey: "userFirstName")
                 UserDefaults.standard.set(true, forKey: "userAccountCreated")
+                UserDefaults.standard.set("Incognito", forKey: "lastUserAppearanceName")
             }
         }
     }

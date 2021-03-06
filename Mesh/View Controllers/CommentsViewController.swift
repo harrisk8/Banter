@@ -237,7 +237,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         commentsEditorView.layer.shadowOffset = (CGSize(width: 0.0, height: 1.0))
         commentsEditorView.layer.cornerRadius = 10
         commentsEditorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        commentsEditorView.clipsToBounds = false
+        commentsEditorView.clipsToBounds = true
         
         
         commentsTableView.dataSource = self

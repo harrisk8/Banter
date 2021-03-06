@@ -115,25 +115,29 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
                         
                         let postData = document.data()
                         
-                        if let postID = document.documentID as String? {
+                        if let postID = document.documentID as String?,
+                            let userFirstName = postData["first name"] as? String
                             
-                            UserInfo.userCollectionDocID = postID
-                            print(" - - - - - Existing user with userDocID: - - - - - - ")
-                            print(postID)
-                            UserDefaults.standard.set(postID, forKey: "userCollectionDocID")
-                            UserDefaults.standard.set(true, forKey: "userAccountCreated")
-                            self.performSegue(withIdentifier: "existingUserAuthToNearby", sender: self)
+                            {
+                                
+                                print(" - - - - - Existing user with userDocID: - - - - - - ")
+                                print(postID)
+                                print(" - - - First Name - - - - ")
+                                print(userFirstName)
+                                UserInfo.userCollectionDocID = postID
+                                UserInfo.userFirstName = userFirstName
+                                UserDefaults.standard.set(postID, forKey: "userCollectionDocID")
+                                UserDefaults.standard.set(userFirstName, forKey: "userFirstName")
+                                UserDefaults.standard.set(true, forKey: "userAccountCreated")
+                                UserDefaults.standard.set("Incognito", forKey: "lastUserAppearanceName")
+                                UserDefaults.standard.set(true, forKey: "incognitoSelected")
+                                self.performSegue(withIdentifier: "existingUserAuthToNearby", sender: self)
                         
                         }
                     }
-                    
-                    
                 }
-                
-
             }
         }
-        
     }
     
     

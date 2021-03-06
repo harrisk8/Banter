@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Checkmark Circle.png",
+      "filename" : "Selected Circle.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Checkmark Circle@2x.png",
+      "filename" : "Selected Circle@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Checkmark Circle@3x.png",
+      "filename" : "Selected Circle@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

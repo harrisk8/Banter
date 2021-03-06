@@ -259,7 +259,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
         let attributedPartOne = NSMutableAttributedString(string: "Posting as: ", attributes: partOneAttributes)
         
-        let attributedPartTwo = NSMutableAttributedString(string: UserInfo.userAppearanceName ?? "", attributes: partTwoAttributes)
+        let attributedPartTwo = NSMutableAttributedString(string: UserDefaults.standard.string(forKey: "lastUserAppearanceName") ?? "", attributes: partTwoAttributes)
 
         attributedPartOne.append(attributedPartTwo)
         

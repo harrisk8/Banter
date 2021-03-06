@@ -28,6 +28,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBOutlet weak var nearbyTableView: UITableView!
     
+    
+    
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let database = Firestore.firestore()
     var locationManager = CLLocationManager()
@@ -35,6 +37,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     var oldPostsFetchedFromCoreData: [NearbyPostsEntity]?
     var refreshArray: [NearbyCellData]?
+    
+    @IBOutlet weak var incognitoButton: UIBarButtonItem!
     
     var newDataScanned = false
     var selectedCellIndex: Int?
@@ -53,11 +57,29 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         
+        
+        
         super.viewDidLoad()
         
         print("User Appearance Name Last Set to:")
         print(UserDefaults.standard.string(forKey: "lastUserAppearanceName") ?? "")
+        
+        if UserDefaults.standard.string(forKey: "lastUserAppearanceName") == "" {
+            
+        } else {
+            print(UserDefaults.standard.string(forKey: "lastUserAppearanceName"))
+        }
                 
+        if UserDefaults.standard.value(forKey: "incognitoSelected") as? Bool == true {
+            incognitoButton.title = "Incognito"
+        
+        } else if UserDefaults.standard.value(forKey: "firstNameSelected") as? Bool == true {
+            incognitoButton.title = UserDefaults.standard.value(forKey: "userFirstName") as? String
+        } else if UserDefaults.standard.value(forKey: "nicknameSelected") as? Bool == true {
+            incognitoButton.title = UserDefaults.standard.value(forKey: "userNickname") as? String
+
+        }
+        
         let userID = Auth.auth().currentUser!.uid
         UserInfo.userID = userID
         print(UserInfo.userID)
