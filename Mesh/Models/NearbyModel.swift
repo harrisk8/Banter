@@ -26,6 +26,10 @@ public struct NearbyCellData {
     var comments: [[String: AnyObject]]?
     var documentID: String?
     var userDocID: String?
+    var locationCity: String?
+    var locationState: String?
+    var likedPost: Bool?
+    var dislikedPost: Bool?
     
 }
 

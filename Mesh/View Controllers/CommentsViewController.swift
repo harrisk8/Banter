@@ -15,6 +15,10 @@ protocol refreshNearbyTable {
     func refreshtable()
 }
 
+protocol adjustNearbyVote {
+    func adjustVote()
+}
+
 class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet var screenView: UIView!
@@ -26,9 +30,16 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     @IBOutlet weak var commentsTableView: UITableView!
     @IBOutlet weak var commentsTextViewBackground: UIView!
     
+    @IBOutlet weak var postInfoLabel: UILabel!
+    @IBOutlet weak var dislikeButton: UIButton!
+    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var scoreLabel: UILabel!
+    
+    
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let database = Firestore.firestore()
     var delegate: refreshNearbyTable?
+    var voteDelegate: adjustNearbyVote?
 
     
     var viewTranslation = CGPoint(x: 0, y: 0)
@@ -52,14 +63,21 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     var segueFromInbox = false
     
+    var fetchPost = false
+    
     var inboxPostArrayPosition: Int?
     
     var postLoadedFromCoreData: Bool?
+    
+    var newlyFetchedPost: NearbyCellData?
 
 
     var docID: String = ""
     
     var matchIndex: Int = 0
+    
+    var likedPost: Bool?
+    var dislikedPost: Bool?
 
     
     override func viewDidLoad() {
@@ -86,35 +104,67 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments = []
             }
             
-
-        
+            postInfoLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "") + " | " + String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationCity ?? "") + ", " + String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationState ?? "")
+            
+            DispatchQueue.main.async {
+                self.commentsTableView.reloadData()
+            }
         } else {
             //Handles control flow if user proceeds from inbox
     
-            for x in (0...NotificationArrayRaw.notificationArrayRaw.count-1) {
+            //Checks array of pulled notifications (first step, whole post) to see if it matches the notification doc ID
+            //If it does, then it will pull data to present in VC via the array itself
+            
+            if NotificationArrayRaw.notificationArrayRaw.count == 1 && NotificationArrayRaw.notificationArrayRaw[0].documentID == NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID {
                 
-                if NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID == NotificationArrayRaw.notificationArrayRaw[x].documentID {
-                    print("Match")
-                    print(NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID)
-                    print(NotificationArrayRaw.notificationArrayRaw[x].documentID)
-                    matchIndex = x
+                postMessage.text = NotificationArrayRaw.notificationArrayRaw[0].message
+                commentsArray = NotificationArrayRaw.notificationArrayRaw[0].comments ?? []
+                docID = NotificationArrayRaw.notificationArrayRaw[0].documentID ?? ""
+                
+                postInfoLabel.text = String(NotificationArrayRaw.notificationArrayRaw[0].author ?? "") + " | " + String(NotificationArrayRaw.notificationArrayRaw[0].locationCity ?? "") + ", " + String(NotificationArrayRaw.notificationArrayRaw[0].locationState ?? "")
+                
+                DispatchQueue.main.async {
+                    self.commentsTableView.reloadData()
                 }
                 
-                // else run firebase Query with docID to get info?
+            } else if NotificationArrayRaw.notificationArrayRaw.count > 1 {
+                
+                for x in (0...NotificationArrayRaw.notificationArrayRaw.count-1) {
+                    
+                    if NotificationArrayData.notificationArrayFinal[inboxPostArrayPosition ?? 0].documentID ==
+                        NotificationArrayRaw.notificationArrayRaw[x].documentID {
+                        
+                        print("Match")
+                        print(NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID ?? "")
+                        print(NotificationArrayRaw.notificationArrayRaw[x].documentID ?? "")
+                        
+                        matchIndex = x
+                        fetchPost = false
+                        
+                        postMessage.text = NotificationArrayRaw.notificationArrayRaw[matchIndex].message
+                        commentsArray = NotificationArrayRaw.notificationArrayRaw[matchIndex].comments ?? []
+                        docID = NotificationArrayRaw.notificationArrayRaw[matchIndex].documentID ?? ""
+                        
+                        postInfoLabel.text = String(NotificationArrayRaw.notificationArrayRaw[matchIndex].author ?? "") + " | " + String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationCity ?? "") + ", " + String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationState ?? "")
+                        
+                        DispatchQueue.main.async {
+                            self.commentsTableView.reloadData()
+                        }
+                    }
+                    
+                }
+                
+            } else {
+                
+                //the post must be pulled from firebase, then also merge with userPosts coredata
+                fetchPost = true
+                print("Fetch post data from notification from database)")
+                fetchPostData()
+                
+                
             }
-            
-            
-            
-            postMessage.text = NotificationArrayRaw.notificationArrayRaw[matchIndex].message
-            
-            commentsArray = NotificationArrayRaw.notificationArrayRaw[matchIndex].comments ?? []
-            
-            docID = NotificationArrayRaw.notificationArrayRaw[matchIndex].documentID ?? ""
-            
         }
         
-
-
         print(" - - - - - COMMENT ARRAY COUNT - - - - ")
         print(commentsArray.count)
         
@@ -124,6 +174,128 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
+
+    }
+    
+    @IBAction func likeButtonPressed(_ sender: Any) {
+        
+        
+        if segueFromInbox == false {
+
+            print("pressed")
+            
+            if dislikedPost == true && likedPost == false {
+                        
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
+                
+                dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
+                dislikedPost = false
+                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                voteDelegate?.adjustVote()
+                        
+            } else if likedPost == false && dislikedPost == false {
+                
+//                like post
+                        
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
+                likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
+                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                likedPost = true
+                voteDelegate?.adjustVote()
+
+                        
+            } else if likedPost == true {
+                        
+//                print("Removing Like")
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! -= 1
+                likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
+                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                likedPost = false
+                voteDelegate?.adjustVote()
+
+
+            }
+            
+            
+            
+            
+            
+            
+        } else {
+                
+            
+        }
+    
+        
+    }
+    
+    
+    @IBAction func dislikeButtonPressed(_ sender: Any) {
+        
+    }
+    
+    
+
+    func fetchPostData() {
+        
+        print("trying to get doc)")
+        
+        let docRef = database.collection("posts").document(NotificationArrayData.notificationArrayFinal[inboxPostArrayPosition ?? 0].documentID ?? "")
+
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let postData = document.data()
+                
+                if let postAuthor = postData?["author"] as? String,
+                    let postMessage = postData?["message"] as? String,
+                    let postScore = postData?["score"] as? Int32?,
+                    let postTimestamp = postData?["timestamp"] as? Double,
+                    let postComments = postData?["comments"] as? [[String: AnyObject]]?,
+                    let postDocumentID = document.documentID as String?,
+                    let postUserDocID = postData?["userDocID"] as? String,
+                    let postlocationCity = postData?["locationCity"] as? String,
+                    let postLocationState = postData?["locationState"] as? String
+                    
+                {
+
+                    let newPost = NearbyCellData(
+                        author: postAuthor,
+                        message: postMessage,
+                        score: postScore,
+                        timestamp: postTimestamp,
+                        comments: postComments,
+                        documentID: postDocumentID,
+                        userDocID: postUserDocID,
+                        locationCity: postlocationCity,
+                        locationState: postLocationState)
+
+                    self.newlyFetchedPost = newPost
+                    
+                    self.postMessage.text = self.newlyFetchedPost?.message
+                    self.commentsArray = self.newlyFetchedPost?.comments ?? []
+                    self.docID = self.newlyFetchedPost?.documentID ?? ""
+                    
+                    
+                    var postInfoString = self.newlyFetchedPost?.author ?? ""
+                    
+                    postInfoString += " | "
+                    
+
+                    print(" - - - DATA FETCHED FROM FIREBASE - - - - -")
+                    print(self.newlyFetchedPost)
+
+                    DispatchQueue.main.async {
+                        self.commentsTableView.reloadData()
+                    }
+                    
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
 
     }
     
@@ -226,9 +398,17 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     func setUpUI() {
         
+        if likedPost == true && dislikedPost == false {
+            print("is a liked post")
+        } else {
+            print("is a disliked post")
+        }
+        
         commentsEditorView.translatesAutoresizingMaskIntoConstraints = true
         commentsTextView.translatesAutoresizingMaskIntoConstraints = true
         commentsTextViewBackground.translatesAutoresizingMaskIntoConstraints = true
+        
+        
         
         commentsEditorView.layer.shadowOpacity = 0.4
         commentsEditorView.layer.shadowRadius = 3.5
@@ -261,6 +441,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 //        commentsTextViewBackground.layer.shadowOffset = (CGSize(width: 0.0, height: 0.0))
 //        commentsTextViewBackground.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
+        postMessage.layer.cornerRadius = 17.5
+
+        
     }
     
     
@@ -283,8 +466,15 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         } else if segueFromInbox == true {
             
-            print(NotificationArrayRaw.notificationArrayRaw[matchIndex].comments?.count ?? 0)
-            return (NotificationArrayRaw.notificationArrayRaw[matchIndex].comments?.count ?? 0)
+            if fetchPost == false {
+                
+                print(commentsArray.count)
+                return (commentsArray.count)
+                
+            } else {
+                return newlyFetchedPost?.comments?.count ?? 0
+            }
+            
                         
         }
             
@@ -316,6 +506,12 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         cell.authorLabel?.text = commentsArray[indexPath.row]["author"] as? String
         cell.messageLabel?.text = commentsArray[indexPath.row]["message"] as? String
         cell.timestampLabel?.text = "5"
+        cell.commentLabel?.text = ""
+        cell.likeButton.isUserInteractionEnabled = false
+        cell.likeButton.alpha = 0
+        cell.postScoreLabel.text = ""
+        cell.dislikeButton.isUserInteractionEnabled = false
+        cell.dislikeButton.alpha = 0
         cell.contentView.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
         
         return cell
@@ -435,7 +631,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         //Handles functionality after pan (user finger HAS LEFT screen)
         case .ended:
         
-            if velocity.x > 1750 {
+            if velocity.x > 1250 {
                 
                 DispatchQueue.main.async {
                     UIView.animate(withDuration: 0.45, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -448,7 +644,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 }
             }
             
-            if velocity.x <= 1750 {
+            if velocity.x <= 1250 {
                                 
                 DispatchQueue.main.async {
 

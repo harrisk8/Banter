@@ -62,7 +62,10 @@ class NotificationFetcher {
                         let postID = document.documentID as String?,
                         let postLastCommentTimestamp = postData["lastCommentTimestamp"] as? Double,
                         let postNotifications = postData["notifications"] as? [[String: AnyObject]]?,
-                        let postUserDocID = postData["userDocID"] as? String
+                        let postUserDocID = postData["userDocID"] as? String,
+                        let postLocationCity = postData["locationCity"] as? String,
+                        let postLocationState = postData["locationState"] as? String
+                        
                     {
                         let newPost = NotificationDataRaw(
                             author: postAuthor,
@@ -73,7 +76,9 @@ class NotificationFetcher {
                             documentID: postID,
                             lastCommentTimestamp: postLastCommentTimestamp,
                             notifications: postNotifications ?? nil,
-                            userDocID: postUserDocID
+                            userDocID: postUserDocID,
+                            locationCity: postLocationCity,
+                            locationState: postLocationState
                         )
                         
                         print("Adding post to inbox array")
@@ -254,12 +259,12 @@ class NotificationFetcher {
                 )
                 
                 NotificationArrayData.oldNotificationsFromCoreData.append(notificationFromCoreData)
-                NotificationArrayData.notificationArrayFinal.append(contentsOf: NotificationArrayData.oldNotificationsFromCoreData)
 
                 print(" - - - - - Added notification FROM core data - - - - - ")
                 print(notificationFromCoreData)
-
             }
+            
+            NotificationArrayData.notificationArrayFinal.append(contentsOf: NotificationArrayData.oldNotificationsFromCoreData)
 
         } else {
             print(" - - - - -  No notifications in core data")

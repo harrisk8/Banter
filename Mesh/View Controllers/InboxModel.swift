@@ -22,6 +22,8 @@ public struct NotificationDataRaw {
     var lastCommentTimestamp: Double?
     var notifications: [[String: AnyObject]]?
     var userDocID: String?
+    var locationCity: String?
+    var locationState: String?
     
 }
 

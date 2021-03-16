@@ -14,21 +14,7 @@ import CoreLocation
 
 class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, refreshNearbyTable, cellVotingDelegate {
     
-    
-    func userPressedVoteButton(_ cell: NearbyTableCell, _ caseType: voteType) {
-    
-        //Extract and format array index for cell that was interacted with
-        let voteIndexPath = self.nearbyTableView.indexPath(for: cell)
-        let voteIndexPathRow = (voteIndexPath?[1] ?? 0)
-        
-        let vote = VotingModel()
-        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType)
-    }
-    
-    
     @IBOutlet weak var nearbyTableView: UITableView!
-    
-    
     
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let database = Firestore.firestore()
@@ -53,19 +39,14 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     var refreshFetchedPosts: [NearbyCellData] = []
         
     
-    
-    
     override func viewDidLoad() {
-        
-        
-        
         super.viewDidLoad()
         
         print("User Appearance Name Last Set to:")
         print(UserDefaults.standard.string(forKey: "lastUserAppearanceName") ?? "")
         
         if UserDefaults.standard.string(forKey: "lastUserAppearanceName") == "" {
-            
+            UserDefaults.standard.set("Incognito", forKey: "lastUserAppearanceName")
         } else {
             print(UserDefaults.standard.string(forKey: "lastUserAppearanceName"))
         }
@@ -146,7 +127,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                             let postTimestamp = postData["timestamp"] as? Double,
                             let postComments = postData["comments"] as? [[String: AnyObject]]?,
                             let postDocumentID = document.documentID as String?,
-                            let postUserDocID = postData["userDocID"] as? String
+                            let postUserDocID = postData["userDocID"] as? String,
+                            let postlocationCity = postData["locationCity"] as? String?,
+                            let postLocationState = postData["locationState"] as? String
                         {
                             
                             let newPost = NearbyCellData(
@@ -156,7 +139,14 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                                 timestamp: postTimestamp,
                                 comments: postComments,
                                 documentID: postDocumentID,
-                                userDocID: postUserDocID)
+                                userDocID: postUserDocID,
+                                locationCity: postlocationCity,
+                                locationState: postLocationState,
+                                likedPost: false,
+                                dislikedPost: false
+                            )
+                            
+                        
                             
                             newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.append(newPost)
 
@@ -392,6 +382,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             commentsVC.postIndexInNearbyArray = selectedCellIndex
             commentsVC.modalPresentationCapturesStatusBarAppearance = true
             commentsVC.delegate = self
+
             
             
         }
@@ -595,6 +586,70 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    func userPressedVoteButton(_ cell: NearbyTableCell, _ caseType: voteType) {
+        
+        //Extract and format array index for cell that was interacted with
+        let voteIndexPath = self.nearbyTableView.indexPath(for: cell)
+        let voteIndexPathRow = (voteIndexPath?[1] ?? 0)
+        
+        
+        let assignVoteStatusToArray = caseType
+        
+        switch assignVoteStatusToArray {
+            
+        case .like:
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].likedPost = true
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].dislikedPost = false
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].score! += 1
+            print("POST LIKED")
+            DispatchQueue.main.async {
+                self.nearbyTableView.reloadData()
+            }
+        case .dislike:
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].dislikedPost = true
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].likedPost = false
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].score! -= 1
+            print("POST DISLIKED")
+            DispatchQueue.main.async {
+                self.nearbyTableView.reloadData()
+            }
+        case .removeLike:
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].dislikedPost = false
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].likedPost = false
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].score! -= 1
+            print("POST UNLIKED")
+            DispatchQueue.main.async {
+                self.nearbyTableView.reloadData()
+            }
+        case .removeDislike:
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].dislikedPost = false
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].likedPost = false
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].score! += 1
+            print("POST UNDISLIKED")
+            DispatchQueue.main.async {
+                self.nearbyTableView.reloadData()
+            }
+        case .dislikeFromLike:
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].dislikedPost = false
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].likedPost = false
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].score! -= 1
+            print("POST DISLIKED FROM LIKED")
+            DispatchQueue.main.async {
+                self.nearbyTableView.reloadData()
+            }
+        case .likeFromDislike:
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].dislikedPost = false
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].likedPost = false
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow].score! += 1
+            print("POST LIKED FROM DISLIKED")
+            DispatchQueue.main.async {
+                self.nearbyTableView.reloadData()
+            }
+        }
+        
+        let vote = VotingModel()
+        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType)
+    }
     
 }
 

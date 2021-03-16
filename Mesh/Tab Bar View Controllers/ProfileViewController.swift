@@ -29,13 +29,6 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        nicknameTextfield.delegate = self
-        
-        nicknameErrorLabel.alpha = 0
-        
-        currentlyAppearingAsLabel.text = UserDefaults.standard.string(forKey: "lastUserAppearanceName")
-//        currentlyAppearingAsLabel.text = UserDefaults.standard.value(forKey: "lastUserAppearanceName") as? String
-        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
     
@@ -48,6 +41,15 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        nicknameTextfield.delegate = self
+                
+                nicknameErrorLabel.alpha = 0
+                
+                currentlyAppearingAsLabel.text = UserDefaults.standard.string(forKey: "lastUserAppearanceName")
+                print("LAST APPEARING NAME")
+                print(UserDefaults.standard.string(forKey: "lastUserAppearanceName"))
+        //        currentlyAppearingAsLabel.text = UserDefaults.standard.value(forKey: "lastUserAppearanceName") as? String
     }
     
     @objc func DismissKeyboard(){

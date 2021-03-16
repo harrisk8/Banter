@@ -67,7 +67,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
         print(indexPath.row)
 //        getPostData()
         performSegue(withIdentifier: "inboxToComments", sender: self)
-        NotificationArrayData.notificationArraySorted[selectedCellIndex ?? 0].opened = true
+        NotificationArrayData.notificationArrayFinal[selectedCellIndex ?? 0].opened = true
         }
     
     

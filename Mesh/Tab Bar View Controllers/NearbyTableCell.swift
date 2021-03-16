@@ -12,9 +12,13 @@ protocol cellVotingDelegate: class {
     func userPressedVoteButton(_ cell: NearbyTableCell, _ caseType: voteType)
 }
 
+
 import UIKit
 
 class NearbyTableCell: UITableViewCell {
+    
+
+
     
     
     @IBOutlet weak var authorLabel: UILabel!
@@ -46,7 +50,7 @@ class NearbyTableCell: UITableViewCell {
     }
     
     weak var delegate: cellVotingDelegate?
-    
+        
     @IBAction func likeButtonPressed(_ sender: Any) {
         
         
@@ -56,7 +60,6 @@ class NearbyTableCell: UITableViewCell {
             randomInt += 1
             dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
             dislikedPost = false
-            postScoreLabel.text? = String(randomInt)
             delegate?.userPressedVoteButton(self, .likeFromDislike)
             
         } else if likedPost == false && dislikedPost == false {
@@ -64,7 +67,6 @@ class NearbyTableCell: UITableViewCell {
 //            print("LIKE")
             randomInt += 1
             likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
-            postScoreLabel?.text = String(randomInt)
             likedPost = true
             delegate?.userPressedVoteButton(self, .like)
             
@@ -73,7 +75,6 @@ class NearbyTableCell: UITableViewCell {
 //            print("Removing Like")
             randomInt -= 1
             likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
-            postScoreLabel?.text = String(randomInt)
             likedPost = false
             delegate?.userPressedVoteButton(self, .removeLike)
 
@@ -91,7 +92,6 @@ class NearbyTableCell: UITableViewCell {
             likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
             likedPost = false
             dislikedFromLike = true
-            postScoreLabel?.text = String(randomInt)
             delegate?.userPressedVoteButton(self, .dislikeFromLike)
 
         } else if dislikedPost == false && likedPost == false {
@@ -99,7 +99,6 @@ class NearbyTableCell: UITableViewCell {
 //            print("DISLIKE")
             randomInt -= 1
             dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
-            postScoreLabel?.text = String(randomInt)
             dislikedPost = true
             delegate?.userPressedVoteButton(self, .dislike)
 
@@ -108,7 +107,6 @@ class NearbyTableCell: UITableViewCell {
 //            print("Removing Dislike")
             randomInt += 1
             dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
-            postScoreLabel?.text = String(randomInt)
             dislikedPost = false
             delegate?.userPressedVoteButton(self, .removeDislike)
 
