@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>918707328476-atn0ebrq2m15gotp08n5kuetl89tsjr0.apps.googleusercontent.com</string>
+	<string>213614368307-95l2lvv3dt4e68ns20lkk6n22ggt86cm.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.918707328476-atn0ebrq2m15gotp08n5kuetl89tsjr0</string>
+	<string>com.googleusercontent.apps.213614368307-95l2lvv3dt4e68ns20lkk6n22ggt86cm</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAFHQB-wsFNp8DUiSqdSJ5qyHEBfJpXMfo</string>
+	<string>AIzaSyBNCbGIJsXD8UUGzuwww4UnEEOd5cgViYE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>918707328476</string>
+	<string>213614368307</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>Avidi-Technologies.Mesh</string>
+	<string>Avidi-Industries-Inc.Banter</string>
 	<key>PROJECT_ID</key>
-	<string>mesh-cead2</string>
+	<string>banter-1c685</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mesh-cead2.appspot.com</string>
+	<string>banter-1c685.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:918707328476:ios:9d32c6f8b3f23d0bc1eb19</string>
-	<key>DATABASE_URL</key>
-	<string>https://mesh-cead2.firebaseio.com</string>
+	<string>1:213614368307:ios:996e33f4380117defa7546</string>
 </dict>
 </plist>

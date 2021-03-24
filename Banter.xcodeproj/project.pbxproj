@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6CF2F355B5884CAD02551477 /* Pods_Mesh.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2EC500CAC980DAA33F77D06 /* Pods_Mesh.framework */; };
 		6F0874AA25E6FA6C00E0A547 /* Typo_Round_Light_Demo.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6F0874A725E6F73300E0A547 /* Typo_Round_Light_Demo.otf */; };
-		6F4067A024F31ABA009CB580 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F40679F24F31ABA009CB580 /* GoogleService-Info.plist */; };
+		6F09D89B2602C3590059FD9F /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F09D89A2602C3590059FD9F /* InboxViewController.swift */; };
+		6F09D89F2602C3BF0059FD9F /* InboxModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F09D89E2602C3BF0059FD9F /* InboxModel.swift */; };
 		6F4067A324F4627F009CB580 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4067A224F4627F009CB580 /* TabBarViewController.swift */; };
+		6F4E798D2609BF3400ECC3BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F4E798C2609BF3400ECC3BF /* GoogleService-Info.plist */; };
 		6F56A1B6252D5E01005CB028 /* NotificationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F56A1B5252D5E01005CB028 /* NotificationFetcher.swift */; };
 		6F56A1BC252FB2DD005CB028 /* NearbyPostsEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F56A1BA252FB2DD005CB028 /* NearbyPostsEntity+CoreDataClass.swift */; };
 		6F56A1BD252FB2DD005CB028 /* NearbyPostsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F56A1BB252FB2DD005CB028 /* NearbyPostsEntity+CoreDataProperties.swift */; };
+		6F6061DC2605D3B3001F5D4B /* NearbyTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6061DA2605D3B3001F5D4B /* NearbyTableCell.swift */; };
+		6F6061DD2605D3B3001F5D4B /* NearbyTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F6061DB2605D3B3001F5D4B /* NearbyTableCell.xib */; };
 		6F664148254A3A7900550A37 /* AppearAsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F664147254A3A7900550A37 /* AppearAsViewController.swift */; };
 		6F67E8D225295E3D00DB6771 /* TrendingTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F67E8D025295E3D00DB6771 /* TrendingTableCell.swift */; };
 		6F67E8D325295E3D00DB6771 /* TrendingTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F67E8D125295E3D00DB6771 /* TrendingTableCell.xib */; };
@@ -25,16 +28,12 @@
 		6F7E56B725EB03E7000E1C90 /* VotingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7E56B625EB03E7000E1C90 /* VotingModel.swift */; };
 		6F81595324F4670B00FB59BD /* NewPostDummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F81595224F4670B00FB59BD /* NewPostDummyViewController.swift */; };
 		6F81595824F46AAC00FB59BD /* NewPostEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F81595724F46AAC00FB59BD /* NewPostEditorViewController.swift */; };
-		6F837CC5252B772600A18420 /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F837CC4252B772600A18420 /* InboxViewController.swift */; };
 		6F837CD0252C402300A18420 /* InboxTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F837CCE252C402300A18420 /* InboxTableCell.swift */; };
 		6F837CD1252C402300A18420 /* InboxTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F837CCF252C402300A18420 /* InboxTableCell.xib */; };
-		6F837CD3252D1EA700A18420 /* InboxModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F837CD2252D1EA700A18420 /* InboxModel.swift */; };
 		6F8605CC250F5128002AC4E9 /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8605CB250F5128002AC4E9 /* TrendingViewController.swift */; };
 		6F89349D25E70928006C5E01 /* mesh_text@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F89349C25E70928006C5E01 /* mesh_text@3x.png */; };
 		6F8934A425E78F25006C5E01 /* NotificationEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8934A225E78F25006C5E01 /* NotificationEntity+CoreDataClass.swift */; };
 		6F8934A525E78F25006C5E01 /* NotificationEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8934A325E78F25006C5E01 /* NotificationEntity+CoreDataProperties.swift */; };
-		6F94A1E825257DA600284D92 /* NearbyTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F94A1E625257DA500284D92 /* NearbyTableCell.swift */; };
-		6F94A1E925257DA600284D92 /* NearbyTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F94A1E725257DA500284D92 /* NearbyTableCell.xib */; };
 		6FAFC2B2252982C6003F7102 /* TrendingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAFC2B1252982C6003F7102 /* TrendingModel.swift */; };
 		6FBA045324F1A7E400FC1E1B /* NearbyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBA045224F1A7E400FC1E1B /* NearbyModel.swift */; };
 		6FBA045E24F2005C00FC1E1B /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBA045D24F2005C00FC1E1B /* UserInfo.swift */; };
@@ -60,16 +59,22 @@
 		6FFD62AC24DE370D00D5B96D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FFD62AA24DE370D00D5B96D /* LaunchScreen.storyboard */; };
 		6FFD62B424DF27CC00D5B96D /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFD62B324DF27CB00D5B96D /* WelcomeViewController.swift */; };
 		6FFD6365257DB20E00CB30AF /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFD6364257DB20E00CB30AF /* ProfileViewController.swift */; };
+		DE096B22DB9CE6B03DAF71A7 /* Pods_Banter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB652D8D50513884A1C0E967 /* Pods_Banter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		67CE5E9F1BD8203E795C89CA /* Pods-Banter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banter.release.xcconfig"; path = "Target Support Files/Pods-Banter/Pods-Banter.release.xcconfig"; sourceTree = "<group>"; };
 		6F0874A725E6F73300E0A547 /* Typo_Round_Light_Demo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Typo_Round_Light_Demo.otf; sourceTree = "<group>"; };
-		6F40679F24F31ABA009CB580 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6F09D89A2602C3590059FD9F /* InboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxViewController.swift; sourceTree = "<group>"; };
+		6F09D89E2602C3BF0059FD9F /* InboxModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxModel.swift; sourceTree = "<group>"; };
 		6F4067A124F32C36009CB580 /* Mesh.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mesh.entitlements; sourceTree = "<group>"; };
 		6F4067A224F4627F009CB580 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		6F4E798C2609BF3400ECC3BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6F56A1B5252D5E01005CB028 /* NotificationFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFetcher.swift; sourceTree = "<group>"; };
 		6F56A1BA252FB2DD005CB028 /* NearbyPostsEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NearbyPostsEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6F56A1BB252FB2DD005CB028 /* NearbyPostsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NearbyPostsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		6F6061DA2605D3B3001F5D4B /* NearbyTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NearbyTableCell.swift; path = "Banter/Tab Bar View Controllers/NearbyTableCell.swift"; sourceTree = SOURCE_ROOT; };
+		6F6061DB2605D3B3001F5D4B /* NearbyTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NearbyTableCell.xib; path = "Banter/Tab Bar View Controllers/NearbyTableCell.xib"; sourceTree = SOURCE_ROOT; };
 		6F664147254A3A7900550A37 /* AppearAsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearAsViewController.swift; sourceTree = "<group>"; };
 		6F67E8D025295E3D00DB6771 /* TrendingTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingTableCell.swift; sourceTree = "<group>"; };
 		6F67E8D125295E3D00DB6771 /* TrendingTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrendingTableCell.xib; sourceTree = "<group>"; };
@@ -81,16 +86,12 @@
 		6F7E56B625EB03E7000E1C90 /* VotingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotingModel.swift; sourceTree = "<group>"; };
 		6F81595224F4670B00FB59BD /* NewPostDummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostDummyViewController.swift; sourceTree = "<group>"; };
 		6F81595724F46AAC00FB59BD /* NewPostEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostEditorViewController.swift; sourceTree = "<group>"; };
-		6F837CC4252B772600A18420 /* InboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InboxViewController.swift; path = "Mesh/View Controllers/InboxViewController.swift"; sourceTree = SOURCE_ROOT; };
 		6F837CCE252C402300A18420 /* InboxTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTableCell.swift; sourceTree = "<group>"; };
 		6F837CCF252C402300A18420 /* InboxTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InboxTableCell.xib; sourceTree = "<group>"; };
-		6F837CD2252D1EA700A18420 /* InboxModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InboxModel.swift; path = "Mesh/View Controllers/InboxModel.swift"; sourceTree = SOURCE_ROOT; };
 		6F8605CB250F5128002AC4E9 /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
 		6F89349C25E70928006C5E01 /* mesh_text@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mesh_text@3x.png"; sourceTree = "<group>"; };
 		6F8934A225E78F25006C5E01 /* NotificationEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6F8934A325E78F25006C5E01 /* NotificationEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		6F94A1E625257DA500284D92 /* NearbyTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NearbyTableCell.swift; path = "Mesh/Tab Bar View Controllers/NearbyTableCell.swift"; sourceTree = SOURCE_ROOT; };
-		6F94A1E725257DA500284D92 /* NearbyTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = NearbyTableCell.xib; path = "Mesh/Tab Bar View Controllers/NearbyTableCell.xib"; sourceTree = SOURCE_ROOT; };
 		6FAFC2B1252982C6003F7102 /* TrendingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingModel.swift; sourceTree = "<group>"; };
 		6FBA045224F1A7E400FC1E1B /* NearbyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyModel.swift; sourceTree = "<group>"; };
 		6FBA045D24F2005C00FC1E1B /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -108,7 +109,7 @@
 		6FD5131E24E36BAA0028DDAE /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
 		6FD5131F24E36BAA0028DDAE /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		6FE0CE80250DF66100A05AD7 /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
-		6FFD629C24DE370D00D5B96D /* Mesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FFD629C24DE370D00D5B96D /* Banter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Banter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FFD629F24DE370D00D5B96D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6FFD62A124DE370D00D5B96D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6FFD62A324DE370D00D5B96D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -119,7 +120,8 @@
 		6FFD62B324DF27CB00D5B96D /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		6FFD6364257DB20E00CB30AF /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		71631A52D235E8A48B9FCA8A /* Pods-Mesh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.release.xcconfig"; path = "Target Support Files/Pods-Mesh/Pods-Mesh.release.xcconfig"; sourceTree = "<group>"; };
-		E2EC500CAC980DAA33F77D06 /* Pods_Mesh.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mesh.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C330A4EEEA0959859376196E /* Pods-Banter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banter.debug.xcconfig"; path = "Target Support Files/Pods-Banter/Pods-Banter.debug.xcconfig"; sourceTree = "<group>"; };
+		DB652D8D50513884A1C0E967 /* Pods_Banter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Banter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F61105D05F6D2DB7392308EF /* Pods-Mesh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.debug.xcconfig"; path = "Target Support Files/Pods-Mesh/Pods-Mesh.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,7 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6CF2F355B5884CAD02551477 /* Pods_Mesh.framework in Frameworks */,
+				DE096B22DB9CE6B03DAF71A7 /* Pods_Banter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +140,7 @@
 		1D306D23079FF0EE5F9ACB95 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E2EC500CAC980DAA33F77D06 /* Pods_Mesh.framework */,
+				DB652D8D50513884A1C0E967 /* Pods_Banter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -148,6 +150,8 @@
 			children = (
 				F61105D05F6D2DB7392308EF /* Pods-Mesh.debug.xcconfig */,
 				71631A52D235E8A48B9FCA8A /* Pods-Mesh.release.xcconfig */,
+				C330A4EEEA0959859376196E /* Pods-Banter.debug.xcconfig */,
+				67CE5E9F1BD8203E795C89CA /* Pods-Banter.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -172,7 +176,7 @@
 				6F6DF02324E79AE1009ACCDD /* AuthCodeViewController.swift */,
 				6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */,
 				6FE0CE80250DF66100A05AD7 /* CommentsViewController.swift */,
-				6F837CC4252B772600A18420 /* InboxViewController.swift */,
+				6F09D89A2602C3590059FD9F /* InboxViewController.swift */,
 				6F664147254A3A7900550A37 /* AppearAsViewController.swift */,
 			);
 			path = "View Controllers";
@@ -210,8 +214,8 @@
 		6FB9DFB1250D631000477D9B /* Table View Cells */ = {
 			isa = PBXGroup;
 			children = (
-				6F94A1E625257DA500284D92 /* NearbyTableCell.swift */,
-				6F94A1E725257DA500284D92 /* NearbyTableCell.xib */,
+				6F6061DA2605D3B3001F5D4B /* NearbyTableCell.swift */,
+				6F6061DB2605D3B3001F5D4B /* NearbyTableCell.xib */,
 				6F67E8D025295E3D00DB6771 /* TrendingTableCell.swift */,
 				6F67E8D125295E3D00DB6771 /* TrendingTableCell.xib */,
 				6F837CCE252C402300A18420 /* InboxTableCell.swift */,
@@ -227,7 +231,7 @@
 				6FBA045D24F2005C00FC1E1B /* UserInfo.swift */,
 				6FBA045224F1A7E400FC1E1B /* NearbyModel.swift */,
 				6FAFC2B1252982C6003F7102 /* TrendingModel.swift */,
-				6F837CD2252D1EA700A18420 /* InboxModel.swift */,
+				6F09D89E2602C3BF0059FD9F /* InboxModel.swift */,
 				6F56A1B5252D5E01005CB028 /* NotificationFetcher.swift */,
 				6F7E56B625EB03E7000E1C90 /* VotingModel.swift */,
 			);
@@ -269,7 +273,7 @@
 		6FFD629324DE370D00D5B96D = {
 			isa = PBXGroup;
 			children = (
-				6FFD629E24DE370D00D5B96D /* Mesh */,
+				6FFD629E24DE370D00D5B96D /* Banter */,
 				6FFD629D24DE370D00D5B96D /* Products */,
 				5C20677268755A7D16E21738 /* Pods */,
 				1D306D23079FF0EE5F9ACB95 /* Frameworks */,
@@ -279,17 +283,17 @@
 		6FFD629D24DE370D00D5B96D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6FFD629C24DE370D00D5B96D /* Mesh.app */,
+				6FFD629C24DE370D00D5B96D /* Banter.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6FFD629E24DE370D00D5B96D /* Mesh */ = {
+		6FFD629E24DE370D00D5B96D /* Banter */ = {
 			isa = PBXGroup;
 			children = (
 				6FFD62AD24DE370D00D5B96D /* Info.plist */,
 				6F4067A124F32C36009CB580 /* Mesh.entitlements */,
-				6F40679F24F31ABA009CB580 /* GoogleService-Info.plist */,
+				6F4E798C2609BF3400ECC3BF /* GoogleService-Info.plist */,
 				6F81595624F46A0E00FB59BD /* Views */,
 				6F6DF02524E79AE9009ACCDD /* View Controllers */,
 				6FBA046124F2033000FC1E1B /* Tab Bar View Controllers */,
@@ -300,15 +304,15 @@
 				6FB9DFB1250D631000477D9B /* Table View Cells */,
 				6F81595424F469C600FB59BD /* Misc */,
 			);
-			path = Mesh;
+			path = Banter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6FFD629B24DE370D00D5B96D /* Mesh */ = {
+		6FFD629B24DE370D00D5B96D /* Banter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6FFD62B024DE370D00D5B96D /* Build configuration list for PBXNativeTarget "Mesh" */;
+			buildConfigurationList = 6FFD62B024DE370D00D5B96D /* Build configuration list for PBXNativeTarget "Banter" */;
 			buildPhases = (
 				52735D83294591816D3EDE0A /* [CP] Check Pods Manifest.lock */,
 				6FFD629824DE370D00D5B96D /* Sources */,
@@ -320,9 +324,9 @@
 			);
 			dependencies = (
 			);
-			name = Mesh;
+			name = Banter;
 			productName = Mesh;
-			productReference = 6FFD629C24DE370D00D5B96D /* Mesh.app */;
+			productReference = 6FFD629C24DE370D00D5B96D /* Banter.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -333,14 +337,14 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1150;
-				ORGANIZATIONNAME = "Avidi Technologies";
+				ORGANIZATIONNAME = "Avidi Industries Inc.";
 				TargetAttributes = {
 					6FFD629B24DE370D00D5B96D = {
 						CreatedOnToolsVersion = 11.5;
 					};
 				};
 			};
-			buildConfigurationList = 6FFD629724DE370D00D5B96D /* Build configuration list for PBXProject "Mesh" */;
+			buildConfigurationList = 6FFD629724DE370D00D5B96D /* Build configuration list for PBXProject "Banter" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -353,7 +357,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6FFD629B24DE370D00D5B96D /* Mesh */,
+				6FFD629B24DE370D00D5B96D /* Banter */,
 			);
 		};
 /* End PBXProject section */
@@ -364,11 +368,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F0874AA25E6FA6C00E0A547 /* Typo_Round_Light_Demo.otf in Resources */,
-				6F94A1E925257DA600284D92 /* NearbyTableCell.xib in Resources */,
 				6FD5132224E36BAA0028DDAE /* Roboto-ThinItalic.ttf in Resources */,
 				6FD5132724E36BAA0028DDAE /* Roboto-LightItalic.ttf in Resources */,
 				6F837CD1252C402300A18420 /* InboxTableCell.xib in Resources */,
 				6FD5132024E36BAA0028DDAE /* Roboto-Thin.ttf in Resources */,
+				6F6061DD2605D3B3001F5D4B /* NearbyTableCell.xib in Resources */,
 				6FD5132124E36BAA0028DDAE /* Roboto-MediumItalic.ttf in Resources */,
 				6FFD62AC24DE370D00D5B96D /* LaunchScreen.storyboard in Resources */,
 				6FD5132324E36BAA0028DDAE /* Roboto-Italic.ttf in Resources */,
@@ -380,9 +384,9 @@
 				6FD5132624E36BAA0028DDAE /* Roboto-BlackItalic.ttf in Resources */,
 				6FFD62A724DE370D00D5B96D /* Main.storyboard in Resources */,
 				6F67E8D325295E3D00DB6771 /* TrendingTableCell.xib in Resources */,
-				6F4067A024F31ABA009CB580 /* GoogleService-Info.plist in Resources */,
 				6FD5132B24E36BAA0028DDAE /* Roboto-Regular.ttf in Resources */,
 				6FD5132A24E36BAA0028DDAE /* Roboto-BoldItalic.ttf in Resources */,
+				6F4E798D2609BF3400ECC3BF /* GoogleService-Info.plist in Resources */,
 				6FD5132524E36BAA0028DDAE /* Roboto-Light.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -405,7 +409,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Mesh-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Banter-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -418,15 +422,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Mesh/Pods-Mesh-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Banter/Pods-Banter-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Mesh/Pods-Mesh-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Banter/Pods-Banter-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Mesh/Pods-Mesh-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Banter/Pods-Banter-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -437,11 +441,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F81595324F4670B00FB59BD /* NewPostDummyViewController.swift in Sources */,
-				6F837CD3252D1EA700A18420 /* InboxModel.swift in Sources */,
 				6F8605CC250F5128002AC4E9 /* TrendingViewController.swift in Sources */,
 				6F56A1B6252D5E01005CB028 /* NotificationFetcher.swift in Sources */,
 				6F7737B1251FD341006D70CC /* localDataModel.xcdatamodeld in Sources */,
-				6F837CC5252B772600A18420 /* InboxViewController.swift in Sources */,
 				6F6F3E5A25DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataProperties.swift in Sources */,
 				6FFD62A424DE370D00D5B96D /* ViewController.swift in Sources */,
 				6F56A1BC252FB2DD005CB028 /* NearbyPostsEntity+CoreDataClass.swift in Sources */,
@@ -452,10 +454,11 @@
 				6F76834324F06C3C00B70F29 /* FinishSignUpViewController.swift in Sources */,
 				6F6F3E5925DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataClass.swift in Sources */,
 				6F6DF02424E79AE1009ACCDD /* AuthCodeViewController.swift in Sources */,
+				6F6061DC2605D3B3001F5D4B /* NearbyTableCell.swift in Sources */,
 				6F8934A425E78F25006C5E01 /* NotificationEntity+CoreDataClass.swift in Sources */,
 				6FBA045E24F2005C00FC1E1B /* UserInfo.swift in Sources */,
 				6FBA046024F2032100FC1E1B /* NearbyViewController.swift in Sources */,
-				6F94A1E825257DA600284D92 /* NearbyTableCell.swift in Sources */,
+				6F09D89B2602C3590059FD9F /* InboxViewController.swift in Sources */,
 				6F837CD0252C402300A18420 /* InboxTableCell.swift in Sources */,
 				6FAFC2B2252982C6003F7102 /* TrendingModel.swift in Sources */,
 				6FE0CE81250DF66100A05AD7 /* CommentsViewController.swift in Sources */,
@@ -464,6 +467,7 @@
 				6F67E8D225295E3D00DB6771 /* TrendingTableCell.swift in Sources */,
 				6FFD62A024DE370D00D5B96D /* AppDelegate.swift in Sources */,
 				6F8934A525E78F25006C5E01 /* NotificationEntity+CoreDataProperties.swift in Sources */,
+				6F09D89F2602C3BF0059FD9F /* InboxModel.swift in Sources */,
 				6FFD62A224DE370D00D5B96D /* SceneDelegate.swift in Sources */,
 				6F7E56B725EB03E7000E1C90 /* VotingModel.swift in Sources */,
 				6F664148254A3A7900550A37 /* AppearAsViewController.swift in Sources */,
@@ -542,7 +546,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -596,7 +600,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -608,20 +612,20 @@
 		};
 		6FFD62B124DE370D00D5B96D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F61105D05F6D2DB7392308EF /* Pods-Mesh.debug.xcconfig */;
+			baseConfigurationReference = C330A4EEEA0959859376196E /* Pods-Banter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Mesh/Mesh.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Banter/Mesh.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5UMQT92969;
-				INFOPLIST_FILE = Mesh/Info.plist;
+				INFOPLIST_FILE = Banter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Avidi-Technologies.Mesh";
-				PRODUCT_NAME = Mesh;
+				PRODUCT_BUNDLE_IDENTIFIER = "Avidi-Industries-Inc.Banter";
+				PRODUCT_NAME = Banter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -630,20 +634,20 @@
 		};
 		6FFD62B224DE370D00D5B96D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71631A52D235E8A48B9FCA8A /* Pods-Mesh.release.xcconfig */;
+			baseConfigurationReference = 67CE5E9F1BD8203E795C89CA /* Pods-Banter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Mesh/Mesh.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Banter/Mesh.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5UMQT92969;
-				INFOPLIST_FILE = Mesh/Info.plist;
+				INFOPLIST_FILE = Banter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Avidi-Technologies.Mesh";
-				PRODUCT_NAME = Mesh;
+				PRODUCT_BUNDLE_IDENTIFIER = "Avidi-Industries-Inc.Banter";
+				PRODUCT_NAME = Banter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -653,7 +657,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6FFD629724DE370D00D5B96D /* Build configuration list for PBXProject "Mesh" */ = {
+		6FFD629724DE370D00D5B96D /* Build configuration list for PBXProject "Banter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6FFD62AE24DE370D00D5B96D /* Debug */,
@@ -662,7 +666,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6FFD62B024DE370D00D5B96D /* Build configuration list for PBXNativeTarget "Mesh" */ = {
+		6FFD62B024DE370D00D5B96D /* Build configuration list for PBXNativeTarget "Banter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6FFD62B124DE370D00D5B96D /* Debug */,

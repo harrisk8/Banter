@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Banter</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -23,7 +25,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.918707328476-atn0ebrq2m15gotp08n5kuetl89tsjr0</string>
+				<string>com.googleusercontent.apps.213614368307-95l2lvv3dt4e68ns20lkk6n22ggt86cm</string>
 			</array>
 		</dict>
 	</array>

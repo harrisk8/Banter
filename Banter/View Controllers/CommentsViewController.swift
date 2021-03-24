@@ -104,7 +104,12 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments = []
             }
             
-            postInfoLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "") + " | " + String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationCity ?? "") + ", " + String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationState ?? "")
+            postInfoLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
+                
+            postInfoLabel.text? += " | "
+                
+            postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationState ?? "")
+            
             
             DispatchQueue.main.async {
                 self.commentsTableView.reloadData()
@@ -121,7 +126,15 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 commentsArray = NotificationArrayRaw.notificationArrayRaw[0].comments ?? []
                 docID = NotificationArrayRaw.notificationArrayRaw[0].documentID ?? ""
                 
-                postInfoLabel.text = String(NotificationArrayRaw.notificationArrayRaw[0].author ?? "") + " | " + String(NotificationArrayRaw.notificationArrayRaw[0].locationCity ?? "") + ", " + String(NotificationArrayRaw.notificationArrayRaw[0].locationState ?? "")
+                
+                postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].author ?? "")
+                    
+                postInfoLabel.text? += " | "
+                postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationCity ?? "")
+                    
+                postInfoLabel.text? +=  ", "
+                
+                postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationState ?? "")
                 
                 DispatchQueue.main.async {
                     self.commentsTableView.reloadData()
@@ -145,7 +158,16 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                         commentsArray = NotificationArrayRaw.notificationArrayRaw[matchIndex].comments ?? []
                         docID = NotificationArrayRaw.notificationArrayRaw[matchIndex].documentID ?? ""
                         
-                        postInfoLabel.text = String(NotificationArrayRaw.notificationArrayRaw[matchIndex].author ?? "") + " | " + String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationCity ?? "") + ", " + String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationState ?? "")
+                        postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].author ?? "")
+                        
+                        
+                        postInfoLabel.text? += " | "
+                        
+                        postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationCity ?? "")
+                            
+                        postInfoLabel.text? += ", "
+                        
+                        postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationState ?? "")
                         
                         DispatchQueue.main.async {
                             self.commentsTableView.reloadData()
