@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_MeshVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_MeshVersionString[];
+FOUNDATION_EXPORT double Pods_BanterVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_BanterVersionString[];
 
