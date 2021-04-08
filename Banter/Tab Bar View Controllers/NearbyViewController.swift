@@ -254,13 +254,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
     }
-        
-        
-    
- 
-    
-    
-    
     
     
     func organizeArrayForTableView() {

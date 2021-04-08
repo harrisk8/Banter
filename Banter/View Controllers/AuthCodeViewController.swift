@@ -9,7 +9,12 @@
 import UIKit
 import Firebase
 
-class AuthCodeViewController: UIViewController, UITextFieldDelegate {
+class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthenticated {
+    
+    func successfulAuth() {
+        print("WE GOT THE AUTH")
+    }
+    
     
     @IBOutlet weak var digit1: UITextField!
     @IBOutlet weak var digit2: UITextField!
@@ -31,6 +36,9 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
 
     var keyboardHeight: Double?
     
+    var link: String?
+    
+    var authStataDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,16 +58,26 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
         organizeInstructions()
         organizeResendButton()
 
+        
+        if let link = UserDefaults.standard.value(forKey: "Link") as? String {
+              self.link = link
+            }
     }
     
+    
+    
     @IBAction func nextButtonPressed(_ sender: Any) {
-        print("next pressed")
-        if validateCode() {
-            print("Sufficient digits")
-            verifyAuthCode()
-        } else {
-            print("Bad code")
-        }
+        
+        
+        
+        
+//        print("next pressed")
+//        if validateCode() {
+//            print("Sufficient digits")
+//            verifyAuthCode()
+//        } else {
+//            print("Bad code")
+//        }
     
     }
     
@@ -149,6 +167,33 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func resendCodePressed(_ sender: Any) {
         print("Resend Code")
+        
+        // Get link url string from the dynamic link captured in AppDelegate.
+        if let link = UserDefaults.standard.value(forKey: "Link") as? String {
+            self.link = link
+        }
+
+        // Sign user in with the link and email.
+        Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: link ?? "NO LINK") { (result, error) in
+
+            if error == nil && result != nil {
+
+                if (Auth.auth().currentUser?.isEmailVerified)! {
+                    print("User verified with passwordless email")
+
+                    // TODO: Do something after user verified like present a new View Controller
+
+                }
+                else {
+                    print("User NOT verified by passwordless email")
+
+                }
+            }
+            else {
+                print("Error with passwordless email verfification: \(error?.localizedDescription ?? "Strangely, no error avaialble.")")
+            }
+        }
+        
     }
     
     
@@ -171,7 +216,24 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate {
     
     //Keeps keyboard active if reCAPTCHA verification opens window
     override func viewDidAppear(_ animated: Bool) {
-        digit1.becomeFirstResponder()
+        
+        print(UserDefaults.standard.value(forKey: "Link"))
+        
+        authStataDidChangeListenerHandle = Auth.auth().addStateDidChangeListener({ (auth, user) in
+            if user == nil {
+                print("User not signed in")
+            }
+            if let user = user, let email = user.email {
+                print("User signed in")
+            }
+        })
+        
+        
+//        Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: self.link) { (user, error) in
+//                  // [START_EXCLUDE]
+//            print(Auth.auth().currentUser?.uid)
+//                  // [END_EXCLUDE]
+//                }
     }
     
     //Adds forward transition functionality to six separate text fields for security code entry

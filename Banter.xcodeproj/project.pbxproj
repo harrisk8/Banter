@@ -67,7 +67,7 @@
 		6F0874A725E6F73300E0A547 /* Typo_Round_Light_Demo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Typo_Round_Light_Demo.otf; sourceTree = "<group>"; };
 		6F09D89A2602C3590059FD9F /* InboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxViewController.swift; sourceTree = "<group>"; };
 		6F09D89E2602C3BF0059FD9F /* InboxModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxModel.swift; sourceTree = "<group>"; };
-		6F4067A124F32C36009CB580 /* Mesh.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mesh.entitlements; sourceTree = "<group>"; };
+		6F4067A124F32C36009CB580 /* Banter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Banter.entitlements; sourceTree = "<group>"; };
 		6F4067A224F4627F009CB580 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		6F4E798C2609BF3400ECC3BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6F56A1B5252D5E01005CB028 /* NotificationFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFetcher.swift; sourceTree = "<group>"; };
@@ -292,7 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				6FFD62AD24DE370D00D5B96D /* Info.plist */,
-				6F4067A124F32C36009CB580 /* Mesh.entitlements */,
+				6F4067A124F32C36009CB580 /* Banter.entitlements */,
 				6F4E798C2609BF3400ECC3BF /* GoogleService-Info.plist */,
 				6F81595624F46A0E00FB59BD /* Views */,
 				6F6DF02524E79AE9009ACCDD /* View Controllers */,
@@ -615,7 +615,7 @@
 			baseConfigurationReference = C330A4EEEA0959859376196E /* Pods-Banter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Banter/Mesh.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Banter/Banter.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5UMQT92969;
@@ -637,7 +637,7 @@
 			baseConfigurationReference = 67CE5E9F1BD8203E795C89CA /* Pods-Banter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Banter/Mesh.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Banter/Banter.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5UMQT92969;

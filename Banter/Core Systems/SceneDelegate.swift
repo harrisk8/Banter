@@ -6,26 +6,32 @@
 //  Copyright © 2020 Avidi Technologies. All rights reserved.
 //
 
+protocol userAuthenticated {
+    
+    func successfulAuth()
+    
+}
+
 import UIKit
+import Firebase
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    var authNotificationDelegate: userAuthenticated?
+    
     let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
-        
         if UserDefaults.standard.bool(forKey: "userLaunchedBefore") == true && UserDefaults.standard.bool(forKey: "userAccountCreated") == true {
             
             if let windowScene = scene as? UIWindowScene {
-
                 self.window = UIWindow(windowScene: windowScene)
-
                 let initialViewController = mainStoryBoard.instantiateViewController(withIdentifier: "tabBarIdentifier")
                 self.window!.rootViewController = initialViewController
                 self.window!.makeKeyAndVisible()
@@ -33,11 +39,66 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
         } else {
             // New User
+        }
+        guard let _ = (scene as? UIWindowScene) else { return }
+    }
+    
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        
+        guard let _ = (scene as? UIWindowScene) else { return }
+        
+        if let incomingURL = userActivity.webpageURL {
             
+            print("Incoming URL is \(incomingURL)")
+            
+            _ = DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { (dynamicLink, error) in
+                
+                guard error == nil else{
+                    
+                    print("Found an error! \(error!.localizedDescription)")
+                    
+                    return
+                    
+                }
+                
+                if let dynamicLink = dynamicLink {
+                    self.handleIncomingDynamicLink(dynamicLink)
+                }
+                
+            }
+        }
+    }
+
+
+    // Handles the link and saves it to userDefaults to assist with login.
+    func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
+        
+        guard let url = dynamicLink.url else {
+            print("My dynamic link object has no url")
+            return
         }
         
+        print("Incoming link parameter is \(url.absoluteString)")
 
-        guard let _ = (scene as? UIWindowScene) else { return }
+        let link = url.absoluteString
+        
+        if Auth.auth().isSignIn(withEmailLink: link) {
+
+            print("LINK IS FKIN GOOD")
+
+            // Save link to userDefaults to help finalize login.
+            UserDefaults.standard.set(link, forKey: "Link")
+
+            Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: link) { (user, error) in
+
+                print("The user signed in")
+                
+                self.authNotificationDelegate?.successfulAuth()
+
+            }
+        }
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

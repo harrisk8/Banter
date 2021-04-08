@@ -28,17 +28,29 @@
 				<string>com.googleusercontent.apps.213614368307-95l2lvv3dt4e68ns20lkk6n22ggt86cm</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Bundle ID</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>Avidi-Industries-Inc.Banter</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<string>YES</string>
+	<key>FirebaseDeepLinkPasteboardRetrievalEnabled</key>
+	<string>NO</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Mesh requires your location to connect you with your community only while using the app.</string>
+	<string>Banter requires your location to connect you with your campus only while using the app.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto-Black.ttf</string>
@@ -77,6 +89,8 @@
 	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
+		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

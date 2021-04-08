@@ -10,6 +10,8 @@ import UIKit
 import CoreLocation
 import Firebase
 import FirebaseMessaging
+import FirebaseAuth
+import FirebaseDynamicLinks
 
 
 class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate {
@@ -42,6 +44,8 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     let manager = CLLocationManager()
 
+    var userEmail: String?
+    var link: String?
     
     override func viewDidLoad() {
         
@@ -107,14 +111,26 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     //Validates and executes transition to next VC AND sends phone number for auth
     @IBAction func nextButtonPressed(_ sender: Any) {
-        if validatePhoneNumber() {
-            print("Phone # is good")
-            verifyPhoneNumber()
-            performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
-        } else {
-            print("Phone # is BAD")
-            enterValidNumberPlease.alpha = 1
-        }
+        
+        sendLinkToEmail()
+        
+//        if isValidEmail(testStr: phoneNumberTextField.text ?? "") == true {
+//            print("VALID EMAIL")
+//            sendLinkToEmail()
+//        } else {
+//            print("INVALID EMAIL")
+//        }
+        
+        
+        
+//        if validatePhoneNumber() {
+//            print("Phone # is good")
+//            verifyPhoneNumber()
+//            performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
+//        } else {
+//            print("Phone # is BAD")
+//            enterValidNumberPlease.alpha = 1
+//        }
         
     }
     
@@ -135,14 +151,88 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     func sendLinkToEmail() {
         
+        let actionCodeSettings = ActionCodeSettings()
+        actionCodeSettings.url = URL(string: "https://officialbanterapp.page.link/welcome")
+        // The sign-in operation has to always be completed in the app.
+        actionCodeSettings.handleCodeInApp = true
+        actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
         
-        
+        Auth.auth().sendSignInLink(toEmail:"harriskapoor98@ufl.edu",
+                                   actionCodeSettings: actionCodeSettings) { error in
+          // ...
+            if let error = error {
+              print(error.localizedDescription)
+              return
+            }
+            // The link was successfully sent. Inform the user.
+            // Save the email locally so you don't need to ask the user for it again
+            // if they open the link on the same device.
+            print("Link successfully sent")
+            self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
+            UserDefaults.standard.set("harriskapoor98@ufl.edu", forKey: "Email")
+            // ...
+        }
+
     }
+    
+//    // Sign in user after they clicked email link called from AppDelegate
+//    @objc func signInUserAfterEmailLinkClick() {
+//
+//        // Get link url string from the dynamic link captured in AppDelegate.
+//        if let link = UserDefaults.standard.value(forKey: "Link") as? String {
+//            self.link = link
+//        }
+//
+//        // Sign user in with the link and email.
+//        Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: link!) { (result, error) in
+//
+//            if error == nil && result != nil {
+//
+//                if (Auth.auth().currentUser?.isEmailVerified)! {
+//                    print("User verified with passwordless email")
+//
+//                    // TODO: Do something after user verified like present a new View Controller
+//
+//                }
+//                else {
+//                    print("User NOT verified by passwordless email")
+//
+//                }
+//            }
+//            else {
+//                print("Error with passwordless email verfification: \(error?.localizedDescription ?? "Strangely, no error avaialble.")")
+//            }
+//        }
+//    }
     
     func isValidEmail(testStr:String) -> Bool {
         let emailRegEx = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{1,4}$"
         let emailTest = NSPredicate(format:"SELF MATCHES[c] %@", emailRegEx)
         return emailTest.evaluate(with: testStr)
+    }
+    
+    func isValidEDUEmail() -> Bool {
+        
+        if let emailString = phoneNumberTextField.text {
+            
+            if emailString.count > 0 {
+                
+                print(emailString.length)
+                print(emailString[emailString.length - 1])
+                print(emailString[emailString.length - 2])
+                print(emailString[emailString.length - 3])
+                
+                
+                return true
+                
+            } else {
+                return false
+            }
+            
+        }
+        
+        return false
+        
     }
     
     
@@ -285,7 +375,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         }
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
-        return count <= 10
+        return count <= 40
     }
     
     //Benign function- necessary for unwind from next VC
