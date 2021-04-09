@@ -36,6 +36,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate, upda
         setGradientBackground(colorOne: UIColor.blue, colorTwo: UIColor.red)
         
         NotificationFetcher.delegate = self
+        
         self.delegate = self
 
         

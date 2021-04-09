@@ -41,7 +41,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         print("User Appearance Name Last Set to:")
         print(UserDefaults.standard.string(forKey: "lastUserAppearanceName") ?? "")
         

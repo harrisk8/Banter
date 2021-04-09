@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     
-    var authNotificationDelegate: userAuthenticated?
+    static var authNotificationDelegate: userAuthenticated?
     
     let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
 
@@ -94,7 +94,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                 print("The user signed in")
                 
-                self.authNotificationDelegate?.successfulAuth()
+                SceneDelegate.self.authNotificationDelegate?.successfulAuth()
 
             }
         }

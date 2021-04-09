@@ -27,7 +27,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     @IBOutlet weak var pleaseEnterNumberLabel: UILabel!
     @IBOutlet weak var enterValidNumberPlease: UILabel!
     
-    @IBOutlet weak var phoneNumberTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
     
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var phoneNumberButton: UIButton!
@@ -61,7 +61,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
           // ...
         }
         
-        phoneNumberTextField.delegate = self
+        emailTextField.delegate = self
                 
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
@@ -112,8 +112,8 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     //Validates and executes transition to next VC AND sends phone number for auth
     @IBAction func nextButtonPressed(_ sender: Any) {
         
-        sendLinkToEmail()
-        
+        self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
+
 //        if isValidEmail(testStr: phoneNumberTextField.text ?? "") == true {
 //            print("VALID EMAIL")
 //            sendLinkToEmail()
@@ -213,14 +213,10 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     func isValidEDUEmail() -> Bool {
         
-        if let emailString = phoneNumberTextField.text {
+        if let emailString = emailTextField.text {
             
             if emailString.count > 0 {
                 
-                print(emailString.length)
-                print(emailString[emailString.length - 1])
-                print(emailString[emailString.length - 2])
-                print(emailString[emailString.length - 3])
                 
                 
                 return true
@@ -241,7 +237,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     //Passes user phone number and screen height to next VC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let authCodeViewController = segue.destination as? AuthCodeViewController {
-            authCodeViewController.phoneNumber = phoneNumberTextField.text
+            authCodeViewController.userEmail = emailTextField.text
             authCodeViewController.keyboardHeight = keyboardHeight
         }
     }
@@ -250,7 +246,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     @IBAction func phoneNumberButtonPressed(_ sender: Any) {
         
         DispatchQueue.main.async {
-            self.phoneNumberTextField.becomeFirstResponder()
+            self.emailTextField.becomeFirstResponder()
             self.slideScreenUp()
         }
         phoneNumberButton.isUserInteractionEnabled = false
@@ -261,7 +257,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         
         DispatchQueue.main.async {
             self.slideScreenDown()
-            self.phoneNumberTextField.resignFirstResponder()
+            self.emailTextField.resignFirstResponder()
         }
  
         phoneNumberButton.isUserInteractionEnabled = true
@@ -271,7 +267,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
 
     //Handles functionality for "phone number" placeholder
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if phoneNumberTextField.text != "" {
+        if emailTextField.text != "" {
             phoneNumberPlaceholder.alpha = 0
         } else {
             phoneNumberPlaceholder.alpha = 1
@@ -286,7 +282,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         nextButton.isUserInteractionEnabled = true
         self.sliderView.translatesAutoresizingMaskIntoConstraints = true
         self.phoneNumberBackground.translatesAutoresizingMaskIntoConstraints = true
-        self.phoneNumberTextField.translatesAutoresizingMaskIntoConstraints = true
+        self.emailTextField.translatesAutoresizingMaskIntoConstraints = true
         self.enterValidNumberPlease.translatesAutoresizingMaskIntoConstraints = true
         
 //        UIView.animate(withDuration: 0.3) {
@@ -312,12 +308,12 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             self.backButton.alpha = 1
             self.nextButtonSMSBackground.alpha = 1
             self.view.frame.origin.y -= CGFloat(self.keyboardHeight)
-            self.phoneNumberBackground.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-            self.phoneNumberTextField.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-            self.phoneNumberPlaceholder.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-            self.pleaseEnterNumberLabel.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-            self.phoneNumberButton.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-            self.enterValidNumberPlease.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
+            self.phoneNumberBackground.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
+            self.emailTextField.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
+            self.phoneNumberPlaceholder.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
+            self.pleaseEnterNumberLabel.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
+            self.phoneNumberButton.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
+            self.enterValidNumberPlease.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
         })
     }
     
@@ -333,12 +329,12 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             self.backButton.alpha = 0
             self.nextButtonSMSBackground.alpha = 0
             self.view.frame.origin.y += CGFloat(self.keyboardHeight)
-            self.phoneNumberBackground.frame.origin.y += CGFloat(self.keyboardHeight * 0.65)
-            self.phoneNumberTextField.frame.origin.y += CGFloat(self.keyboardHeight * 0.65)
-            self.phoneNumberPlaceholder.frame.origin.y += CGFloat(self.keyboardHeight * 0.65)
-            self.pleaseEnterNumberLabel.frame.origin.y += CGFloat(self.keyboardHeight * 0.65)
-            self.phoneNumberButton.frame.origin.y += CGFloat(self.keyboardHeight * 0.65)
-            self.enterValidNumberPlease.frame.origin.y += CGFloat(self.keyboardHeight * 0.65)
+            self.phoneNumberBackground.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
+            self.emailTextField.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
+            self.phoneNumberPlaceholder.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
+            self.pleaseEnterNumberLabel.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
+            self.phoneNumberButton.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
+            self.enterValidNumberPlease.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
 
             
         }
@@ -357,9 +353,9 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     //Validates whether user entered complete number. Gateway for segue
     func validatePhoneNumber() -> Bool {
-        if let phoneNumberEntry = phoneNumberTextField.text {
+        if let phoneNumberEntry = emailTextField.text {
             if phoneNumberEntry.count == 10 {
-                userPhoneNumber = "+1" + phoneNumberTextField.text!
+                userPhoneNumber = "+1" + emailTextField.text!
                 print(userPhoneNumber!)
                 return true
             }
@@ -369,7 +365,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     //Limits phone number text field to 10 characters in length
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let textFieldText = phoneNumberTextField.text,
+        guard let textFieldText = emailTextField.text,
             let rangeOfTextToReplace = Range(range, in: textFieldText) else {
                 return false
         }
@@ -386,7 +382,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     //Rapidly moves screen up after view appears from user pressing back on auth code screen
     override func viewDidAppear(_ animated: Bool) {
         if backFromAuthCodeScreen == true {
-            phoneNumberTextField.becomeFirstResponder()
+            emailTextField.becomeFirstResponder()
             UIView.animate(withDuration: 0.3) {
                 self.view.frame.origin.y = -CGFloat(self.keyboardHeight)
             }
@@ -399,7 +395,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     
     @IBAction func swipedUp(_ sender: Any) {
-        phoneNumberTextField.becomeFirstResponder()
+        emailTextField.becomeFirstResponder()
         slideScreenUp()
         phoneNumberButton.isUserInteractionEnabled = false
     }
@@ -407,7 +403,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     @IBAction func swipedDown(_ sender: Any) {
         if screenSlidedUp == true {
             slideScreenDown()
-            phoneNumberTextField.resignFirstResponder()
+            emailTextField.resignFirstResponder()
             phoneNumberButton.isUserInteractionEnabled = true
             enterValidNumberPlease.alpha = 0
         }
