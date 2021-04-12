@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Next Button w: SMS Notice.png",
+      "filename" : "emailNotice.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Next Button w: SMS Notice@2x.png",
+      "filename" : "emailNotice@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Next Button w: SMS Notice@3x.png",
+      "filename" : "emailNotice@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

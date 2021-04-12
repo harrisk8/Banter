@@ -19,7 +19,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     @IBOutlet weak var sliderView: UIView!
     
 
-    @IBOutlet weak var phoneNumberBackground: UIImageView!
+    @IBOutlet weak var emailFieldBackground: UIImageView!
     @IBOutlet weak var nextButtonSMSBackground: UIImageView!
     @IBOutlet weak var legalNoticeImage: UIImageView!
     
@@ -76,9 +76,12 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         
         lookUpCurrentLocation(completionHandler: {_ in
             
-            print("HI")
+            print("Location Obtained")
+            
         })
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {    
     }
     
     
@@ -112,44 +115,27 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     //Validates and executes transition to next VC AND sends phone number for auth
     @IBAction func nextButtonPressed(_ sender: Any) {
         
-        self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
-
-//        if isValidEmail(testStr: phoneNumberTextField.text ?? "") == true {
-//            print("VALID EMAIL")
-//            sendLinkToEmail()
-//        } else {
-//            print("INVALID EMAIL")
-//        }
         
-        
-        
-//        if validatePhoneNumber() {
-//            print("Phone # is good")
-//            verifyPhoneNumber()
-//            performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
-//        } else {
-//            print("Phone # is BAD")
-//            enterValidNumberPlease.alpha = 1
-//        }
-        
-    }
-    
-    func verifyPhoneNumber() {
-        
-        PhoneAuthProvider.provider().verifyPhoneNumber("+19548645827", uiDelegate: nil) {
-            (verificationID, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            UserDefaults.standard.set(verificationID ?? "", forKey: "authVerificationID")
-   
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
         }
         
+//        if emailTextField.text != "" {
+//
+//            if isValidEmail(userEmail: emailTextField.text!) == true && isValidEDUEmail() == true {
+//                sendLinkToEmail(validUserEmail: emailTextField.text!)
+//                self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
+//            } else {
+//                print("ERROR")
+//            }
+//
+//        } else {
+//            print("ERROR")
+//        }
+        
     }
     
-    func sendLinkToEmail() {
+    func sendLinkToEmail(validUserEmail: String) {
         
         let actionCodeSettings = ActionCodeSettings()
         actionCodeSettings.url = URL(string: "https://officialbanterapp.page.link/welcome")
@@ -157,7 +143,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         actionCodeSettings.handleCodeInApp = true
         actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
         
-        Auth.auth().sendSignInLink(toEmail:"harriskapoor98@ufl.edu",
+        Auth.auth().sendSignInLink(toEmail:validUserEmail,
                                    actionCodeSettings: actionCodeSettings) { error in
           // ...
             if let error = error {
@@ -169,66 +155,52 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             // if they open the link on the same device.
             print("Link successfully sent")
             self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
-            UserDefaults.standard.set("harriskapoor98@ufl.edu", forKey: "Email")
+            UserDefaults.standard.set(validUserEmail, forKey: "Email")
             // ...
         }
 
     }
     
-//    // Sign in user after they clicked email link called from AppDelegate
-//    @objc func signInUserAfterEmailLinkClick() {
-//
-//        // Get link url string from the dynamic link captured in AppDelegate.
-//        if let link = UserDefaults.standard.value(forKey: "Link") as? String {
-//            self.link = link
-//        }
-//
-//        // Sign user in with the link and email.
-//        Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: link!) { (result, error) in
-//
-//            if error == nil && result != nil {
-//
-//                if (Auth.auth().currentUser?.isEmailVerified)! {
-//                    print("User verified with passwordless email")
-//
-//                    // TODO: Do something after user verified like present a new View Controller
-//
-//                }
-//                else {
-//                    print("User NOT verified by passwordless email")
-//
-//                }
-//            }
-//            else {
-//                print("Error with passwordless email verfification: \(error?.localizedDescription ?? "Strangely, no error avaialble.")")
-//            }
-//        }
-//    }
+    override func viewDidDisappear(_ animated: Bool) {
+        slideScreenDown()
+        emailTextField.resignFirstResponder()
+    }
+
     
-    func isValidEmail(testStr:String) -> Bool {
+    func isValidEmail(userEmail:String) -> Bool {
         let emailRegEx = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{1,4}$"
         let emailTest = NSPredicate(format:"SELF MATCHES[c] %@", emailRegEx)
-        return emailTest.evaluate(with: testStr)
+        return emailTest.evaluate(with: userEmail)
     }
     
     func isValidEDUEmail() -> Bool {
         
         if let emailString = emailTextField.text {
             
-            if emailString.count > 0 {
+            if emailString.count >= 7 {
+                                
+                let start = emailString.index(emailString.endIndex, offsetBy: -4)
+                let end = emailString.index(emailString.endIndex, offsetBy: 0)
+                let range = start..<end
+                print(emailString[range])
                 
-                
-                
-                return true
+                if emailString[range] == ".edu" {
+                    print("The user entered a VALID email address")
+                    return true
+                } else {
+                    print("The user entered an INVALID email address")
+                    return false
+                }
                 
             } else {
+                //User entered an invalid email (less than 7 characters)
                 return false
             }
             
         }
         
         return false
-        
+    
     }
     
     
@@ -239,11 +211,12 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         if let authCodeViewController = segue.destination as? AuthCodeViewController {
             authCodeViewController.userEmail = emailTextField.text
             authCodeViewController.keyboardHeight = keyboardHeight
+            
         }
     }
     
     //Slides screen up and prepares for user to enter phone number
-    @IBAction func phoneNumberButtonPressed(_ sender: Any) {
+    @IBAction func emailFieldButtonPressed(_ sender: Any) {
         
         DispatchQueue.main.async {
             self.emailTextField.becomeFirstResponder()
@@ -281,26 +254,9 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         phoneNumberButton.isUserInteractionEnabled = false
         nextButton.isUserInteractionEnabled = true
         self.sliderView.translatesAutoresizingMaskIntoConstraints = true
-        self.phoneNumberBackground.translatesAutoresizingMaskIntoConstraints = true
+        self.emailFieldBackground.translatesAutoresizingMaskIntoConstraints = true
         self.emailTextField.translatesAutoresizingMaskIntoConstraints = true
         self.enterValidNumberPlease.translatesAutoresizingMaskIntoConstraints = true
-        
-//        UIView.animate(withDuration: 0.3) {
-//            self.sliderView.frame.origin.y -= CGFloat(self.keyboardHeight)
-//            self.legalNoticeImage.alpha = 0
-//            self.sliderView.alpha = 0
-//            self.backButton.alpha = 1
-//            self.nextButtonSMSBackground.alpha = 1
-//            self.view.frame.origin.y -= CGFloat(self.keyboardHeight)
-//            self.phoneNumberBackground.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-//            self.phoneNumberTextField.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-//            self.phoneNumberPlaceholder.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-//            self.pleaseEnterNumberLabel.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-//            self.phoneNumberButton.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-//            self.enterValidNumberPlease.frame.origin.y -= CGFloat(self.keyboardHeight * 0.65)
-//
-//        }
-        
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, animations: {
             self.sliderView.frame.origin.y -= CGFloat(self.keyboardHeight)
             self.legalNoticeImage.alpha = 0
@@ -308,7 +264,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             self.backButton.alpha = 1
             self.nextButtonSMSBackground.alpha = 1
             self.view.frame.origin.y -= CGFloat(self.keyboardHeight)
-            self.phoneNumberBackground.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
+            self.emailFieldBackground.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
             self.emailTextField.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
             self.phoneNumberPlaceholder.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
             self.pleaseEnterNumberLabel.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
@@ -329,7 +285,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             self.backButton.alpha = 0
             self.nextButtonSMSBackground.alpha = 0
             self.view.frame.origin.y += CGFloat(self.keyboardHeight)
-            self.phoneNumberBackground.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
+            self.emailFieldBackground.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
             self.emailTextField.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
             self.phoneNumberPlaceholder.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
             self.pleaseEnterNumberLabel.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
@@ -351,19 +307,8 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         UserInfo.keyboardHeight = keyboardHeight
     }
     
-    //Validates whether user entered complete number. Gateway for segue
-    func validatePhoneNumber() -> Bool {
-        if let phoneNumberEntry = emailTextField.text {
-            if phoneNumberEntry.count == 10 {
-                userPhoneNumber = "+1" + emailTextField.text!
-                print(userPhoneNumber!)
-                return true
-            }
-        }
-        return false
-    }
     
-    //Limits phone number text field to 10 characters in length
+    //Limits phone number text field to 40 characters in length
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let textFieldText = emailTextField.text,
             let rangeOfTextToReplace = Range(range, in: textFieldText) else {
@@ -383,16 +328,12 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     override func viewDidAppear(_ animated: Bool) {
         if backFromAuthCodeScreen == true {
             emailTextField.becomeFirstResponder()
+            slideScreenUp()
             UIView.animate(withDuration: 0.3) {
                 self.view.frame.origin.y = -CGFloat(self.keyboardHeight)
             }
         }
     }
-    
-
-    
-
-    
     
     @IBAction func swipedUp(_ sender: Any) {
         emailTextField.becomeFirstResponder()

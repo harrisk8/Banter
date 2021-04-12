@@ -86,15 +86,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if Auth.auth().isSignIn(withEmailLink: link) {
 
             print("LINK IS FKIN GOOD")
+            
+            SceneDelegate.self.authNotificationDelegate?.successfulAuth()
+
 
             // Save link to userDefaults to help finalize login.
             UserDefaults.standard.set(link, forKey: "Link")
 
-            Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: link) { (user, error) in
+            Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: UserDefaults.standard.value(forKey: "Link") as! String) { (user, error) in
 
                 print("The user signed in")
                 
-                SceneDelegate.self.authNotificationDelegate?.successfulAuth()
 
             }
         }

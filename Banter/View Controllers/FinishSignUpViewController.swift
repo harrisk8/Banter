@@ -20,7 +20,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var lastNamePlaceholder: UILabel!
     @IBOutlet weak var dateOfBirthPlaceholder: UILabel!
     
-    private var datePicker: UIDatePicker?
+    var datePicker = UIDatePicker()
     
     var firstName = ""
     var lastName = ""
@@ -37,8 +37,10 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         dateOfBirthTextField.delegate = self
         
         datePicker = UIDatePicker()
-        datePicker?.datePickerMode = .date
-        datePicker?.addTarget(self, action:
+        datePicker.datePickerMode = .date
+        datePicker.sizeToFit()
+
+        datePicker.addTarget(self, action:
             #selector(FinishSignUpViewController.dateChanged(datePicker:)),
             for: .valueChanged)
         let tapGesture = UITapGestureRecognizer(target: self, action:
@@ -48,6 +50,19 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         let toolBar = UIToolbar().ToolbarPiker(mySelect: #selector(FinishSignUpViewController.dismissPicker))
         dateOfBirthTextField.inputAccessoryView = toolBar
         
+        if #available(iOS 14, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+            datePicker.datePickerMode = .date
+            datePicker.sizeToFit()
+            }
+        
+        dateOfBirthTextField.inputView = datePicker
+
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        view.frame.origin.y = 0.0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,6 +78,13 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             
             
             createNewUser()
+            
+            Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: UserDefaults.standard.value(forKey: "Link") as! String) { (user, error) in
+
+                print("The user signed in")
+                
+
+            }
             performSegue(withIdentifier: "finishSignUpToNearby", sender: self)
         } else {
             print("MISSING INFO")
@@ -197,11 +219,15 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer) {
         view.endEditing(true)
         }
+    
     @objc func dateChanged(datePicker: UIDatePicker) {
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
-        dateOfBirthTextField.text = dateFormatter.string(from: datePicker.date)
+        dateOfBirthTextField.inputView = datePicker
         
+        dateOfBirthTextField.text = dateFormatter.string(from: datePicker.date)
+
     }
 
 

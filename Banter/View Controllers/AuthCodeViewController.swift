@@ -14,7 +14,10 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
     func successfulAuth() {
         
         print("WE GOT THE AUTH")
-        
+        DispatchQueue.main.async {
+            self.successfulVerificationLabel.alpha = 1.0
+            self.performSegue(withIdentifier: "authCodeScreenToFinishSignUpScreen", sender: self)
+        }
     }
     
     @IBOutlet weak var nextButton: UIButton!
@@ -22,6 +25,7 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
     
     
     @IBOutlet weak var instructions: UILabel!
+    @IBOutlet weak var successfulVerificationLabel: UILabel!
     
     var userEmail: String?
     var authCode: String?
@@ -36,6 +40,8 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         resendCodeButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
@@ -55,48 +61,25 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
         
     }
     
+    override func viewWillLayoutSubviews() {
+        self.view.frame.origin.y = 0
+
+    }
     
+    override func viewWillDisappear(_ animated: Bool) {
+
+    }
+    
+
+    
+
     
     @IBAction func nextButtonPressed(_ sender: Any) {
         
-        
-        
-        
-//        print("next pressed")
-//        if validateCode() {
-//            print("Sufficient digits")
-//            verifyAuthCode()
-//        } else {
-//            print("Bad code")
-//        }
-    
+        performSegue(withIdentifier: "authCodeScreenToFinishSignUpScreen", sender: self)
+
     }
     
-    
-    func verifyAuthCode() {
-        
-        let verificationID = UserDefaults.standard.string(forKey: "authVerificationID") ?? ""
-        
-        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: authCode ?? "")
-        
-        Auth.auth().signIn(with: credential, completion: { authData, error in
-            if let error = error {
-                print(error.localizedDescription)
-                print("INCORRECT CODE TRY AGAIN")
-            } else {
-                print(Auth.auth().currentUser?.uid ?? "")
-                
-                //Stores userID in UserInfo class for local usage
-                UserInfo.userID = Auth.auth().currentUser?.uid ?? ""
-                
-                self.getUserDocID()
-                
-                
-            }
-            
-        })
-        
-    }
     
     func getUserDocID() {
         
@@ -199,6 +182,7 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
     //Keeps keyboard active if reCAPTCHA verification opens window
     override func viewDidAppear(_ animated: Bool) {
         
+
         print(UserDefaults.standard.value(forKey: "Link"))
         
         authStataDidChangeListenerHandle = Auth.auth().addStateDidChangeListener({ (auth, user) in
@@ -207,15 +191,10 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
             }
             if let user = user, let email = user.email {
                 print("User signed in")
+
             }
         })
-        
-        
-//        Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: self.link) { (user, error) in
-//                  // [START_EXCLUDE]
-//            print(Auth.auth().currentUser?.uid)
-//                  // [END_EXCLUDE]
-//                }
+    
     }
     
     
