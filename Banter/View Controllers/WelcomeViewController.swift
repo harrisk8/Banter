@@ -120,18 +120,18 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
         }
         
-//        if emailTextField.text != "" {
-//
-//            if isValidEmail(userEmail: emailTextField.text!) == true && isValidEDUEmail() == true {
-//                sendLinkToEmail(validUserEmail: emailTextField.text!)
-//                self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
-//            } else {
-//                print("ERROR")
-//            }
-//
-//        } else {
-//            print("ERROR")
-//        }
+        if emailTextField.text != "" {
+
+            if isValidEmail(userEmail: emailTextField.text!) == true && isValidEDUEmail() == true {
+                sendLinkToEmail(validUserEmail: emailTextField.text!)
+                self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
+            } else {
+                print("ERROR")
+            }
+
+        } else {
+            print("ERROR")
+        }
         
     }
     

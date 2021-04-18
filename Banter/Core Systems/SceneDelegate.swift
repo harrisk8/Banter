@@ -22,6 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     static var authNotificationDelegate: userAuthenticated?
     
     let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
+    
+    let database = Firestore.firestore()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -93,14 +95,58 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             // Save link to userDefaults to help finalize login.
             UserDefaults.standard.set(link, forKey: "Link")
 
-            Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: UserDefaults.standard.value(forKey: "Link") as! String) { (user, error) in
-
-                print("The user signed in")
-                
-
-            }
+        
         }
         
+    }
+    
+    
+    func getUserDocID() {
+        
+        
+        print("trying to get doc)")
+        
+        database.collection("users").whereField("userID", isEqualTo: UserInfo.userID ?? "").getDocuments() { (querySnapshot, err) in
+            
+            if let err = err {
+                print(err.localizedDescription)
+                print(" - - - - THIS USER DOES NOT EXIST YET - - - - ")
+            } else {
+                
+                if querySnapshot!.documents.count == 0 {
+                    
+                    print(" - - - - THIS USER DOES NOT EXIST YET - - - - ")
+                    
+                } else {
+                    
+                    print("User exists")
+                    
+                    for document in querySnapshot!.documents {
+                        
+                        let postData = document.data()
+                        
+                        if let postID = document.documentID as String?,
+                            let userFirstName = postData["first name"] as? String
+                            
+                            {
+                                
+                                print(" - - - - - Existing user with userDocID: - - - - - - ")
+                                print(postID)
+                                print(" - - - First Name - - - - ")
+                                print(userFirstName)
+                                UserInfo.userCollectionDocID = postID
+                                UserInfo.userFirstName = userFirstName
+                                UserDefaults.standard.set(postID, forKey: "userCollectionDocID")
+                                UserDefaults.standard.set(userFirstName, forKey: "userFirstName")
+                                UserDefaults.standard.set(true, forKey: "userAccountCreated")
+                                UserDefaults.standard.set("Incognito", forKey: "lastUserAppearanceName")
+                                UserDefaults.standard.set(true, forKey: "incognitoSelected")
+                        
+                        }
+                    }
+                }
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

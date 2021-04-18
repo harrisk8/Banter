@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
+import FirebaseAuth
 
 class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     
@@ -76,15 +77,18 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             UserDefaults.standard.set(firstNameTextField.text, forKey: "userFirstName")
             UserDefaults.standard.set(lastNameTextField.text, forKey: "userLastName")
             
-            
-            createNewUser()
-            
             Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: UserDefaults.standard.value(forKey: "Link") as! String) { (user, error) in
 
                 print("The user signed in")
                 
+                print(Auth.auth().currentUser!.uid)
+                
 
             }
+            
+            
+            createNewUser()
+            
             performSegue(withIdentifier: "finishSignUpToNearby", sender: self)
         } else {
             print("MISSING INFO")
