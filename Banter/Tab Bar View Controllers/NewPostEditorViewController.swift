@@ -9,6 +9,8 @@
 import UIKit
 import Firebase
 import CoreData
+import FirebaseFirestore
+
 
 class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, updatePostingAsName {
     

@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 import CoreData
+import FirebaseFirestore
 
 
 protocol updateInboxBadge {

@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
+import FirebaseFirestore
 
 class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthenticated {
     
@@ -180,22 +182,22 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
     
     
     //Keeps keyboard active if reCAPTCHA verification opens window
-    override func viewDidAppear(_ animated: Bool) {
-        
-
-        print(UserDefaults.standard.value(forKey: "Link"))
-        
-        authStataDidChangeListenerHandle = Auth.auth().addStateDidChangeListener({ (auth, user) in
-            if user == nil {
-                print("User not signed in")
-            }
-            if let user = user, let email = user.email {
-                print("User signed in")
-
-            }
-        })
-    
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//
+//
+//        print(UserDefaults.standard.value(forKey: "Link"))
+//
+//        authStataDidChangeListenerHandle = Auth.auth().addStateDidChangeListener({ (auth, user) in
+//            if user == nil {
+//                print("User not signed in")
+//            }
+//            if let user = user, let email = user.email {
+//                print("User signed in")
+//
+//            }
+//        })
+//
+//    }
     
     
     func organizeInstructions() {

@@ -10,6 +10,7 @@ import UIKit
 import QuartzCore
 import Firebase
 import CoreData
+import FirebaseFirestore
 
 protocol refreshNearbyTable {
     func refreshtable()

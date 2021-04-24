@@ -14,6 +14,10 @@ protocol userAuthenticated {
 
 import UIKit
 import Firebase
+import FirebaseFirestore
+import FirebaseAuth
+import FirebaseDynamicLinks
+
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

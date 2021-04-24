@@ -31,13 +31,12 @@
       "size" : "40x40"
     },
     {
-      "filename" : "Icon@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "BanterAppIcon@3x.png",
+      "filename" : "Black_Background@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
