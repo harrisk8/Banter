@@ -62,10 +62,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             incognitoButton.title = UserDefaults.standard.value(forKey: "userNickname") as? String
 
         }
-        
-        let userID = Auth.auth().currentUser!.uid
-        UserInfo.userID = userID
-        print(UserInfo.userID)
     
         locationManager.delegate = self
         
@@ -245,7 +241,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                     if let postID = document.documentID as String? {
                         
                         UserInfo.userCollectionDocID = postID
-                        print("PULLED NEW DOC ID")
+                        print("The user's doc ID fetched below:")
                         print(UserInfo.userCollectionDocID)
                         UserDefaults.standard.set(UserInfo.userCollectionDocID, forKey: "userCollectionDocID")
                     

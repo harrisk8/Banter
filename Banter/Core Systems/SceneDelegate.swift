@@ -34,6 +34,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
+        print("SCENE MARKER")
+        
         if UserDefaults.standard.bool(forKey: "userLaunchedBefore") == true && UserDefaults.standard.bool(forKey: "userAccountCreated") == true {
             
             if let windowScene = scene as? UIWindowScene {
@@ -93,6 +95,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             print("LINK IS FKIN GOOD")
             
+            print(UserDefaults.standard.value(forKey: "validUserEmail"))
+            
             SceneDelegate.self.authNotificationDelegate?.successfulAuth()
 
 
@@ -108,7 +112,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func getUserDocID() {
         
         
-        print("trying to get doc)")
+        print("Checking Firebase to see if user exists")
         
         database.collection("users").whereField("userID", isEqualTo: UserInfo.userID ?? "").getDocuments() { (querySnapshot, err) in
             

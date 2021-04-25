@@ -260,16 +260,16 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, animations: {
             self.sliderView.frame.origin.y -= CGFloat(self.keyboardHeight)
             self.legalNoticeImage.alpha = 0
-            self.sliderView.alpha = 0
+//            self.sliderView.alpha = 0
             self.backButton.alpha = 1
             self.nextButtonSMSBackground.alpha = 1
             self.view.frame.origin.y -= CGFloat(self.keyboardHeight)
-            self.emailFieldBackground.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
-            self.emailTextField.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
-            self.phoneNumberPlaceholder.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
-            self.pleaseEnterNumberLabel.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
-            self.phoneNumberButton.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
-            self.enterValidNumberPlease.frame.origin.y -= CGFloat(self.keyboardHeight * 0.45)
+            self.emailFieldBackground.frame.origin.y -= CGFloat(self.keyboardHeight * 0.55)
+            self.emailTextField.frame.origin.y -= CGFloat(self.keyboardHeight * 0.55)
+            self.phoneNumberPlaceholder.frame.origin.y -= CGFloat(self.keyboardHeight * 0.55)
+            self.pleaseEnterNumberLabel.frame.origin.y -= CGFloat(self.keyboardHeight * 0.55)
+            self.phoneNumberButton.frame.origin.y -= CGFloat(self.keyboardHeight * 0.55)
+            self.enterValidNumberPlease.frame.origin.y -= CGFloat(self.keyboardHeight * 0.55)
         })
     }
     
@@ -285,12 +285,12 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             self.backButton.alpha = 0
             self.nextButtonSMSBackground.alpha = 0
             self.view.frame.origin.y += CGFloat(self.keyboardHeight)
-            self.emailFieldBackground.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
-            self.emailTextField.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
-            self.phoneNumberPlaceholder.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
-            self.pleaseEnterNumberLabel.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
-            self.phoneNumberButton.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
-            self.enterValidNumberPlease.frame.origin.y += CGFloat(self.keyboardHeight * 0.45)
+            self.emailFieldBackground.frame.origin.y += CGFloat(self.keyboardHeight * 0.55)
+            self.emailTextField.frame.origin.y += CGFloat(self.keyboardHeight * 0.55)
+            self.phoneNumberPlaceholder.frame.origin.y += CGFloat(self.keyboardHeight * 0.55)
+            self.pleaseEnterNumberLabel.frame.origin.y += CGFloat(self.keyboardHeight * 0.55)
+            self.phoneNumberButton.frame.origin.y += CGFloat(self.keyboardHeight * 0.55)
+            self.enterValidNumberPlease.frame.origin.y += CGFloat(self.keyboardHeight * 0.55)
 
             
         }

@@ -13,13 +13,13 @@ import FirebaseAuth
 
 class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     
+    
     @IBOutlet weak var firstNameTextField: UITextField!
-    @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var dateOfBirthTextField: UITextField!
     
-    @IBOutlet weak var firstNamePlaceholder: UILabel!
-    @IBOutlet weak var lastNamePlaceholder: UILabel!
-    @IBOutlet weak var dateOfBirthPlaceholder: UILabel!
+    
+    @IBOutlet weak var joinButton: UIButton!
+    
     
     var datePicker = UIDatePicker()
     
@@ -34,7 +34,6 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         firstNameTextField.delegate = self
-        lastNameTextField.delegate = self
         dateOfBirthTextField.delegate = self
         
         datePicker = UIDatePicker()
@@ -58,6 +57,11 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             }
         
         dateOfBirthTextField.inputView = datePicker
+        
+        firstNameTextField.attributedPlaceholder = NSAttributedString(string:"Enter Email", attributes: [NSAttributedString.Key.foregroundColor:UIColor.init(red: 168.0/255.0, green: 168.0/255.0, blue: 168.0/255.0, alpha: 1),NSAttributedString.Key.backgroundColor:UIColor.clear])
+        
+        dateOfBirthTextField.attributedPlaceholder = NSAttributedString(string:"Enter Email", attributes: [NSAttributedString.Key.foregroundColor:UIColor.init(red: 168.0/255.0, green: 168.0/255.0, blue: 168.0/255.0, alpha: 1),NSAttributedString.Key.backgroundColor:UIColor.clear])
+
 
         
     }
@@ -70,19 +74,18 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         firstNameTextField.becomeFirstResponder()
     }
     
-    @IBAction func finishButtonPressed(_ sender: Any) {
-        
+    
+    @IBAction func joinButtonPressed(_ sender: Any) {
         if validateUserInfo() {
-            print("CONTINUE")
-            UserDefaults.standard.set(firstNameTextField.text, forKey: "userFirstName")
-            UserDefaults.standard.set(lastNameTextField.text, forKey: "userLastName")
             
+            print("User info is valid!")
+            UserDefaults.standard.set(firstNameTextField.text, forKey: "userFirstName")
+            
+            print("Now signing the user into Firebase")
             Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: UserDefaults.standard.value(forKey: "Link") as! String) { (user, error) in
 
-                print("The user signed in")
-                
+                print("The user signed in with userID below:")
                 print(Auth.auth().currentUser!.uid)
-                
 
             }
             
@@ -94,6 +97,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             print("MISSING INFO")
         }
     }
+    
     
     //Writes user to database
     func createNewUser() {
@@ -126,7 +130,6 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     func validateUserInfo() -> Bool {
         
         var firstNameValid = false
-        var lastNameValid = false
         var dateOfBirthValid = false
         
         if firstNameTextField.text != "" {
@@ -135,11 +138,6 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             print("First name missing")
         }
         
-        if lastNameTextField.text != "" {
-            lastNameValid = true
-        } else {
-            print("Last name missing")
-        }
         
         if dateOfBirthTextField.text != "" {
             dateOfBirthValid = true
@@ -147,15 +145,14 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             print("DOB missing")
         }
         
-        if firstNameTextField.text != "" && lastNameTextField.text != "" && dateOfBirthTextField.text != "" {
+        if firstNameTextField.text != "" && dateOfBirthTextField.text != "" {
             print("Information valid")
         }
         
-        if firstNameValid == true && lastNameValid == true && dateOfBirthValid == true {
+        if firstNameValid == true && dateOfBirthValid == true {
             
             //Assigns textfield text to local variables
             firstName = firstNameTextField.text ?? ""
-            lastName = lastNameTextField.text ?? ""
             dateOfBirth = dateOfBirthTextField.text ?? ""
             
             //Assigns textfield text to central variables
@@ -175,35 +172,12 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     //Handles placeholder functionality
     func textFieldDidChangeSelection(_ textField: UITextField) {
         
-        if firstNameTextField.text != "" {
-            firstNamePlaceholder.alpha = 0
-            
-        } else if firstNameTextField.text == "" {
-            firstNamePlaceholder.alpha = 1
-        }
-        
-        if lastNameTextField.text != "" {
-            lastNamePlaceholder.alpha = 0
-        } else if lastNameTextField.text == "" {
-            lastNamePlaceholder.alpha = 1
-        }
-        
-        if dateOfBirthTextField.text != "" {
-            dateOfBirthPlaceholder.alpha = 0
-        } else if dateOfBirthTextField.text == "" {
-            dateOfBirthPlaceholder.alpha = 1
-        }
-        
     }
     
     
     //Handles functionality when user hits return. Validates current field
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if firstNameTextField.text != "" && firstNameTextField.isFirstResponder == true {
-            lastNameTextField.becomeFirstResponder()
-            return true
-        }
-        if lastNameTextField.text != "" && lastNameTextField.isFirstResponder == true {
             dateOfBirthTextField.becomeFirstResponder()
             return true
         }
