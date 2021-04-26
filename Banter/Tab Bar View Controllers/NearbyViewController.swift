@@ -14,7 +14,12 @@ import CoreData
 import CoreLocation
 
 
-class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, refreshNearbyTable, cellVotingDelegate {
+class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, refreshNearbyTable, cellVotingDelegate, updateNavBarLabel {
+    
+    func updateNavButtonLabel() {
+        print("Nav Delegate recieved")
+    }
+    
     
     @IBOutlet weak var nearbyTableView: UITableView!
     
@@ -32,7 +37,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     var selectedCellIndex: Int?
     var lastContentOffset: CGFloat = 0
     
-    var lastCoreDataTimestamp: Double?
     var timestampRefreshed: Double?
     var lastTimestampPulledFromServer = 0.0
     
@@ -43,19 +47,23 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getUserDocID()
                 
         print("User Appearance Name Last Set to:")
         print(UserDefaults.standard.string(forKey: "lastUserAppearanceName") ?? "")
         
+        //Handles contingency of first time start up- no value for lastUserAppearanceName yet so it is set to Incognito
         if UserDefaults.standard.string(forKey: "lastUserAppearanceName") == "" {
             UserDefaults.standard.set("Incognito", forKey: "lastUserAppearanceName")
+            incognitoButton.title = "asfd"
+            UserDefaults.standard.setValue(true, forKey: "incognitoSelected")
         } else {
             print(UserDefaults.standard.string(forKey: "lastUserAppearanceName"))
         }
                 
         if UserDefaults.standard.value(forKey: "incognitoSelected") as? Bool == true {
             incognitoButton.title = "Incognito"
-        
         } else if UserDefaults.standard.value(forKey: "firstNameSelected") as? Bool == true {
             incognitoButton.title = UserDefaults.standard.value(forKey: "userFirstName") as? String
         } else if UserDefaults.standard.value(forKey: "nicknameSelected") as? Bool == true {
@@ -66,7 +74,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         locationManager.delegate = self
         
         //Checks if user has location enabled.
-        if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse) {
+        if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways) {
             //Location enabled. Continue to grab location and load view.
             lookUpCurrentLocation(completionHandler: {_ in
             })
@@ -94,12 +102,43 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         UserInfo.userCity = "Gainesville"
         UserInfo.userAppearanceName = "Harris"
         
-        
-        getUserDocID()
-        
+                
         UserDefaults.standard.set(true, forKey: "userLaunchedBefore")
 
+        setUpPersistence()
 
+        
+    }
+    
+    func setUpPersistence() {
+        
+        //Existing Post Load
+        if UserDefaults.standard.bool(forKey: "userLaunchedBefore") == true {
+            
+            print(" - - - - - EXISTING USER - - - - - - ")
+            
+            
+            UserInfo.userCollectionDocID = UserDefaults.standard.string(forKey: "userCollectionDocID")
+            
+            print(" - - - - - - User document ID - - - - - ")
+            print(UserInfo.userCollectionDocID)
+            
+            
+        }
+        
+        //New User Post Load, assumes locality has content
+        if UserDefaults.standard.bool(forKey: "userLaunchedBefore") == false {
+            
+            print(" - - - - - - NEW USER - - - - - - ")
+            
+            
+            UserDefaults.standard.set(true, forKey: "userLaunchedBefore")
+            
+            //Sets lastCommentTimestamp to 0 when user launches for first time, used for notif
+            UserDefaults.standard.set(0, forKey: "lastCommentTimestamp")
+            
+        }
+        
     }
     
     func fetchNearbyPosts() {
@@ -195,10 +234,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             print(" - - - - - - User document ID - - - - - ")
             print(UserInfo.userCollectionDocID)
             
-                        
-            if timestampRefreshed ?? 0 > lastCoreDataTimestamp ?? 0 {
-                print("Checking database for new posts")
-            }
             
         }
         
@@ -283,6 +318,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidAppear(_ animated: Bool) {
         
         lastTimestampPulledFromServer = UserDefaults.standard.double(forKey: "lastTimestampPulledFromServer")
+        
+        incognitoButton.title = UserDefaults.standard.value(forKey: "lastUserAppearanceName") as? String
 
         
         DispatchQueue.main.async {
@@ -461,29 +498,28 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                        print((firstLocation?.locality ?? "") + (firstLocation?.administrativeArea ?? ""))
                     
                     
-//                       UserInfo.userCity = firstLocation?.locality ?? ""
-//                       UserInfo.userState = firstLocation?.administrativeArea ?? ""
-                    
-                    
-                    
+                       UserInfo.userCity = firstLocation?.locality ?? ""
+                       UserInfo.userState = firstLocation?.administrativeArea ?? ""
                         
                        self.fetchNearbyPosts()
                         
                        
                    } else {
+                    
                     // An error occurred during geocoding.
                        completionHandler(nil)
                        print("ERROR")
                    }
                    
                })
+            
            } else {
-               // No location was available.
-               completionHandler(nil)
-               print("NON AVAIL")
+            
+            // No location was available.
+            completionHandler(nil)
+            print("No location available")
             UserInfo.userCity = "Gainesville"
             UserInfo.userState = "FL"
-            self.loadPostsFromDatabase()
            }
        }
     

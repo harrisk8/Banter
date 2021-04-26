@@ -302,7 +302,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         if let appearingAsVC = segue.destination as? AppearAsViewController {
             
           
-            appearingAsVC.delegate = self
+            AppearAsViewController.updateDelegate = self
             
         }
     }

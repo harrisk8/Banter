@@ -87,6 +87,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         super.viewDidLoad()
         
+        postMessage.delegate = self
+        
         setUpUI()
         
         print(" - - - - - Segue from Inbox Status: - - - - - - ")
@@ -427,6 +429,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             print("is a disliked post")
         }
         
+        postMessage.layer.cornerRadius = 17.5
+        
         commentsEditorView.translatesAutoresizingMaskIntoConstraints = true
         commentsTextView.translatesAutoresizingMaskIntoConstraints = true
         commentsTextViewBackground.translatesAutoresizingMaskIntoConstraints = true
@@ -438,7 +442,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         commentsEditorView.layer.shadowColor = UIColor.black.cgColor
         commentsEditorView.layer.masksToBounds = true
         commentsEditorView.layer.shadowOffset = (CGSize(width: 0.0, height: 1.0))
-        commentsEditorView.layer.cornerRadius = 10
+        commentsEditorView.layer.cornerRadius = 17.5
         commentsEditorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         commentsEditorView.clipsToBounds = true
         

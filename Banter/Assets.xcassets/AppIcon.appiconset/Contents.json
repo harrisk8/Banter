@@ -26,17 +26,19 @@
       "size" : "40x40"
     },
     {
+      "filename" : "Banter_Jester_Icon@2x-1.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
+      "filename" : "Banter_Jester_Icon@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "Black_Background@3x.png",
+      "filename" : "Banter_Jester_Icon@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"

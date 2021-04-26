@@ -23,7 +23,6 @@
 		6F6DF02424E79AE1009ACCDD /* AuthCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DF02324E79AE1009ACCDD /* AuthCodeViewController.swift */; };
 		6F6F3E5925DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6F3E5725DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataClass.swift */; };
 		6F6F3E5A25DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6F3E5825DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataProperties.swift */; };
-		6F72FB8F263248F300253973 /* Background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F72FB8E263248F300253973 /* Background@3x.png */; };
 		6F76834324F06C3C00B70F29 /* FinishSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */; };
 		6F7737B1251FD341006D70CC /* localDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6F7737AF251FD341006D70CC /* localDataModel.xcdatamodeld */; };
 		6F7E56B725EB03E7000E1C90 /* VotingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7E56B625EB03E7000E1C90 /* VotingModel.swift */; };
@@ -81,7 +80,6 @@
 		6F6DF02324E79AE1009ACCDD /* AuthCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeViewController.swift; sourceTree = "<group>"; };
 		6F6F3E5725DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserCreatedPostsEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6F6F3E5825DB1ABB00D36F0B /* UserCreatedPostsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserCreatedPostsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		6F72FB8E263248F300253973 /* Background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Background@3x.png"; sourceTree = "<group>"; };
 		6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishSignUpViewController.swift; sourceTree = "<group>"; };
 		6F7737B0251FD341006D70CC /* localDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = localDataModel.xcdatamodel; sourceTree = "<group>"; };
 		6F7E56B625EB03E7000E1C90 /* VotingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotingModel.swift; sourceTree = "<group>"; };
@@ -173,8 +171,8 @@
 			isa = PBXGroup;
 			children = (
 				6FFD62B324DF27CB00D5B96D /* WelcomeViewController.swift */,
-				6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */,
 				6F6DF02324E79AE1009ACCDD /* AuthCodeViewController.swift */,
+				6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */,
 				6FE0CE80250DF66100A05AD7 /* CommentsViewController.swift */,
 				6F09D89A2602C3590059FD9F /* InboxViewController.swift */,
 				6F664147254A3A7900550A37 /* AppearAsViewController.swift */,
@@ -207,7 +205,6 @@
 			children = (
 				6FFD62AA24DE370D00D5B96D /* LaunchScreen.storyboard */,
 				6FFD62A524DE370D00D5B96D /* Main.storyboard */,
-				6F72FB8E263248F300253973 /* Background@3x.png */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -367,7 +364,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F72FB8F263248F300253973 /* Background@3x.png in Resources */,
 				6F0874AA25E6FA6C00E0A547 /* Typo_Round_Light_Demo.otf in Resources */,
 				6FD5132224E36BAA0028DDAE /* Roboto-ThinItalic.ttf in Resources */,
 				6FD5132724E36BAA0028DDAE /* Roboto-LightItalic.ttf in Resources */,

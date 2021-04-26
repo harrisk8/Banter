@@ -58,9 +58,9 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         
         dateOfBirthTextField.inputView = datePicker
         
-        firstNameTextField.attributedPlaceholder = NSAttributedString(string:"Enter Email", attributes: [NSAttributedString.Key.foregroundColor:UIColor.init(red: 168.0/255.0, green: 168.0/255.0, blue: 168.0/255.0, alpha: 1),NSAttributedString.Key.backgroundColor:UIColor.clear])
+        firstNameTextField.attributedPlaceholder = NSAttributedString(string:"first name", attributes: [NSAttributedString.Key.foregroundColor:UIColor.init(red: 168.0/255.0, green: 168.0/255.0, blue: 168.0/255.0, alpha: 1),NSAttributedString.Key.backgroundColor:UIColor.clear])
         
-        dateOfBirthTextField.attributedPlaceholder = NSAttributedString(string:"Enter Email", attributes: [NSAttributedString.Key.foregroundColor:UIColor.init(red: 168.0/255.0, green: 168.0/255.0, blue: 168.0/255.0, alpha: 1),NSAttributedString.Key.backgroundColor:UIColor.clear])
+        dateOfBirthTextField.attributedPlaceholder = NSAttributedString(string:"date of birth", attributes: [NSAttributedString.Key.foregroundColor:UIColor.init(red: 168.0/255.0, green: 168.0/255.0, blue: 168.0/255.0, alpha: 1),NSAttributedString.Key.backgroundColor:UIColor.clear])
 
 
         
@@ -86,21 +86,25 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
 
                 print("The user signed in with userID below:")
                 print(Auth.auth().currentUser!.uid)
+                
+                self.createNewUser()
+
 
             }
             
             
-            createNewUser()
-            
-            performSegue(withIdentifier: "finishSignUpToNearby", sender: self)
         } else {
-            print("MISSING INFO")
+            
+            print("Missing first name or DOB or both")
         }
+        
     }
     
     
     //Writes user to database
     func createNewUser() {
+        
+        print("Making user")
         
         let ref: DocumentReference? = nil
         database.collection("users").addDocument(data: [
@@ -113,7 +117,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
                 print(err.localizedDescription)
             } else {
                 print("Document successfully written")
-                
+                self.performSegue(withIdentifier: "finishSignUpToNearby", sender: self)
                 print(" - - - - - NEW userDocID: - - - - - - ")
                 print(ref?.documentID)
                 UserInfo.userCollectionDocID = ref?.documentID

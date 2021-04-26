@@ -41,9 +41,10 @@ class NotificationFetcher {
         
         print("Fetching new notifications")
         
+        print(UserDefaults.standard.string(forKey: "userCollectionDocID"))
         //Query for posts created by user with new comments 
         database.collection("posts")
-            .whereField("userDocID", isEqualTo: UserDefaults.standard.string(forKey: "userCollectionDocID"))
+            .whereField("userDocID", isEqualTo: "")
         .whereField("lastCommentTimestamp", isGreaterThan: lastCommentTimestamp)
         .getDocuments() { (querySnapshot, err) in
             if let err = err {

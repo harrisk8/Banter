@@ -14,9 +14,9 @@ protocol updatePostingAsName {
     
 }
 
-protocol updateProfileLabel {
+protocol updateNavBarLabel {
     
-    func updateAppearingAsLabel()
+    func updateNavButtonLabel()
     
 }
 
@@ -41,9 +41,9 @@ class AppearAsViewController: UIViewController {
     var button2Selected = false
     var button3Selected = false
     
-    var delegate: updatePostingAsName?
+    static var updateDelegate: updatePostingAsName?
     
-    var profileDelegate: updateProfileLabel?
+    var navBarLabelDelegate: updateNavBarLabel?
 
     
     
@@ -118,9 +118,9 @@ class AppearAsViewController: UIViewController {
                 
         dismiss(animated: true, completion: nil)
         
-        delegate?.updatePostingAsLabel()
+        AppearAsViewController.updateDelegate?.updatePostingAsLabel()
         
-        profileDelegate?.updateAppearingAsLabel()
+        navBarLabelDelegate?.updateNavButtonLabel()
         
     }
     

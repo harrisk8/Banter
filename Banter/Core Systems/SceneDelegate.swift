@@ -38,6 +38,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if UserDefaults.standard.bool(forKey: "userLaunchedBefore") == true && UserDefaults.standard.bool(forKey: "userAccountCreated") == true {
             
+            print("Existing user- redirecting to nearby")
+            
             if let windowScene = scene as? UIWindowScene {
                 self.window = UIWindow(windowScene: windowScene)
                 let initialViewController = mainStoryBoard.instantiateViewController(withIdentifier: "tabBarIdentifier")

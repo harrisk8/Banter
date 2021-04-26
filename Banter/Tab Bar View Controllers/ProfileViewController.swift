@@ -13,6 +13,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
     
     func updatePostingAsLabel() {
         print("REC")
+        currentlyAppearingAsLabel.text = UserDefaults.standard.value(forKey: "lastUserAppearanceName") as? String
     }
     
 
@@ -28,6 +29,8 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
  
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        AppearAsViewController.updateDelegate = self
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)

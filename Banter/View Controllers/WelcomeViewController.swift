@@ -51,6 +51,9 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         
         super.viewDidLoad()
         
+        do { try Auth.auth().signOut() }
+        catch { print("already logged out") }
+        
         if Auth.auth().currentUser != nil {
             print("USER")
             print(Auth.auth().currentUser?.uid ?? nil)
@@ -88,15 +91,21 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     func lookUpCurrentLocation(completionHandler: @escaping (CLPlacemark?) -> Void ) {
         // Use the last reported location.
         if let lastLocation = self.manager.location {
+            
             let geocoder = CLGeocoder()
                 
             // Look up the location and pass it to the completion handler
             geocoder.reverseGeocodeLocation(lastLocation, completionHandler: { (placemarks, error) in
                 if error == nil {
+                    
                     let firstLocation = placemarks?[0]
+                    
                     completionHandler(firstLocation)
+                    
                     print((firstLocation?.locality ?? "") + (firstLocation?.administrativeArea ?? ""))
+                    
                     UserInfo.userCity = firstLocation?.locality ?? ""
+                    
                     UserInfo.userState = firstLocation?.administrativeArea ?? ""
                 }
                 else {
@@ -114,11 +123,6 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     //Validates and executes transition to next VC AND sends phone number for auth
     @IBAction func nextButtonPressed(_ sender: Any) {
-        
-        
-        DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
-        }
         
         if emailTextField.text != "" {
 
@@ -198,6 +202,8 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             }
             
         }
+        
+        
         
         return false
     
