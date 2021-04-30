@@ -98,9 +98,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         
         refreshControl.addTarget(self, action: #selector(refreshedTableView), for: .valueChanged)
         
-        UserInfo.userState = "FL"
-        UserInfo.userCity = "Gainesville"
-        UserInfo.userAppearanceName = "Harris"
         
                 
         UserDefaults.standard.set(true, forKey: "userLaunchedBefore")
@@ -245,7 +242,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             print(" - - - - - - NEW USER - - - - - - ")
             
             //TESTING PURPOSES ONLY - Assigns initial name
-            UserInfo.userAppearanceName = "Harris"
+            UserInfo.userAppearanceName = "Name"
             
             UserDefaults.standard.set(timestampRefreshed, forKey: "lastRefreshTimestamp")
             print(UserDefaults.standard.double(forKey: "lastRefreshTimestamp"))
@@ -480,6 +477,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                
         } else {
             //Access to user location permission denied!
+            print("LOCATIONERROR")
         }
     }
        

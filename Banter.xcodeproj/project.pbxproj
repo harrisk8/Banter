@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,7 @@
 		6F09D89F2602C3BF0059FD9F /* InboxModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F09D89E2602C3BF0059FD9F /* InboxModel.swift */; };
 		6F4067A324F4627F009CB580 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4067A224F4627F009CB580 /* TabBarViewController.swift */; };
 		6F4E798D2609BF3400ECC3BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F4E798C2609BF3400ECC3BF /* GoogleService-Info.plist */; };
+		6F53D88B263BA2A800679D67 /* ReportPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F53D88A263BA2A800679D67 /* ReportPostViewController.swift */; };
 		6F56A1B6252D5E01005CB028 /* NotificationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F56A1B5252D5E01005CB028 /* NotificationFetcher.swift */; };
 		6F56A1BC252FB2DD005CB028 /* NearbyPostsEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F56A1BA252FB2DD005CB028 /* NearbyPostsEntity+CoreDataClass.swift */; };
 		6F56A1BD252FB2DD005CB028 /* NearbyPostsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F56A1BB252FB2DD005CB028 /* NearbyPostsEntity+CoreDataProperties.swift */; };
@@ -69,6 +70,7 @@
 		6F4067A124F32C36009CB580 /* Banter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Banter.entitlements; sourceTree = "<group>"; };
 		6F4067A224F4627F009CB580 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		6F4E798C2609BF3400ECC3BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6F53D88A263BA2A800679D67 /* ReportPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReportPostViewController.swift; path = Banter/Views/ReportPostViewController.swift; sourceTree = SOURCE_ROOT; };
 		6F56A1B5252D5E01005CB028 /* NotificationFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFetcher.swift; sourceTree = "<group>"; };
 		6F56A1BA252FB2DD005CB028 /* NearbyPostsEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NearbyPostsEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6F56A1BB252FB2DD005CB028 /* NearbyPostsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NearbyPostsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 		6F6DF02524E79AE9009ACCDD /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6F53D88A263BA2A800679D67 /* ReportPostViewController.swift */,
 				6FFD62B324DF27CB00D5B96D /* WelcomeViewController.swift */,
 				6F6DF02324E79AE1009ACCDD /* AuthCodeViewController.swift */,
 				6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */,
@@ -342,7 +345,7 @@
 				};
 			};
 			buildConfigurationList = 6FFD629724DE370D00D5B96D /* Build configuration list for PBXProject "Banter" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -462,6 +465,7 @@
 				6F81595824F46AAC00FB59BD /* NewPostEditorViewController.swift in Sources */,
 				6F67E8D225295E3D00DB6771 /* TrendingTableCell.swift in Sources */,
 				6FFD62A024DE370D00D5B96D /* AppDelegate.swift in Sources */,
+				6F53D88B263BA2A800679D67 /* ReportPostViewController.swift in Sources */,
 				6F8934A525E78F25006C5E01 /* NotificationEntity+CoreDataProperties.swift in Sources */,
 				6F09D89F2602C3BF0059FD9F /* InboxModel.swift in Sources */,
 				6FFD62A224DE370D00D5B96D /* SceneDelegate.swift in Sources */,

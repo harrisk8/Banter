@@ -150,7 +150,7 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
         }
 
         // Sign user in with the link and email.
-        Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: link ?? "NO LINK") { (result, error) in
+        Auth.auth().signIn(withEmail: userEmail ?? "", link: link ?? "NO LINK") { (result, error) in
 
             if error == nil && result != nil {
 

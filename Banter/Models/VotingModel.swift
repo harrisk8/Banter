@@ -81,4 +81,10 @@ class VotingModel {
         }
         
     }
+    
+    
+    
+    func pullLastSessionVotesFromCoreData() {
+        
+    }
 }

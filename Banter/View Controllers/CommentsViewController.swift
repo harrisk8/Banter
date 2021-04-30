@@ -382,6 +382,16 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         performSegue(withIdentifier: "commentsToReport", sender: self)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let reportVC = segue.destination as? ReportPostViewController {
+            
+            reportVC.postArrayPosition = postIndexInNearbyArray
+            
+        }
+    }
+    
+    
     
     //Detects if user taps table during editing process
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

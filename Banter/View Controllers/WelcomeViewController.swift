@@ -51,35 +51,30 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         
         super.viewDidLoad()
         
+        //Ensures no user is signed in (potential catch for any contingency situations)
         do { try Auth.auth().signOut() }
-        catch { print("already logged out") }
+        catch { print("Already logged out.") }
         
-        if Auth.auth().currentUser != nil {
-            print("USER")
-            print(Auth.auth().currentUser?.uid ?? nil)
-            
-            
-        } else {
-          // No user is signed in.
-          // ...
-        }
-        
-        emailTextField.delegate = self
-                
+        //Obtains
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
-        manager.requestWhenInUseAuthorization()
         
+        emailTextField.delegate = self
+        manager.delegate = self
+
+                
+        NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        manager.requestWhenInUseAuthorization()
 
         if CLLocationManager.locationServicesEnabled() {
-            manager.delegate = self
             manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             manager.startUpdatingLocation()
         }
         
         lookUpCurrentLocation(completionHandler: {_ in
             
-            print("Location Obtained")
+            print("Location request concluded.")
             
         })
     }
@@ -121,20 +116,41 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     }
 
     
-    //Validates and executes transition to next VC AND sends phone number for auth
+    //Validates and executes transition to next VC AND sends email link
     @IBAction func nextButtonPressed(_ sender: Any) {
         
+        
         if emailTextField.text != "" {
-
-            if isValidEmail(userEmail: emailTextField.text!) == true && isValidEDUEmail() == true {
+            
+            
+            if emailTextField.text == "test@officialbanterapp.com" {
+                
+                print("Test email entered!")
+                
+                Auth.auth().signInAnonymously { (authResult, error) in
+                    print("User signed in anonymously")
+                    print(Auth.auth().currentUser?.uid as Any)
+                    UserInfo.userAppearanceName = "Anonymous User"
+                    UserInfo.userCollectionDocID = "Anon"
+                    
+                    guard let user = authResult?.user else { return }
+                    let isAnonymous = user.isAnonymous
+                    print(isAnonymous)
+                    let uid = user.uid
+                    print(uid)
+                    
+                    self.performSegue(withIdentifier: "anonymousAuthToNearby", sender: self)
+                }
+                
+                
+            } else if isValidEmail(userEmail: emailTextField.text!) == true && isValidEDUEmail() == true {
+                
                 sendLinkToEmail(validUserEmail: emailTextField.text!)
                 self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
-            } else {
-                print("ERROR")
+                
             }
-
-        } else {
-            print("ERROR")
+        
+        
         }
         
     }
@@ -154,13 +170,10 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
               print(error.localizedDescription)
               return
             }
-            // The link was successfully sent. Inform the user.
-            // Save the email locally so you don't need to ask the user for it again
-            // if they open the link on the same device.
+
             print("Link successfully sent")
             self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
             UserDefaults.standard.set(validUserEmail, forKey: "Email")
-            // ...
         }
 
     }
@@ -177,10 +190,10 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
         return emailTest.evaluate(with: userEmail)
     }
     
+    //Validates entered email as proper .edu email.
     func isValidEDUEmail() -> Bool {
         
         if let emailString = emailTextField.text {
-            
             if emailString.count >= 7 {
                                 
                 let start = emailString.index(emailString.endIndex, offsetBy: -4)
@@ -202,22 +215,16 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             }
             
         }
-        
-        
-        
+    
         return false
     
     }
-    
-    
-    
     
     //Passes user phone number and screen height to next VC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let authCodeViewController = segue.destination as? AuthCodeViewController {
             authCodeViewController.userEmail = emailTextField.text
             authCodeViewController.keyboardHeight = keyboardHeight
-            
         }
     }
     
@@ -309,7 +316,6 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             keyboardHeight = Double(keyboardSize.height)
             NotificationCenter.default.removeObserver(self)
         }
-        print(keyboardHeight)
         UserInfo.keyboardHeight = keyboardHeight
     }
     

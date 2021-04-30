@@ -82,7 +82,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             UserDefaults.standard.set(firstNameTextField.text, forKey: "userFirstName")
             
             print("Now signing the user into Firebase")
-            Auth.auth().signIn(withEmail: "harriskapoor98@ufl.edu", link: UserDefaults.standard.value(forKey: "Link") as! String) { (user, error) in
+            Auth.auth().signIn(withEmail: UserDefaults.standard.value(forKey: "validUserEmail") as? String ?? "", link: UserDefaults.standard.value(forKey: "Link") as! String) { (user, error) in
 
                 print("The user signed in with userID below:")
                 print(Auth.auth().currentUser!.uid)
