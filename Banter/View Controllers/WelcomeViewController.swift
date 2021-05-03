@@ -168,6 +168,15 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
           // ...
             if let error = error {
               print(error.localizedDescription)
+                let castedError = error as NSError
+                let firebaseError = AuthErrorCode(rawValue: castedError.code)
+                            if firebaseError != nil {
+                                switch(firebaseError!) {
+                                default:
+                                    print(firebaseError!)
+                                    break
+                                }
+                            }
               return
             }
 

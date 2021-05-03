@@ -24,7 +24,6 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     var datePicker = UIDatePicker()
     
     var firstName = ""
-    var lastName = ""
     var dateOfBirth = ""
     
     
@@ -76,6 +75,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func joinButtonPressed(_ sender: Any) {
+        
         if validateUserInfo() {
             
             print("User info is valid!")
@@ -110,7 +110,6 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         database.collection("users").addDocument(data: [
             "userID": Auth.auth().currentUser?.uid ?? "",
             "first name": firstName,
-            "last name": lastName,
             "date of birth": dateOfBirth
         ]) { err in
             if let err = err {
@@ -140,6 +139,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             firstNameValid = true
         } else {
             print("First name missing")
+            firstNameValid = false
         }
         
         
@@ -147,10 +147,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             dateOfBirthValid = true
         } else {
             print("DOB missing")
-        }
-        
-        if firstNameTextField.text != "" && dateOfBirthTextField.text != "" {
-            print("Information valid")
+            dateOfBirthValid = false
         }
         
         if firstNameValid == true && dateOfBirthValid == true {
@@ -161,11 +158,12 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             
             //Assigns textfield text to central variables
             UserInfo.userFirstName = firstName
-            UserInfo.userLastName = lastName
             UserInfo.userDateOfBirth = dateOfBirth
 
             return true
+            
         } else {
+            
             return false
         }
         

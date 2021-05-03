@@ -172,13 +172,13 @@
 		6F6DF02524E79AE9009ACCDD /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6F53D88A263BA2A800679D67 /* ReportPostViewController.swift */,
 				6FFD62B324DF27CB00D5B96D /* WelcomeViewController.swift */,
 				6F6DF02324E79AE1009ACCDD /* AuthCodeViewController.swift */,
 				6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */,
 				6FE0CE80250DF66100A05AD7 /* CommentsViewController.swift */,
 				6F09D89A2602C3590059FD9F /* InboxViewController.swift */,
 				6F664147254A3A7900550A37 /* AppearAsViewController.swift */,
+				6F53D88A263BA2A800679D67 /* ReportPostViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";

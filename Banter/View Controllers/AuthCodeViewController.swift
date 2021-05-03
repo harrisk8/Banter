@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseDynamicLinks
+
 
 class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthenticated {
     
@@ -142,33 +144,41 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
     }
     
     @IBAction func resendCodePressed(_ sender: Any) {
-        print("Resend Code")
         
-        // Get link url string from the dynamic link captured in AppDelegate.
-        if let link = UserDefaults.standard.value(forKey: "Link") as? String {
-            self.link = link
-        }
+        Auth.auth().currentUser?.reload()
+        
+        Auth.auth().currentUser?.reload(completion: { Error in
+            print("userssignedin")
+        })
 
-        // Sign user in with the link and email.
-        Auth.auth().signIn(withEmail: userEmail ?? "", link: link ?? "NO LINK") { (result, error) in
-
-            if error == nil && result != nil {
-
-                if (Auth.auth().currentUser?.isEmailVerified)! {
-                    print("User verified with passwordless email")
-
-                    // TODO: Do something after user verified like present a new View Controller
-
-                }
-                else {
-                    print("User NOT verified by passwordless email")
-
-                }
-            }
-            else {
-                print("Error with passwordless email verfification: \(error?.localizedDescription ?? "Strangely, no error avaialble.")")
-            }
-        }
+        
+//        print("Resend Code")
+//
+//        // Get link url string from the dynamic link captured in AppDelegate.
+//        if let link = UserDefaults.standard.value(forKey: "Link") as? String {
+//            self.link = link
+//        }
+//
+//        // Sign user in with the link and email.
+//        Auth.auth().signIn(withEmail: userEmail ?? "", link: link ?? "NO LINK") { (result, error) in
+//
+//            if error == nil && result != nil {
+//
+//                if (Auth.auth().currentUser?.isEmailVerified)! {
+//                    print("User verified with passwordless email")
+//
+//                    // TODO: Do something after user verified like present a new View Controller
+//
+//                }
+//                else {
+//                    print("User NOT verified by passwordless email")
+//
+//                }
+//            }
+//            else {
+//                print("Error with passwordless email verfification: \(error?.localizedDescription ?? "Strangely, no error avaialble.")")
+//            }
+//        }
         
     }
     
@@ -183,7 +193,14 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
     
 //    Keeps keyboard active if reCAPTCHA verification opens window
     override func viewDidAppear(_ animated: Bool) {
-
+        
+        
+        Auth.auth().currentUser?.reload()
+        
+        Auth.auth().currentUser?.reload(completion: { Error in
+            print("userssignedin")
+        })
+        
 
         print(UserDefaults.standard.value(forKey: "Link"))
 
