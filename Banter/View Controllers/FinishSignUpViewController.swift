@@ -79,15 +79,30 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         if validateUserInfo() {
             
             print("User info is valid!")
+            
             UserDefaults.standard.set(firstNameTextField.text, forKey: "userFirstName")
             
-            print("Now signing the user into Firebase")
-            Auth.auth().signIn(withEmail: UserDefaults.standard.value(forKey: "validUserEmail") as? String ?? "", link: UserDefaults.standard.value(forKey: "Link") as! String) { (user, error) in
-
-                print("The user signed in with userID below:")
-                print(Auth.auth().currentUser!.uid)
+            if Auth.auth().isSignIn(withEmailLink: UserDefaults.standard.value(forKey: "Link") as! String) {
                 
-                self.createNewUser()
+                print("Now signing the user into Firebase")
+                Auth.auth().signIn(withEmail: UserDefaults.standard.value(forKey: "validUserEmail") as? String ?? "", link: UserDefaults.standard.value(forKey: "Link") as! String) { (user, error) in
+                    
+                    if error == nil {
+                        
+                        print("NO ERROR")
+                        
+                        print("The user signed in with userID below:")
+                        print(Auth.auth().currentUser?.uid)
+
+                        self.createNewUser()
+                        
+                    } else {
+                        print(error)
+                    }
+                    
+            }
+
+            
 
 
             }
@@ -104,7 +119,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     //Writes user to database
     func createNewUser() {
         
-        print("Making user")
+        print("Trying to create user")
         
         let ref: DocumentReference? = nil
         database.collection("users").addDocument(data: [
@@ -115,16 +130,19 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
             if let err = err {
                 print(err.localizedDescription)
             } else {
-                print("Document successfully written")
+                
+                print("User Document Successfully created with documentID \(ref?.documentID ?? "ERROR FETCHING DOCUMENTID")")
+                
                 self.performSegue(withIdentifier: "finishSignUpToNearby", sender: self)
-                print(" - - - - - NEW userDocID: - - - - - - ")
-                print(ref?.documentID)
+                
                 UserInfo.userCollectionDocID = ref?.documentID
                 UserInfo.userFirstName = self.firstNameTextField.text
+                
                 UserDefaults.standard.set(ref?.documentID, forKey: "userCollectionDocID")
                 UserDefaults.standard.set(self.firstNameTextField.text, forKey: "userFirstName")
                 UserDefaults.standard.set(true, forKey: "userAccountCreated")
                 UserDefaults.standard.set("Incognito", forKey: "lastUserAppearanceName")
+                
             }
         }
     }

@@ -20,6 +20,11 @@ protocol updateNavBarLabel {
     
 }
 
+protocol updateNearbyChangeNameButton {
+    
+    func updateChangeNameButtonTitle()
+}
+
 class AppearAsViewController: UIViewController {
     
     
@@ -43,7 +48,11 @@ class AppearAsViewController: UIViewController {
     
     static var updateDelegate: updatePostingAsName?
     
+    static var updateNearbyChangeNameButtonTitleDelegate: updateNearbyChangeNameButton?
+    
     var navBarLabelDelegate: updateNavBarLabel?
+    
+    
 
     
     
@@ -54,7 +63,7 @@ class AppearAsViewController: UIViewController {
 
         
         label1.text = "Incognito"
-        label2.text = UserInfo.userAppearanceName
+        label2.text = UserDefaults.standard.value(forKey: "userFirstName") as? String
         if UserDefaults.standard.value(forKey: "userNickname") as? String ?? "" == "" {
             print(" - - - - No Nickname set! - - - - - ")
             label3.text = "Create name in Profile"
@@ -86,21 +95,21 @@ class AppearAsViewController: UIViewController {
     
     @IBAction func donePressed(_ sender: Any) {
         
-        if button1Selected == true {
+        if button1Selected == true && button2Selected == false && button3Selected == false {
             print("Set name to incognito")
             UserDefaults.standard.set("Incognito", forKey: "lastUserAppearanceName")
             UserDefaults.standard.set(true, forKey: "incognitoSelected")
             UserDefaults.standard.set(false, forKey: "firstNameSelected")
             UserDefaults.standard.set(false, forKey: "nicknameSelected")
 
-        } else if button2Selected == true {
+        } else if button2Selected == true && button1Selected == false && button3Selected == false {
             print("Set name to first name")
             UserDefaults.standard.set(UserDefaults.standard.value(forKey: "userFirstName"), forKey: "lastUserAppearanceName")
             UserDefaults.standard.set(false, forKey: "incognitoSelected")
             UserDefaults.standard.set(true, forKey: "firstNameSelected")
             UserDefaults.standard.set(false, forKey: "nicknameSelected")
 
-        } else if button3Selected == true {
+        } else if button3Selected == true && button1Selected == false && button2Selected == false {
             
             if UserDefaults.standard.value(forKey: "userNickname") as? String ?? "" == "" {
                 print(" - - - - No Nickname set! - - - - - ")
@@ -119,6 +128,7 @@ class AppearAsViewController: UIViewController {
         dismiss(animated: true, completion: nil)
         
         AppearAsViewController.updateDelegate?.updatePostingAsLabel()
+        AppearAsViewController.updateNearbyChangeNameButtonTitleDelegate?.updateChangeNameButtonTitle()
         
         navBarLabelDelegate?.updateNavButtonLabel()
         

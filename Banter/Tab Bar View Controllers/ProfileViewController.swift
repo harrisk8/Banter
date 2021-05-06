@@ -12,7 +12,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
     
     
     func updatePostingAsLabel() {
-        print("REC")
+        print("Updating appearing name in Profile Tab via delegate")
         currentlyAppearingAsLabel.text = UserDefaults.standard.value(forKey: "lastUserAppearanceName") as? String
     }
     

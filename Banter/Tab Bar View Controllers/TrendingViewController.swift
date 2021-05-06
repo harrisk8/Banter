@@ -17,6 +17,9 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
     
     let database = Firestore.firestore()
     
+    //Stores the index of cell tapped by the user. Used to pull post info from array with same index on next VC.
+    var selectedCellIndex: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,6 +38,8 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
         
         fetchNewPosts()
     }
+    
+    
     
     
     func fetchNewPosts() {
@@ -89,7 +94,11 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     
-    
+    //Handles functionality for cell selection
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCellIndex = indexPath.row
+        performSegue(withIdentifier: "trendingToComments", sender: self)
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return formattedTrendingPosts.formattedTrendingPostsArray.count
@@ -102,9 +111,8 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
     
         let cell = tableView.dequeueReusableCell(withIdentifier: "TrendingTableCell", for: indexPath) as! TrendingTableCell
         
-        cell.authorLabel?.text = String(trendingCellData.author!) + " - " + (UserInfo.userCity ?? "Gainesville") + ", " + (UserInfo.userState ?? "FL")
+        cell.authorLabel?.text = String(trendingCellData.author!) + " | " + (UserInfo.userCity ?? "") + ", " + (UserInfo.userState ?? "")
         cell.messageLabel?.text = String(trendingCellData.message!)
-//        cell.locationLabel?.text = String(UserInfo.userCity!) + ", " + String(UserInfo.userState!)
         cell.timestampLabel?.text = formatPostTime(postTimestamp: trendingCellData.timestamp!)
         cell.postScoreLabel?.text = String(trendingCellData.score!)
     
@@ -132,5 +140,11 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
         
     
     }
+    
+    
+    @IBAction func newPostButtonPressed(_ sender: Any) {
+        performSegue(withIdentifier: "trendingToNewPost", sender: self)
+    }
+    
 
 }

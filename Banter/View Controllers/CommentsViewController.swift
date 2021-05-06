@@ -79,6 +79,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     var likedPost: Bool?
     var dislikedPost: Bool?
+    
+    var pathway: pathwayIntoComments?
 
     
     override func viewDidLoad() {
@@ -163,7 +165,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                         
                         postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].author ?? "")
                         
-                        
                         postInfoLabel.text? += " | "
                         
                         postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationCity ?? "")
@@ -200,6 +201,113 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(keyboardWillShowNotification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
 
+    }
+    
+    func processPathwayToComments() {
+        
+        switch pathway {
+        
+        case .nearbyToComments:
+            print("User entering comments VC from Nearby")
+        case .trendingToComments:
+            print("User entering comments VC from Trending")
+        case .inboxToComments:
+            print("User entering comments VC from Nearby")
+        case .none:
+            dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    
+    func loadDataForNearbyPost() {
+        
+        postMessage.text = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].message
+        
+        commentsArray = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments ?? []
+        
+        docID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].documentID ?? ""
+        
+        if commentsArray.count == 0 {
+            newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments = []
+        }
+        
+        postInfoLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
+            
+        postInfoLabel.text? += " | "
+            
+        postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationState ?? "")
+        
+        
+        DispatchQueue.main.async {
+            self.commentsTableView.reloadData()
+        }
+        
+    }
+    
+    func loadDataForInboxPost() {
+        
+        //Handles control flow if user proceeds from inbox
+
+        //Checks array of pulled notifications (first step, whole post) to see if it matches the notification doc ID
+        //If it does, then it will pull data to present in VC via the array itself
+        
+        if NotificationArrayRaw.notificationArrayRaw.count == 1 && NotificationArrayRaw.notificationArrayRaw[0].documentID == NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID {
+            
+            postMessage.text = NotificationArrayRaw.notificationArrayRaw[0].message
+            commentsArray = NotificationArrayRaw.notificationArrayRaw[0].comments ?? []
+            docID = NotificationArrayRaw.notificationArrayRaw[0].documentID ?? ""
+            
+            
+            postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].author ?? "")
+                
+            postInfoLabel.text? += " | "
+            postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationCity ?? "")
+                
+            postInfoLabel.text? +=  ", "
+            
+            postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationState ?? "")
+            
+            DispatchQueue.main.async {
+                self.commentsTableView.reloadData()
+            }
+            
+        } else if NotificationArrayRaw.notificationArrayRaw.count > 1 {
+            
+            for x in (0...NotificationArrayRaw.notificationArrayRaw.count-1) {
+                
+                if NotificationArrayData.notificationArrayFinal[inboxPostArrayPosition ?? 0].documentID ==
+                    NotificationArrayRaw.notificationArrayRaw[x].documentID {
+                    
+                    print("Match")
+                    print(NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID ?? "")
+                    print(NotificationArrayRaw.notificationArrayRaw[x].documentID ?? "")
+                    
+                    matchIndex = x
+                    fetchPost = false
+                    
+                    postMessage.text = NotificationArrayRaw.notificationArrayRaw[matchIndex].message
+                    commentsArray = NotificationArrayRaw.notificationArrayRaw[matchIndex].comments ?? []
+                    docID = NotificationArrayRaw.notificationArrayRaw[matchIndex].documentID ?? ""
+                    
+                    postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].author ?? "")
+                    
+                    
+                    postInfoLabel.text? += " | "
+                    
+                    postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationCity ?? "")
+                        
+                    postInfoLabel.text? += ", "
+                    
+                    postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationState ?? "")
+                    
+                    DispatchQueue.main.async {
+                        self.commentsTableView.reloadData()
+                    }
+                }
+                
+            }
+            
+        }
     }
     
     @IBAction func likeButtonPressed(_ sender: Any) {

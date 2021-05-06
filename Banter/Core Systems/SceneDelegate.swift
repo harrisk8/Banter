@@ -110,6 +110,44 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
     }
     
+//    func handleDynamicLink(_ url: URL?) -> Bool {
+//        guard let url = url else { return false }
+//        // Here don't know, which method will work, so I handle both for sure :-)
+//
+//        if !DynamicLinks.dynamicLinks().handleUniversalLink(url, completion: { dynamicLink, error in
+//            if let dynamicLink = dynamicLink {
+//                if let oobCode = dynamicLink.url?.getQueryString(parameter: "oobCode") {
+//                    Auth.auth().applyActionCode(oobCode) { error in
+//                        if let error = error as NSError? {
+//                            print(error.localizedDescription)
+//                        } else {
+//                            // Email was successfully verified
+//                            print("EMAIL LINK VERIFIED!")
+//
+//                        }
+//                    }
+//                }
+//            } else {
+//                // Handle error
+//            }
+//        }) {
+//            if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+//                if let oobCode = dynamicLink.url?.getQueryString(parameter: "oobCode") {
+//                    Auth.auth().applyActionCode(oobCode) { error in
+//                        if let error = error as NSError? {
+//                            print(error.localizedDescription)
+//                        } else {
+//                            // Email was successfully verified
+//                            print("EMAIL LINK VERIFIED!")
+//                        }
+//                    }
+//                }
+//            } else {
+//                // handle error
+//            }
+//        }
+//        return false
+//    }
     
     func getUserDocID() {
         
@@ -190,3 +228,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+extension URL {
+
+    func getQueryString(parameter: String) -> String? {
+        if let urlComponents = URLComponents(string: self.absoluteString) {
+            return urlComponents.queryItems?.filter({ item in item.name == parameter }).first?.value
+        }
+        return nil
+    }
+}

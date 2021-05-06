@@ -580,16 +580,21 @@
                                 <rect key="frame" x="357" y="3.6666666666666679" width="37" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="Top Right Nav New Post Icon"/>
+                                <connections>
+                                    <action selector="newPostButtonPressed:" destination="DuX-6j-TCb" eventType="touchUpInside" id="8Fy-bV-vH8"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="trendingTableView" destination="Ayz-69-p2R" id="iO7-B0-oAr"/>
+                        <segue destination="gi6-cU-piE" kind="presentation" identifier="trendingToNewPost" modalPresentationStyle="fullScreen" id="bsz-8E-SfW"/>
+                        <segue destination="Xks-jQ-og6" kind="presentation" identifier="trendingToComments" modalPresentationStyle="fullScreen" id="JVb-TN-SkW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vPb-Gq-By9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7000.0000000000009" y="-638.16964285714278"/>
+            <point key="canvasLocation" x="6999" y="-757"/>
         </scene>
         <!--Nearby-->
         <scene sceneID="7Bw-7q-l6R">
@@ -617,6 +622,9 @@
                     <navigationItem key="navigationItem" title="Nearby" id="Nvr-CR-zE9">
                         <barButtonItem key="leftBarButtonItem" title="Incognito" id="OBt-0s-tjd">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="currentNameButtonPressed:" destination="ipq-8a-GUm" id="eTg-vk-vno"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="JCi-Gl-xas">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V3D-4R-WSy">
@@ -634,6 +642,7 @@
                         <outlet property="nearbyTableView" destination="dr6-gz-lHC" id="zkp-Rh-2n9"/>
                         <segue destination="gi6-cU-piE" kind="presentation" identifier="navTopRightToNewPost" modalPresentationStyle="fullScreen" id="VhC-5O-fwx"/>
                         <segue destination="Xks-jQ-og6" kind="presentation" identifier="postToComments" modalPresentationStyle="overFullScreen" id="GAJ-WX-5Zx"/>
+                        <segue destination="vvS-C6-SEi" kind="presentation" identifier="nearbyToChangeName" id="OQ2-e3-lKQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xlr-bI-uUP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1584,9 +1593,9 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="4am-4d-uFz"/>
-        <segue reference="UWQ-hW-y9R"/>
-        <segue reference="GAJ-WX-5Zx"/>
-        <segue reference="VhC-5O-fwx"/>
+        <segue reference="OQ2-e3-lKQ"/>
+        <segue reference="JVb-TN-SkW"/>
+        <segue reference="bsz-8E-SfW"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Back Button" width="49" height="38"/>

@@ -157,12 +157,14 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     func sendLinkToEmail(validUserEmail: String) {
         
+        
         let actionCodeSettings = ActionCodeSettings()
         actionCodeSettings.url = URL(string: "https://officialbanterapp.page.link/welcome")
         // The sign-in operation has to always be completed in the app.
         actionCodeSettings.handleCodeInApp = true
         actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
-        
+//        actionCodeSettings.dynamicLinkDomain = "https://officialbanterapp.page.link"
+
         Auth.auth().sendSignInLink(toEmail:validUserEmail,
                                    actionCodeSettings: actionCodeSettings) { error in
           // ...
@@ -182,7 +184,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
 
             print("Link successfully sent")
             self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
-            UserDefaults.standard.set(validUserEmail, forKey: "Email")
+            UserDefaults.standard.set(validUserEmail, forKey: "validUserEmail")
         }
 
     }

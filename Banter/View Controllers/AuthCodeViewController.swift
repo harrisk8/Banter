@@ -150,6 +150,9 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
         Auth.auth().currentUser?.reload(completion: { Error in
             print("userssignedin")
         })
+        
+        print(Auth.auth().currentUser?.isEmailVerified)
+        
 
         
 //        print("Resend Code")
@@ -202,6 +205,7 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
         })
         
 
+        print("LINK:")
         print(UserDefaults.standard.value(forKey: "Link"))
 
         authStataDidChangeListenerHandle = Auth.auth().addStateDidChangeListener({ (auth, user) in

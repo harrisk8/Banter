@@ -14,7 +14,19 @@ import CoreData
 import CoreLocation
 
 
-class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, refreshNearbyTable, cellVotingDelegate, updateNavBarLabel {
+class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, refreshNearbyTable, cellVotingDelegate, updateNavBarLabel, updateNearbyChangeNameButton {
+    
+    
+    func updateChangeNameButtonTitle() {
+        print("NEARBY VC - Updating upper right label with current name")
+        incognitoButton.title = UserDefaults.standard.string(forKey: "lastUserAppearanceName")
+        
+    
+    }
+    
+    
+ 
+    
     
     func updateNavButtonLabel() {
         print("Nav Delegate recieved")
@@ -49,27 +61,10 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         
         getUserDocID()
-                
-        print("User Appearance Name Last Set to:")
-        print(UserDefaults.standard.string(forKey: "lastUserAppearanceName") ?? "")
+        configureUpperRightButton()
         
-        //Handles contingency of first time start up- no value for lastUserAppearanceName yet so it is set to Incognito
-        if UserDefaults.standard.string(forKey: "lastUserAppearanceName") == "" {
-            UserDefaults.standard.set("Incognito", forKey: "lastUserAppearanceName")
-            incognitoButton.title = "asfd"
-            UserDefaults.standard.setValue(true, forKey: "incognitoSelected")
-        } else {
-            print(UserDefaults.standard.string(forKey: "lastUserAppearanceName"))
-        }
-                
-        if UserDefaults.standard.value(forKey: "incognitoSelected") as? Bool == true {
-            incognitoButton.title = "Incognito"
-        } else if UserDefaults.standard.value(forKey: "firstNameSelected") as? Bool == true {
-            incognitoButton.title = UserDefaults.standard.value(forKey: "userFirstName") as? String
-        } else if UserDefaults.standard.value(forKey: "nicknameSelected") as? Bool == true {
-            incognitoButton.title = UserDefaults.standard.value(forKey: "userNickname") as? String
-
-        }
+        AppearAsViewController.updateNearbyChangeNameButtonTitleDelegate = self
+        
     
         locationManager.delegate = self
         
@@ -104,6 +99,41 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
 
         setUpPersistence()
 
+        
+    }
+    
+    @IBAction func currentNameButtonPressed(_ sender: Any) {
+        
+        print("User tapped name")
+        
+        performSegue(withIdentifier: "nearbyToChangeName", sender: self)
+        
+        
+        
+    }
+    
+    func configureUpperRightButton() {
+        
+        print("User Appearance Name Last Set to:")
+        print(UserDefaults.standard.string(forKey: "lastUserAppearanceName") ?? "")
+        
+        //Handles contingency of first time start up- no value for lastUserAppearanceName yet so it is set to Incognito
+        if UserDefaults.standard.string(forKey: "lastUserAppearanceName") == "" {
+            UserDefaults.standard.set("Incognito", forKey: "lastUserAppearanceName")
+            incognitoButton.title = "Incognito"
+            UserDefaults.standard.setValue(true, forKey: "incognitoSelected")
+        } else {
+            print(UserDefaults.standard.string(forKey: "lastUserAppearanceName"))
+        }
+                
+        if UserDefaults.standard.value(forKey: "incognitoSelected") as? Bool == true {
+            incognitoButton.title = "Incognito"
+        } else if UserDefaults.standard.value(forKey: "firstNameSelected") as? Bool == true {
+            incognitoButton.title = UserDefaults.standard.value(forKey: "userFirstName") as? String
+        } else if UserDefaults.standard.value(forKey: "nicknameSelected") as? Bool == true {
+            incognitoButton.title = UserDefaults.standard.value(forKey: "userNickname") as? String
+
+        }
         
     }
     
@@ -407,8 +437,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             commentsVC.postIndexInNearbyArray = selectedCellIndex
             commentsVC.modalPresentationCapturesStatusBarAppearance = true
             commentsVC.delegate = self
-
-            
+            commentsVC.pathway = .nearbyToComments
             
         }
         

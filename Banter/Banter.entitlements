@@ -8,6 +8,8 @@
 	<array>
 		<string>applinks:officialbanterapp.page.link</string>
 		<string>applinks:officialbanterapp.page.link/welcome</string>
+		<string>webcredentials:officialbanterapp.com/auth</string>
+		<string>applinks:officialbanterapp.com/auth</string>
 	</array>
 </dict>
 </plist>

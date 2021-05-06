@@ -17,6 +17,12 @@ enum voteType {
     case likeFromDislike
 }
 
+enum pathwayIntoComments {
+    case nearbyToComments
+    case trendingToComments
+    case inboxToComments
+}
+
 public struct NearbyCellData {
     
     var author: String?
