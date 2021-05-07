@@ -47,7 +47,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     var lastContentOffset: CGFloat = 0
     
     var pointsScrolled = 0
-    var postIndexInNearbyArray: Int?
     var keyboardHeight: Double?
     var screenWidth = UIScreen.main.bounds.width
     
@@ -67,7 +66,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     var fetchPost = false
     
     var inboxPostArrayPosition: Int?
-    
+    var postIndexInNearbyArray: Int?
+
     var postLoadedFromCoreData: Bool?
     
     var newlyFetchedPost: NearbyCellData?
@@ -93,103 +93,103 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         setUpUI()
         
-        print(" - - - - - Segue from Inbox Status: - - - - - - ")
-        print(segueFromInbox)
-        
-        //Handles control flow if user enters VC from Nearby versus from Inbox
-        if segueFromInbox == false {
-            
-            postMessage.text = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].message
-            
-            commentsArray = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments ?? []
-            
-            docID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].documentID ?? ""
-            
-            if commentsArray.count == 0 {
-                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments = []
-            }
-            
-            postInfoLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
-                
-            postInfoLabel.text? += " | "
-                
-            postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationState ?? "")
-            
-            
-            DispatchQueue.main.async {
-                self.commentsTableView.reloadData()
-            }
-        } else {
-            //Handles control flow if user proceeds from inbox
-    
-            //Checks array of pulled notifications (first step, whole post) to see if it matches the notification doc ID
-            //If it does, then it will pull data to present in VC via the array itself
-            
-            if NotificationArrayRaw.notificationArrayRaw.count == 1 && NotificationArrayRaw.notificationArrayRaw[0].documentID == NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID {
-                
-                postMessage.text = NotificationArrayRaw.notificationArrayRaw[0].message
-                commentsArray = NotificationArrayRaw.notificationArrayRaw[0].comments ?? []
-                docID = NotificationArrayRaw.notificationArrayRaw[0].documentID ?? ""
-                
-                
-                postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].author ?? "")
-                    
-                postInfoLabel.text? += " | "
-                postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationCity ?? "")
-                    
-                postInfoLabel.text? +=  ", "
-                
-                postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationState ?? "")
-                
-                DispatchQueue.main.async {
-                    self.commentsTableView.reloadData()
-                }
-                
-            } else if NotificationArrayRaw.notificationArrayRaw.count > 1 {
-                
-                for x in (0...NotificationArrayRaw.notificationArrayRaw.count-1) {
-                    
-                    if NotificationArrayData.notificationArrayFinal[inboxPostArrayPosition ?? 0].documentID ==
-                        NotificationArrayRaw.notificationArrayRaw[x].documentID {
-                        
-                        print("Match")
-                        print(NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID ?? "")
-                        print(NotificationArrayRaw.notificationArrayRaw[x].documentID ?? "")
-                        
-                        matchIndex = x
-                        fetchPost = false
-                        
-                        postMessage.text = NotificationArrayRaw.notificationArrayRaw[matchIndex].message
-                        commentsArray = NotificationArrayRaw.notificationArrayRaw[matchIndex].comments ?? []
-                        docID = NotificationArrayRaw.notificationArrayRaw[matchIndex].documentID ?? ""
-                        
-                        postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].author ?? "")
-                        
-                        postInfoLabel.text? += " | "
-                        
-                        postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationCity ?? "")
-                            
-                        postInfoLabel.text? += ", "
-                        
-                        postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationState ?? "")
-                        
-                        DispatchQueue.main.async {
-                            self.commentsTableView.reloadData()
-                        }
-                    }
-                    
-                }
-                
-            } else {
-                
-                //the post must be pulled from firebase, then also merge with userPosts coredata
-                fetchPost = true
-                print("Fetch post data from notification from database)")
-                fetchPostData()
-                
-                
-            }
-        }
+//        print(" - - - - - Segue from Inbox Status: - - - - - - ")
+//        print(segueFromInbox)
+//
+//        //Handles control flow if user enters VC from Nearby versus from Inbox
+//        if segueFromInbox == false {
+//
+//            postMessage.text = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].message
+//
+//            commentsArray = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments ?? []
+//
+//            docID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].documentID ?? ""
+//
+//            if commentsArray.count == 0 {
+//                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments = []
+//            }
+//
+//            postInfoLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
+//
+//            postInfoLabel.text? += " | "
+//
+//            postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationState ?? "")
+//
+//
+//            DispatchQueue.main.async {
+//                self.commentsTableView.reloadData()
+//            }
+//        } else {
+//            //Handles control flow if user proceeds from inbox
+//
+//            //Checks array of pulled notifications (first step, whole post) to see if it matches the notification doc ID
+//            //If it does, then it will pull data to present in VC via the array itself
+//
+//            if NotificationArrayRaw.notificationArrayRaw.count == 1 && NotificationArrayRaw.notificationArrayRaw[0].documentID == NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID {
+//
+//                postMessage.text = NotificationArrayRaw.notificationArrayRaw[0].message
+//                commentsArray = NotificationArrayRaw.notificationArrayRaw[0].comments ?? []
+//                docID = NotificationArrayRaw.notificationArrayRaw[0].documentID ?? ""
+//
+//
+//                postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].author ?? "")
+//
+//                postInfoLabel.text? += " | "
+//                postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationCity ?? "")
+//
+//                postInfoLabel.text? +=  ", "
+//
+//                postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationState ?? "")
+//
+//                DispatchQueue.main.async {
+//                    self.commentsTableView.reloadData()
+//                }
+//
+//            } else if NotificationArrayRaw.notificationArrayRaw.count > 1 {
+//
+//                for x in (0...NotificationArrayRaw.notificationArrayRaw.count-1) {
+//
+//                    if NotificationArrayData.notificationArrayFinal[inboxPostArrayPosition ?? 0].documentID ==
+//                        NotificationArrayRaw.notificationArrayRaw[x].documentID {
+//
+//                        print("Match")
+//                        print(NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID ?? "")
+//                        print(NotificationArrayRaw.notificationArrayRaw[x].documentID ?? "")
+//
+//                        matchIndex = x
+//                        fetchPost = false
+//
+//                        postMessage.text = NotificationArrayRaw.notificationArrayRaw[matchIndex].message
+//                        commentsArray = NotificationArrayRaw.notificationArrayRaw[matchIndex].comments ?? []
+//                        docID = NotificationArrayRaw.notificationArrayRaw[matchIndex].documentID ?? ""
+//
+//                        postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].author ?? "")
+//
+//                        postInfoLabel.text? += " | "
+//
+//                        postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationCity ?? "")
+//
+//                        postInfoLabel.text? += ", "
+//
+//                        postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationState ?? "")
+//
+//                        DispatchQueue.main.async {
+//                            self.commentsTableView.reloadData()
+//                        }
+//                    }
+//
+//                }
+//
+//            } else {
+//
+//                //the post must be pulled from firebase, then also merge with userPosts coredata
+//                fetchPost = true
+//                print("Fetch post data from notification from database)")
+//                fetchPostData()
+//
+//
+//            }
+//        }
         
         print(" - - - - - COMMENT ARRAY COUNT - - - - ")
         print(commentsArray.count)
@@ -222,21 +222,16 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     func loadDataForNearbyPost() {
         
         postMessage.text = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].message
-        
         commentsArray = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments ?? []
-        
         docID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].documentID ?? ""
+        
+        postInfoLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
+        postInfoLabel.text? += " | "
+        postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationState ?? "")
         
         if commentsArray.count == 0 {
             newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments = []
         }
-        
-        postInfoLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
-            
-        postInfoLabel.text? += " | "
-            
-        postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationState ?? "")
-        
         
         DispatchQueue.main.async {
             self.commentsTableView.reloadData()
@@ -247,7 +242,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     func loadDataForInboxPost() {
         
         //Handles control flow if user proceeds from inbox
-
         //Checks array of pulled notifications (first step, whole post) to see if it matches the notification doc ID
         //If it does, then it will pull data to present in VC via the array itself
         
@@ -259,12 +253,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
             
             postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].author ?? "")
-                
             postInfoLabel.text? += " | "
             postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationCity ?? "")
-                
             postInfoLabel.text? +=  ", "
-            
             postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationState ?? "")
             
             DispatchQueue.main.async {
@@ -308,6 +299,12 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             }
             
         }
+    }
+    
+    func loadDataForTrendingPost() {
+        
+        
+        
     }
     
     @IBAction func likeButtonPressed(_ sender: Any) {

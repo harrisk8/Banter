@@ -100,6 +100,19 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
         performSegue(withIdentifier: "trendingToComments", sender: self)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let commentsVC = segue.destination as? CommentsViewController {
+            
+            commentsVC.postIndexInNearbyArray = selectedCellIndex
+            commentsVC.modalPresentationCapturesStatusBarAppearance = true
+            commentsVC.pathway = .trendingToComments
+            
+        }
+        
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return formattedTrendingPosts.formattedTrendingPostsArray.count
     }

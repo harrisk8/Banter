@@ -1476,6 +1476,7 @@
         <!--Navigation Controller-->
         <scene sceneID="a5s-5X-uts">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4mH-Uz-xli" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="F8w-Rs-4C8" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="Home Regular" selectedImage="Home Selected" id="EBZ-U7-ugi">
                         <color key="badgeColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1495,7 +1496,6 @@
                         <segue destination="ipq-8a-GUm" kind="relationship" relationship="rootViewController" id="B5u-Mh-D5K"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4mH-Uz-xli" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3906" y="-637"/>
         </scene>
@@ -1593,9 +1593,9 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="4am-4d-uFz"/>
-        <segue reference="OQ2-e3-lKQ"/>
-        <segue reference="JVb-TN-SkW"/>
-        <segue reference="bsz-8E-SfW"/>
+        <segue reference="UWQ-hW-y9R"/>
+        <segue reference="GAJ-WX-5Zx"/>
+        <segue reference="VhC-5O-fwx"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Back Button" width="49" height="38"/>
