@@ -589,7 +589,7 @@
                     <connections>
                         <outlet property="trendingTableView" destination="Ayz-69-p2R" id="iO7-B0-oAr"/>
                         <segue destination="gi6-cU-piE" kind="presentation" identifier="trendingToNewPost" modalPresentationStyle="fullScreen" id="bsz-8E-SfW"/>
-                        <segue destination="Xks-jQ-og6" kind="presentation" identifier="trendingToComments" modalPresentationStyle="fullScreen" id="JVb-TN-SkW"/>
+                        <segue destination="Xks-jQ-og6" kind="presentation" identifier="trendingToComments" modalPresentationStyle="overFullScreen" id="JVb-TN-SkW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vPb-Gq-By9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -601,11 +601,11 @@
             <objects>
                 <viewController restorationIdentifier="nearbyIdentifier" storyboardIdentifier="nearbyIdentifier" id="ipq-8a-GUm" customClass="NearbyViewController" customModule="Banter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UNc-G4-VLN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dr6-gz-lHC">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <color key="separatorColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
@@ -619,6 +619,7 @@
                             <constraint firstItem="dr6-gz-lHC" firstAttribute="bottom" secondItem="Bmg-Na-G3Z" secondAttribute="bottom" id="lKx-ij-vNs"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="" image="Home Regular" selectedImage="Home Selected" id="jlK-XT-d7S"/>
                     <navigationItem key="navigationItem" title="Nearby" id="Nvr-CR-zE9">
                         <barButtonItem key="leftBarButtonItem" title="Incognito" id="OBt-0s-tjd">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1278,12 +1279,13 @@
                         <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
+                        <segue destination="gi6-cU-piE" kind="presentation" identifier="tabBarToNewPostEditor" modalPresentationStyle="fullScreen" id="X1H-3z-xHq"/>
                         <segue destination="F8w-Rs-4C8" kind="relationship" relationship="viewControllers" id="2qF-s2-wHJ"/>
                         <segue destination="sYV-Pk-VM3" kind="relationship" relationship="viewControllers" id="DiI-wN-TKw"/>
                         <segue destination="whm-vC-ruc" kind="relationship" relationship="viewControllers" id="jVp-VJ-bI5"/>
                         <segue destination="rfY-s1-29h" kind="relationship" relationship="viewControllers" id="A8e-0L-YM6"/>
                         <segue destination="USC-a7-bCs" kind="relationship" relationship="viewControllers" id="cW8-tx-YkP"/>
-                        <segue destination="gi6-cU-piE" kind="presentation" identifier="tabBarToNewPostEditor" modalPresentationStyle="fullScreen" id="X1H-3z-xHq"/>
+                        <segue destination="ipq-8a-GUm" kind="relationship" relationship="viewControllers" id="IIO-UH-jE2"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iSD-P3-OxZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1593,9 +1595,10 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="4am-4d-uFz"/>
-        <segue reference="UWQ-hW-y9R"/>
-        <segue reference="GAJ-WX-5Zx"/>
-        <segue reference="VhC-5O-fwx"/>
+        <segue reference="OQ2-e3-lKQ"/>
+        <segue reference="JVb-TN-SkW"/>
+        <segue reference="X1H-3z-xHq"/>
+        <segue reference="IIO-UH-jE2"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Back Button" width="49" height="38"/>

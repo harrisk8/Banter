@@ -130,6 +130,8 @@ class AppearAsViewController: UIViewController {
         AppearAsViewController.updateDelegate?.updatePostingAsLabel()
         AppearAsViewController.updateNearbyChangeNameButtonTitleDelegate?.updateChangeNameButtonTitle()
         
+        UserInfo.userAppearanceName = UserDefaults.standard.string(forKey: "lastUserAppearanceName")
+        
         navBarLabelDelegate?.updateNavButtonLabel()
         
     }

@@ -119,6 +119,7 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let commentsCount: Int = Int(formattedTrendingPosts.formattedTrendingPostsArray[indexPath.row].comments?.count ?? 0)
         
         let trendingCellData = formattedTrendingPosts.formattedTrendingPostsArray[indexPath.row]
     
@@ -129,7 +130,13 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
         cell.timestampLabel?.text = formatPostTime(postTimestamp: trendingCellData.timestamp!)
         cell.postScoreLabel?.text = String(trendingCellData.score!)
     
-
+        if commentsCount > 1 {
+            cell.commentLabel?.text = String(commentsCount) + " comments"
+        } else if commentsCount == 1 {
+            cell.commentLabel?.text = "1 comment"
+        } else {
+            cell.commentLabel?.text = ""
+        }
     
         return cell
     }

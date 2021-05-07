@@ -61,6 +61,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         
         getUserDocID()
+        
         configureUpperRightButton()
         
         AppearAsViewController.updateNearbyChangeNameButtonTitleDelegate = self

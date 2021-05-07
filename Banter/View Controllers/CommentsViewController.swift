@@ -93,6 +93,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         setUpUI()
         
+        processPathwayToComments()
+        
 //        print(" - - - - - Segue from Inbox Status: - - - - - - ")
 //        print(segueFromInbox)
 //
@@ -209,10 +211,13 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         case .nearbyToComments:
             print("User entering comments VC from Nearby")
+            loadDataForNearbyPost()
         case .trendingToComments:
+            loadDataForTrendingPost()
             print("User entering comments VC from Trending")
         case .inboxToComments:
             print("User entering comments VC from Nearby")
+            loadDataForInboxPost()
         case .none:
             dismiss(animated: true, completion: nil)
         }
@@ -227,6 +232,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         postInfoLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
         postInfoLabel.text? += " | "
+        postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationCity ?? "")
         postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationState ?? "")
         
         if commentsArray.count == 0 {
@@ -303,6 +309,21 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     func loadDataForTrendingPost() {
         
+        postMessage.text = formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].message
+        commentsArray = formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].comments ?? []
+        docID = formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].documentID ?? ""
+        
+        postInfoLabel.text = String(formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
+        postInfoLabel.text? += " | "
+        postInfoLabel.text? += String(formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].postLocationState ?? "")
+        
+        if commentsArray.count == 0 {
+            formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].comments = []
+        }
+        
+        DispatchQueue.main.async {
+            self.commentsTableView.reloadData()
+        }
         
         
     }
@@ -439,9 +460,18 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
             commentTimestamp = Date().timeIntervalSince1970
             
-            commentData = ["author" : UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject, "commentTimestamp" : commentTimestamp as AnyObject, "userDocID" : UserInfo.userCollectionDocID as AnyObject]
             
-            notificationData = ["author": UserInfo.userAppearanceName as AnyObject, "message" : commentsTextView.text as AnyObject, "notificationTimestamp" : commentTimestamp as AnyObject, "documentID": docID as AnyObject]
+            commentData = ["author" : UserInfo.userAppearanceName as AnyObject,
+                           "message" : commentsTextView.text as AnyObject,
+                           "commentTimestamp" : commentTimestamp as AnyObject,
+                           "userDocID" : UserInfo.userCollectionDocID as AnyObject
+            ]
+            
+            notificationData = ["author": UserInfo.userAppearanceName as AnyObject,
+                                "message" : commentsTextView.text as AnyObject,
+                                "notificationTimestamp" : commentTimestamp as AnyObject,
+                                "documentID": docID as AnyObject
+            ]
             
             writeCommentToDatabase()
             
@@ -644,10 +674,14 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 //            return cell
 //        }
         
+        let nearbyCellData = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[indexPath.row]
+        
+        let commentsCount: Int = Int(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[indexPath.row].comments?.count ?? 0)
+        
         
         cell.authorLabel?.text = commentsArray[indexPath.row]["author"] as? String
         cell.messageLabel?.text = commentsArray[indexPath.row]["message"] as? String
-        cell.timestampLabel?.text = "5"
+        cell.timestampLabel?.text = formatPostTime(postTimestamp: commentsArray[indexPath.row]["commentTimestamp"] as? Double ?? 0.0)
         cell.commentLabel?.text = ""
         cell.likeButton.isUserInteractionEnabled = false
         cell.likeButton.alpha = 0
@@ -687,7 +721,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     //Converts timestamp from 'seconds since 1970' to readable format
     func formatPostTime(postTimestamp: Double) -> String {
         
-        let timeDifference = (UserInfo.refreshTime ?? 0.0) - postTimestamp
+        let timeDifference = Date().timeIntervalSince1970 - postTimestamp
+        
+        print(timeDifference)
         
         var timeInMinutes = Int((timeDifference / 60.0))
         let timeInHours = Int(timeInMinutes / 60)
