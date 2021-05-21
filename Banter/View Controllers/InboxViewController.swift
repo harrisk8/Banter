@@ -25,18 +25,17 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     var newNotificationsArray: [NearbyCellData] = []
     
     var selectedCellIndex: Int?
-        
+    
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         overrideUserInterfaceStyle = .light
 
-
         lastCommentTimestamp = UserDefaults.standard.double(forKey: "lastCommentTimestamp")
         
         print(lastCommentTimestamp ?? 0)
-        
         
         inboxTableView.dataSource = self
         inboxTableView.delegate = self
@@ -52,11 +51,19 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
         fetchNewNotifications()
         
         print(UserInfo.userID ?? "")
+        
+        inboxTableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshedTableView), for: .valueChanged)
 
     }
     
+    @objc func refreshedTableView() {
+        print("INBOX: Refreshed received")
+        self.refreshControl.endRefreshing()
+    }
+    
     func getPostData() {
-        let thedocid = NotificationArrayRaw.notificationArrayRaw[selectedCellIndex ?? 0].documentID
+        let thedocid = NotificationWholePostArray.notificationWholePostArray[selectedCellIndex ?? 0].documentID
         print(thedocid ?? "")
     }
     
@@ -72,6 +79,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if let commentsVCForInbox = segue.destination as? CommentsViewController {
             commentsVCForInbox.inboxPostArrayPosition = selectedCellIndex
             commentsVCForInbox.segueFromInbox = true

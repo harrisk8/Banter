@@ -25,9 +25,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     
- 
-    
-    
     func updateNavButtonLabel() {
         print("Nav Delegate recieved")
     }
@@ -41,7 +38,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     private let refreshControl = UIRefreshControl()
     
     var oldPostsFetchedFromCoreData: [NearbyPostsEntity]?
-    var refreshArray: [NearbyCellData]?
     
     @IBOutlet weak var incognitoButton: UIBarButtonItem!
     
@@ -703,6 +699,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
         let vote = VotingModel()
+        
+        //Calls upon VotingModel to execute vote to Firebase
         vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType)
     }
     

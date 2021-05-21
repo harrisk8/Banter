@@ -42,9 +42,10 @@ class NotificationFetcher {
         print("Fetching new notifications")
         
         print(UserDefaults.standard.string(forKey: "userCollectionDocID"))
+        
         //Query for posts created by user with new comments 
         database.collection("posts")
-            .whereField("userDocID", isEqualTo: "")
+            .whereField("userDocID", isEqualTo: UserInfo.userCollectionDocID)
         .whereField("lastCommentTimestamp", isGreaterThan: lastCommentTimestamp)
         .getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -69,7 +70,7 @@ class NotificationFetcher {
                         let postLocationState = postData["locationState"] as? String
                         
                     {
-                        let newPost = NotificationDataRaw(
+                        let newPost = NotificationDataWholePost(
                             author: postAuthor,
                             message: postMessage,
                             score: postScore ?? 0,
@@ -84,29 +85,29 @@ class NotificationFetcher {
                         )
                         
                         print("Adding post to inbox array")
-                        NotificationArrayRaw.notificationArrayRaw.append(newPost)
+                        NotificationWholePostArray.notificationWholePostArray.append(newPost)
                         
                     }
                 }
                 
                 //Step 1 - Adds posts (whole document) with new comments to intermediate array
-                if NotificationArrayRaw.notificationArrayRaw.count != 0 {
+                if NotificationWholePostArray.notificationWholePostArray.count != 0 {
                     
-                    NotificationArrayRaw.notificationArrayRaw.sort { (lhs: NotificationDataRaw, rhs: NotificationDataRaw) -> Bool in
+                    NotificationWholePostArray.notificationWholePostArray.sort { (lhs: NotificationDataWholePost, rhs: NotificationDataWholePost) -> Bool in
                         return lhs.lastCommentTimestamp ?? 0 > rhs.lastCommentTimestamp ?? 0
                     }
                     
                     //Update lastCommentTimestamp constant
-                    UserDefaults.standard.set(NotificationArrayRaw.notificationArrayRaw[0].lastCommentTimestamp, forKey: "lastCommentTimestamp")
+                    UserDefaults.standard.set(NotificationWholePostArray.notificationWholePostArray[0].lastCommentTimestamp, forKey: "lastCommentTimestamp")
                     
                     print(" - - - - - UPDATED TIME STAMP - - - - - ")
-                    print((NotificationArrayRaw.notificationArrayRaw[0].lastCommentTimestamp, forKey: "lastCommentTimestamp"))
+                    print((NotificationWholePostArray.notificationWholePostArray[0].lastCommentTimestamp, forKey: "lastCommentTimestamp"))
                     print(UserDefaults.standard.double(forKey: "lastCommentTimestamp"))
                                         
                     //Extracts ALL notifications from intermediate array and passes to second intermediate array
-                    for x in 0...(NotificationArrayRaw.notificationArrayRaw.count - 1) {
+                    for x in 0...(NotificationWholePostArray.notificationWholePostArray.count - 1) {
                         
-                        NotificationArrayData.notificationArrayUnsorted.append(contentsOf: NotificationArrayRaw.notificationArrayRaw[x].notifications ?? [])
+                        NotificationArrayData.notificationArrayUnsorted.append(contentsOf: NotificationWholePostArray.notificationWholePostArray[x].notifications ?? [])
                         
                     }
                     

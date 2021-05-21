@@ -30,6 +30,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     @IBOutlet weak var emailTextField: UITextField!
     
     @IBOutlet weak var backButton: UIButton!
+    
     @IBOutlet weak var phoneNumberButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     
@@ -46,6 +47,8 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
 
     var userEmail: String?
     var link: String?
+    
+    var userSwipedUp = false
     
     override func viewDidLoad() {
         
@@ -231,6 +234,30 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     
     }
     
+    //Validates entered email as company email for backdoor access.
+    func isValidCompanyEmail() -> Bool {
+        
+        if let emailString = emailTextField.text {
+            
+            let start = emailString.index(emailString.endIndex, offsetBy: -22)
+            let end = emailString.index(emailString.endIndex, offsetBy: 0)
+            let range = start..<end
+            print(emailString[range])
+            
+            if emailString[range] == "@officialbanterapp.com" {
+                print("The user entered a VALID email company address")
+                return true
+            } else {
+                print("The user entered an INVALID email address")
+                return false
+            }
+            
+        }
+    
+        return false
+    
+    }
+    
     //Passes user phone number and screen height to next VC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let authCodeViewController = segue.destination as? AuthCodeViewController {
@@ -359,18 +386,39 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     }
     
     @IBAction func swipedUp(_ sender: Any) {
-        emailTextField.becomeFirstResponder()
-        slideScreenUp()
-        phoneNumberButton.isUserInteractionEnabled = false
+        
+        if userSwipedUp == false {
+            
+            userSwipedUp = true
+            emailTextField.becomeFirstResponder()
+            slideScreenUp()
+            phoneNumberButton.isUserInteractionEnabled = false
+            
+        } else {
+            
+            print("Screen already swiped up.")
+            
+        }
+
     }
     
     @IBAction func swipedDown(_ sender: Any) {
-        if screenSlidedUp == true {
+        
+        if userSwipedUp == true {
+            
+            userSwipedUp = false
             slideScreenDown()
             emailTextField.resignFirstResponder()
             phoneNumberButton.isUserInteractionEnabled = true
+            
             enterValidNumberPlease.alpha = 0
+            
+        } else {
+            
+            print("Screen already in down position.")
+
         }
+        
     }
     
     

@@ -251,51 +251,51 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         //Checks array of pulled notifications (first step, whole post) to see if it matches the notification doc ID
         //If it does, then it will pull data to present in VC via the array itself
         
-        if NotificationArrayRaw.notificationArrayRaw.count == 1 && NotificationArrayRaw.notificationArrayRaw[0].documentID == NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID {
+        if NotificationWholePostArray.notificationWholePostArray.count == 1 && NotificationWholePostArray.notificationWholePostArray[0].documentID == NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID {
             
-            postMessage.text = NotificationArrayRaw.notificationArrayRaw[0].message
-            commentsArray = NotificationArrayRaw.notificationArrayRaw[0].comments ?? []
-            docID = NotificationArrayRaw.notificationArrayRaw[0].documentID ?? ""
+            postMessage.text = NotificationWholePostArray.notificationWholePostArray[0].message
+            commentsArray = NotificationWholePostArray.notificationWholePostArray[0].comments ?? []
+            docID = NotificationWholePostArray.notificationWholePostArray[0].documentID ?? ""
             
             
-            postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].author ?? "")
+            postInfoLabel.text? += String(NotificationWholePostArray.notificationWholePostArray[0].author ?? "")
             postInfoLabel.text? += " | "
-            postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationCity ?? "")
+            postInfoLabel.text? += String(NotificationWholePostArray.notificationWholePostArray[0].locationCity ?? "")
             postInfoLabel.text? +=  ", "
-            postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[0].locationState ?? "")
+            postInfoLabel.text? += String(NotificationWholePostArray.notificationWholePostArray[0].locationState ?? "")
             
             DispatchQueue.main.async {
                 self.commentsTableView.reloadData()
             }
             
-        } else if NotificationArrayRaw.notificationArrayRaw.count > 1 {
+        } else if NotificationWholePostArray.notificationWholePostArray.count > 1 {
             
-            for x in (0...NotificationArrayRaw.notificationArrayRaw.count-1) {
+            for x in (0...NotificationWholePostArray.notificationWholePostArray.count-1) {
                 
                 if NotificationArrayData.notificationArrayFinal[inboxPostArrayPosition ?? 0].documentID ==
-                    NotificationArrayRaw.notificationArrayRaw[x].documentID {
+                    NotificationWholePostArray.notificationWholePostArray[x].documentID {
                     
                     print("Match")
                     print(NotificationArrayData.notificationArraySorted[inboxPostArrayPosition ?? 0].documentID ?? "")
-                    print(NotificationArrayRaw.notificationArrayRaw[x].documentID ?? "")
+                    print(NotificationWholePostArray.notificationWholePostArray[x].documentID ?? "")
                     
                     matchIndex = x
                     fetchPost = false
                     
-                    postMessage.text = NotificationArrayRaw.notificationArrayRaw[matchIndex].message
-                    commentsArray = NotificationArrayRaw.notificationArrayRaw[matchIndex].comments ?? []
-                    docID = NotificationArrayRaw.notificationArrayRaw[matchIndex].documentID ?? ""
+                    postMessage.text = NotificationWholePostArray.notificationWholePostArray[matchIndex].message
+                    commentsArray = NotificationWholePostArray.notificationWholePostArray[matchIndex].comments ?? []
+                    docID = NotificationWholePostArray.notificationWholePostArray[matchIndex].documentID ?? ""
                     
-                    postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].author ?? "")
+                    postInfoLabel.text? += String(NotificationWholePostArray.notificationWholePostArray[matchIndex].author ?? "")
                     
                     
                     postInfoLabel.text? += " | "
                     
-                    postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationCity ?? "")
+                    postInfoLabel.text? += String(NotificationWholePostArray.notificationWholePostArray[matchIndex].locationCity ?? "")
                         
                     postInfoLabel.text? += ", "
                     
-                    postInfoLabel.text? += String(NotificationArrayRaw.notificationArrayRaw[matchIndex].locationState ?? "")
+                    postInfoLabel.text? += String(NotificationWholePostArray.notificationWholePostArray[matchIndex].locationState ?? "")
                     
                     DispatchQueue.main.async {
                         self.commentsTableView.reloadData()

@@ -9,8 +9,13 @@
 import Foundation
 import Firebase
 import FirebaseFirestore
+import CoreData
 
 class VotingModel {
+    
+    let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var oldPostsFetchedFromCoreData: [VoteEntity]?
+
     
     let database = Firestore.firestore()
     
@@ -21,7 +26,6 @@ class VotingModel {
         print(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].message as Any)
         print(voteType)
         
-
         
         let databaseRef = database.collection("posts").document(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].documentID ?? "")
 
@@ -57,21 +61,29 @@ class VotingModel {
             
             case .like:
                 print("Like")
+                transaction.updateData(["score": oldScore + 1], forDocument: databaseRef)
             case .dislike:
                 print("Dislike")
+                transaction.updateData(["score": oldScore - 1], forDocument: databaseRef)
             case .removeLike:
                 print("Remove Like")
+                transaction.updateData(["score": oldScore - 1], forDocument: databaseRef)
             case .removeDislike:
                 print("Remove Dislike")
+                transaction.updateData(["score": oldScore + 1], forDocument: databaseRef)
             case .dislikeFromLike:
                 print("Dislike from Like")
+                transaction.updateData(["score": oldScore - 1], forDocument: databaseRef)
             case .likeFromDislike:
                 print("Like from Dislike")
+                transaction.updateData(["score": oldScore + 1], forDocument: databaseRef)
             }
             
             
             transaction.updateData(["score": oldScore + 1], forDocument: databaseRef)
+            
             return nil
+            
         }) { (object, error) in
             if let error = error {
                 print("Transaction failed: \(error)")
@@ -83,8 +95,17 @@ class VotingModel {
     }
     
     
+    func saveVoteToCoreData() {
+        
+        
+        
+    }
+    
+    
     
     func pullLastSessionVotesFromCoreData() {
+        
+        
         
     }
 }

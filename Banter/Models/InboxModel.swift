@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 
 //Struct for posts with new notifications fetched from database
-public struct NotificationDataRaw {
+public struct NotificationDataWholePost {
     
     var author: String?
     var message: String?
@@ -28,9 +28,9 @@ public struct NotificationDataRaw {
 }
 
 //Array to hold above-declared struct
-public struct NotificationArrayRaw {
+public struct NotificationWholePostArray {
     
-    static var notificationArrayRaw: [NotificationDataRaw] = []
+    static var notificationWholePostArray: [NotificationDataWholePost] = []
     
 }
 

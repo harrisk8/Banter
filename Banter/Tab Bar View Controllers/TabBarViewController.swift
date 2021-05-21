@@ -56,6 +56,9 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate, upda
         let userID = Auth.auth().currentUser!.uid
         UserInfo.userID = userID
         print("The userID pulled fresh from tab bar controller is: " + UserInfo.userID!)
+        
+        UserInfo.userCollectionDocID = UserDefaults.standard.string(forKey: "userCollectionDocID")
+
                 
         fetcher.getNewNotifications()
         
