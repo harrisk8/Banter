@@ -702,6 +702,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         
         //Calls upon VotingModel to execute vote to Firebase
         vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType)
+        vote.saveVoteToCoreData(postPositionInArray: voteIndexPathRow, voteType: caseType)
     }
     
 }

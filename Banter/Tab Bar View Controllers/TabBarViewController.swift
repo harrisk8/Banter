@@ -29,6 +29,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate, upda
     let database = Firestore.firestore()
     
     let fetcher = NotificationFetcher()
+    let startup = StartupSequence()
     
     let gradientLayer = CAGradientLayer()
 
@@ -61,6 +62,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate, upda
 
                 
         fetcher.getNewNotifications()
+        startup.pullVotesFromCoreData()
         
 
     }

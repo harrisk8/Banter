@@ -10,6 +10,7 @@
 		6F0874AA25E6FA6C00E0A547 /* Typo_Round_Light_Demo.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6F0874A725E6F73300E0A547 /* Typo_Round_Light_Demo.otf */; };
 		6F09D89B2602C3590059FD9F /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F09D89A2602C3590059FD9F /* InboxViewController.swift */; };
 		6F09D89F2602C3BF0059FD9F /* InboxModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F09D89E2602C3BF0059FD9F /* InboxModel.swift */; };
+		6F3FD7C02658445100FD95F3 /* StartupSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3FD7BF2658445100FD95F3 /* StartupSequence.swift */; };
 		6F4067A324F4627F009CB580 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4067A224F4627F009CB580 /* TabBarViewController.swift */; };
 		6F4E798D2609BF3400ECC3BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F4E798C2609BF3400ECC3BF /* GoogleService-Info.plist */; };
 		6F53D88B263BA2A800679D67 /* ReportPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F53D88A263BA2A800679D67 /* ReportPostViewController.swift */; };
@@ -69,6 +70,7 @@
 		6F0874A725E6F73300E0A547 /* Typo_Round_Light_Demo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Typo_Round_Light_Demo.otf; sourceTree = "<group>"; };
 		6F09D89A2602C3590059FD9F /* InboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxViewController.swift; sourceTree = "<group>"; };
 		6F09D89E2602C3BF0059FD9F /* InboxModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxModel.swift; sourceTree = "<group>"; };
+		6F3FD7BF2658445100FD95F3 /* StartupSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupSequence.swift; sourceTree = "<group>"; };
 		6F4067A124F32C36009CB580 /* Banter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Banter.entitlements; sourceTree = "<group>"; };
 		6F4067A224F4627F009CB580 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		6F4E798C2609BF3400ECC3BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				6F09D89E2602C3BF0059FD9F /* InboxModel.swift */,
 				6F56A1B5252D5E01005CB028 /* NotificationFetcher.swift */,
 				6F7E56B625EB03E7000E1C90 /* VotingModel.swift */,
+				6F3FD7BF2658445100FD95F3 /* StartupSequence.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -342,7 +345,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "Avidi Industries Inc.";
 				TargetAttributes = {
 					6FFD629B24DE370D00D5B96D = {
@@ -445,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F3FD7C02658445100FD95F3 /* StartupSequence.swift in Sources */,
 				6F81595324F4670B00FB59BD /* NewPostDummyViewController.swift in Sources */,
 				6F8605CC250F5128002AC4E9 /* TrendingViewController.swift in Sources */,
 				6F56A1B6252D5E01005CB028 /* NotificationFetcher.swift in Sources */,
@@ -530,6 +534,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -590,6 +595,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

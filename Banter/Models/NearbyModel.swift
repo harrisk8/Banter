@@ -17,6 +17,16 @@ enum voteType {
     case likeFromDislike
 }
 
+public struct voteFromCoreData {
+    var documentID: String?
+    var likedPost: Bool?
+    var dislikedPost: Bool?
+}
+
+struct votesFromCoreData {
+    static var votesFromCoreDataArray: [voteFromCoreData] = []
+}
+
 enum pathwayIntoComments {
     case nearbyToComments
     case trendingToComments

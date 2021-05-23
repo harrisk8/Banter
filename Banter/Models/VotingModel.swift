@@ -14,6 +14,7 @@ import CoreData
 class VotingModel {
     
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
     var oldPostsFetchedFromCoreData: [VoteEntity]?
 
     
@@ -22,10 +23,8 @@ class VotingModel {
     func sendVoteToDatabase(postPositionInArray: Int, voteType: voteType) {
         
         print(" - - - VOTING MODEL FUNCTION - - - - ")
-        print(postPositionInArray)
-        print(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].message as Any)
-        print(voteType)
-        
+        print("This post is \(postPositionInArray) in array" )
+        print(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].message as Any)        
         
         let databaseRef = database.collection("posts").document(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].documentID ?? "")
 
@@ -50,8 +49,6 @@ class VotingModel {
                 return nil
             }
             
-            print(oldScore)
-
             // Note: this could be done without a transaction
             //       by updating the population using FieldValue.increment()
             
@@ -95,12 +92,105 @@ class VotingModel {
     }
     
     
-    func saveVoteToCoreData() {
+    func saveVoteToCoreData(postPositionInArray: Int, voteType: voteType) {
         
+        let voteData = VoteEntity(context: dataContext)
+        
+        let postDocumentID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].documentID ?? ""
+        
+        var userLikedPost = false
+        var userDislikedPost = false
+                
+        let votingTransaction: voteType = voteType
+        
+        switch votingTransaction {
+        
+        case .like:
+            print("Like")
+            userLikedPost = true
+            userDislikedPost = false
+            voteData.documentID = postDocumentID
+            voteData.userLikedPost = userLikedPost
+            voteData.userDislikedPost = userDislikedPost
+            do {
+                try dataContext.save()
+            }
+            catch {
+            }
+        case .dislike:
+            print("Dislike")
+            userLikedPost = false
+            userDislikedPost = true
+            voteData.documentID = postDocumentID
+            voteData.userLikedPost = userLikedPost
+            voteData.userDislikedPost = userDislikedPost
+            do {
+                try dataContext.save()
+            }
+            catch {
+            }
+        case .removeLike:
+            print("Remove Like")
+            userLikedPost = false
+            userDislikedPost = false
+            removeVoteFromCoreData(documentID: postDocumentID)
+        case .removeDislike:
+            print("Remove Dislike")
+            userLikedPost = false
+            userDislikedPost = false
+            removeVoteFromCoreData(documentID: postDocumentID)
+        case .dislikeFromLike:
+            print("Dislike from Like")
+            userLikedPost = false
+            userDislikedPost = false
+            removeVoteFromCoreData(documentID: postDocumentID)
+        case .likeFromDislike:
+            print("Like from Dislike")
+            userLikedPost = false
+            userDislikedPost = false
+            removeVoteFromCoreData(documentID: postDocumentID)
+        }
         
         
     }
     
+    func removeVoteFromCoreData(documentID: String) {
+        
+        print("Delete voteData with \(documentID)")
+        
+
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "VoteEntity")
+        fetchRequest.predicate = NSPredicate(format: "documentID = %@", documentID)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            
+            try dataContext.execute(deleteRequest)
+            
+        } catch let error as NSError {
+            print(error)
+        }
+        
+    
+//        do {
+//            let result = try dataContext.fetch(fetchRequest)
+//            print(result.count)
+//            print(result)
+//            for object in result {
+//                print(object)
+//                dataContext.delete(object as! NSManagedObject)
+//            }
+//            try dataContext.save()
+//
+//        } catch {
+//
+//        }
+        
+        
+        
+    }
     
     
     func pullLastSessionVotesFromCoreData() {
