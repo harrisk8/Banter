@@ -16,18 +16,26 @@ class VotingModel {
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     var oldPostsFetchedFromCoreData: [VoteEntity]?
-
     
     let database = Firestore.firestore()
     
-    func sendVoteToDatabase(postPositionInArray: Int, voteType: voteType) {
+    
+    
+    //True if nearby, false if trending
+    func sendVoteToDatabase(postPositionInArray: Int, voteType: voteType, nearbyOrTrending: Bool) {
         
         print(" - - - VOTING MODEL FUNCTION - - - - ")
         print("This post is \(postPositionInArray) in array" )
-        print(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].message as Any)        
+        print(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].message as Any)
         
-        let databaseRef = database.collection("posts").document(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].documentID ?? "")
-
+        var databaseRef = database.collection("posts").document()
+        
+        if nearbyOrTrending == true {
+            databaseRef = database.collection("posts").document(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].documentID ?? "")
+        } else {
+            databaseRef = database.collection("posts").document(formattedTrendingPosts.formattedTrendingPostsArray[postPositionInArray].documentID ?? "")
+        }
+    
         database.runTransaction({ (transaction, errorPointer) -> Any? in
             let postDocument: DocumentSnapshot
             do {
@@ -76,9 +84,6 @@ class VotingModel {
                 transaction.updateData(["score": oldScore + 1], forDocument: databaseRef)
             }
             
-            
-            transaction.updateData(["score": oldScore + 1], forDocument: databaseRef)
-            
             return nil
             
         }) { (object, error) in
@@ -92,11 +97,21 @@ class VotingModel {
     }
     
     
-    func saveVoteToCoreData(postPositionInArray: Int, voteType: voteType) {
+    
+    func saveVoteToCoreData(postPositionInArray: Int, voteType: voteType, nearbyOrTrending: Bool) {
         
         let voteData = VoteEntity(context: dataContext)
         
-        let postDocumentID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].documentID ?? ""
+        var postDocumentID = ""
+        
+        if nearbyOrTrending == true {
+            
+            postDocumentID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postPositionInArray].documentID ?? ""
+        } else {
+            
+            postDocumentID = formattedTrendingPosts.formattedTrendingPostsArray[postPositionInArray].documentID ?? ""
+        }
+        
         
         var userLikedPost = false
         var userDislikedPost = false
@@ -161,25 +176,14 @@ class VotingModel {
 
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "VoteEntity")
         fetchRequest.predicate = NSPredicate(format: "documentID = %@", documentID)
-        fetchRequest.returnsObjectsAsFaults = false
         
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        
-        do {
-            
-            try dataContext.execute(deleteRequest)
-            
-        } catch let error as NSError {
-            print(error)
-        }
-        
-    
 //        do {
 //            let result = try dataContext.fetch(fetchRequest)
 //            print(result.count)
 //            print(result)
 //            for object in result {
 //                print(object)
+//                try dataContext.save()
 //                dataContext.delete(object as! NSManagedObject)
 //            }
 //            try dataContext.save()
@@ -187,6 +191,22 @@ class VotingModel {
 //        } catch {
 //
 //        }
+        
+        
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+                do {
+                    try dataContext.execute(deleteRequest)
+        
+                } catch let error as NSError {
+                    print(error)
+                }
+        
+                do {
+                    try dataContext.save()
+                } catch let error as NSError {
+                    print(error)
+                }
         
         
         

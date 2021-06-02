@@ -20,8 +20,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     func updateChangeNameButtonTitle() {
         print("NEARBY VC - Updating upper right label with current name")
         incognitoButton.title = UserDefaults.standard.string(forKey: "lastUserAppearanceName")
-        
-    
     }
     
     
@@ -52,6 +50,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     var newlyFetchedPosts: [NearbyCellData] = []
     var refreshFetchedPosts: [NearbyCellData] = []
         
+    let startup = StartupSequence()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,9 +60,10 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         
         configureUpperRightButton()
         
+        UserInfo.userAppearanceName = UserDefaults.standard.string(forKey: "lastUserAppearanceName")
+        
         AppearAsViewController.updateNearbyChangeNameButtonTitleDelegate = self
         
-    
         locationManager.delegate = self
         
         //Checks if user has location enabled.
@@ -232,6 +233,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                         }
                         
                         DispatchQueue.main.async {
+                            self.startup.crosscheckCoreDataVotesToNewlyFetchedPosts()
                             self.nearbyTableView.reloadData()
                         }
                         
@@ -381,6 +383,17 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         cell.messageLabel?.text = String(nearbyCellData.message!)
         cell.timestampLabel?.text = formatPostTime(postTimestamp: nearbyCellData.timestamp!)
         cell.postScoreLabel?.text = String(nearbyCellData.score ?? 0)
+        cell.likedPost = nearbyCellData.likedPost ?? false
+        cell.dislikedPost = nearbyCellData.dislikedPost ?? false
+        
+        if cell.likedPost == true && cell.dislikedPost == false {
+            cell.likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
+        } else if cell.likedPost == false && cell.dislikedPost == true {
+            cell.dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
+        }
+
+
+        
         
 
         if commentsCount > 1 {
@@ -454,7 +467,6 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         let contentYoffset = scrollView.contentOffset.y
         let distanceFromBottom = scrollView.contentSize.height - contentYoffset
         if distanceFromBottom < height {
-            print(" you reached end of the table")
         }
         
         if self.lastContentOffset < nearbyTableView.contentOffset.y {
@@ -588,7 +600,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                             score: postScore ?? 0,
                             timestamp: postTimestamp,
                             comments: postComments ?? nil,
-                            documentID: postID
+                            documentID: postID,
+                            likedPost: false,
+                            dislikedPost: false
                         )
                         
                         print(newPost)
@@ -642,6 +656,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         //Extract and format array index for cell that was interacted with
         let voteIndexPath = self.nearbyTableView.indexPath(for: cell)
         let voteIndexPathRow = (voteIndexPath?[1] ?? 0)
+        print(" - - - - User voted on cell: \(voteIndexPathRow) - - - - - - ")
+        print(" - - - - User voted on cell: \(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[voteIndexPathRow]) - - - - - - ")
+
         
         
         let assignVoteStatusToArray = caseType
@@ -700,9 +717,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         
         let vote = VotingModel()
         
-        //Calls upon VotingModel to execute vote to Firebase
-        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType)
-        vote.saveVoteToCoreData(postPositionInArray: voteIndexPathRow, voteType: caseType)
+        //Calls upon VotingModel to execute vote to Firebase. Nearby is true, trending is false
+        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType, nearbyOrTrending: true)
+        vote.saveVoteToCoreData(postPositionInArray: voteIndexPathRow, voteType: caseType, nearbyOrTrending: true)
     }
     
 }

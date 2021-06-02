@@ -6,9 +6,16 @@
 //  Copyright © 2020 Avidi Technologies. All rights reserved.
 //
 
+
+protocol trendingCellVotingDelegate: AnyObject {
+    
+    func userPressedTrendingVoteButton(_ cell: TrendingTableCell, _ caseType: voteType)
+}
+
 import UIKit
 
 class TrendingTableCell: UITableViewCell {
+
     
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
@@ -25,6 +32,8 @@ class TrendingTableCell: UITableViewCell {
     var dislikedFromLike = false
     var randomInt = 0
     
+    weak var trendingVoteDelegate: trendingCellVotingDelegate?
+    
     
     override func awakeFromNib() {
             super.awakeFromNib()
@@ -32,66 +41,74 @@ class TrendingTableCell: UITableViewCell {
             
         }
 
-        override func setSelected(_ selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
             super.setSelected(selected, animated: animated)
 
             // Configure the view for the selected state
         }
         
-        @IBAction func likeButtonPressed(_ sender: Any) {
+    @IBAction func likeButtonPressed(_ sender: Any) {
             
-            
-            if dislikedPost == true {
-                print("DISLIKE -> LIKE")
-                randomInt += 2
-                likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
+            if dislikedPost == true && likedPost == false {
+                
+    //            print("Removing Dislike Via Like Button")
+                randomInt += 1
                 dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
                 dislikedPost = false
+                trendingVoteDelegate?.userPressedTrendingVoteButton(self, .likeFromDislike)
+                
+            } else if likedPost == false && dislikedPost == false {
+                
+    //            print("LIKE")
+                randomInt += 1
+                likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
                 likedPost = true
+                trendingVoteDelegate?.userPressedTrendingVoteButton(self, .like)
+                
+            } else if likedPost == true {
+                
+    //            print("Removing Like")
+                randomInt -= 1
+                likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
+                likedPost = false
+                trendingVoteDelegate?.userPressedTrendingVoteButton(self, .removeLike)
 
             }
             
-            if likedPost == false {
-                print("LIKE")
-                randomInt += 1
-                likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
-                postScoreLabel?.text = String(randomInt)
-                likedPost = true
-            } else if likedPost == true {
-                print("Removing Like")
-                randomInt -= 1
-                likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
-                postScoreLabel?.text = String(randomInt)
-                likedPost = false
-            }
         }
         
         
         @IBAction func dislikeButtonPressed(_ sender: Any) {
             
-            if likedPost == true {
-                randomInt -= 2
-                dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
+            if likedPost == true && dislikedPost == false {
+                
+    //            print("Removing Like Via Dislike Button")
+                randomInt -= 1
                 likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
                 likedPost = false
-                dislikedPost = true
+                dislikedFromLike = true
+                trendingVoteDelegate?.userPressedTrendingVoteButton(self, .dislikeFromLike)
+
+            } else if dislikedPost == false && likedPost == false {
                 
-            }
-            
-            
-            if dislikedPost == false {
-                print("DISLIKE")
+    //            print("DISLIKE")
                 randomInt -= 1
                 dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
-                postScoreLabel?.text = String(randomInt)
                 dislikedPost = true
+                trendingVoteDelegate?.userPressedTrendingVoteButton(self, .dislike)
+
             } else if dislikedPost == true {
-                print("Removing Dislike")
+                
+    //            print("Removing Dislike")
                 randomInt += 1
                 dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
-                postScoreLabel?.text = String(randomInt)
                 dislikedPost = false
-                }
-        }
+                trendingVoteDelegate?.userPressedTrendingVoteButton(self, .removeDislike)
+
+            }
+            
+           
         
     }
+
+}

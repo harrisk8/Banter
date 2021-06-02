@@ -622,6 +622,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     //Slides comment editor view up over table view
     func textViewDidBeginEditing(_ textView: UITextView) {
         slideCommentEditorUp()
+        postMessage.text = ""
     }
     
     

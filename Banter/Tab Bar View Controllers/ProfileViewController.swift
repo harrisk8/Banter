@@ -26,6 +26,9 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
     
     @IBOutlet weak var editNicknameButton: UIButton!
     
+    @IBOutlet weak var firstNameLabel: UILabel!
+    
+    
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +37,12 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
-    
+        
+        firstNameLabel.text = UserDefaults.standard.value(forKey: "userFirstName") as? String
+        
+        nicknameTextfield.attributedPlaceholder = NSAttributedString(string:"Tap Edit", attributes: [NSAttributedString.Key.foregroundColor:UIColor.init(red: 168.0/255.0, green: 168.0/255.0, blue: 168.0/255.0, alpha: 1),NSAttributedString.Key.backgroundColor:UIColor.clear])
+        
+        
     }
     
     @IBAction func changeAppearanceNameButtonPressed(_ sender: Any) {
@@ -58,7 +66,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
     @objc func DismissKeyboard(){
 
         if validateNickname() == true {
-            editNicknameButton.setImage(UIImage(named: "Edit Nickname Button"), for: .normal)
+            editNicknameButton.setImage(UIImage(named: "edit nickname button"), for: .normal)
             nicknameErrorLabel.alpha = 0
             view.endEditing(true)
         } else {
@@ -70,6 +78,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
  
     //Handles functionality for the nickname edit button
     @IBAction func editPressed(_ sender: Any) {
+        
         //User is done editing nickname, validate then resign
         if nicknameTextfield.isFirstResponder == true {
             
@@ -77,7 +86,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
                 
                 nicknameTextfield.resignFirstResponder()
                 nicknameErrorLabel.alpha = 0
-                editNicknameButton.setImage(UIImage(named: "Edit Nickname Button"), for: .normal)
+                editNicknameButton.setImage(UIImage(named: "edit nickname button"), for: .normal)
                 UserDefaults.standard.set(false, forKey: "nicknameBlank")
 
                 
@@ -157,7 +166,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupTransparentNavigationBarWithWhiteText()
+        setupTransparentNavigationBar()
     }
     
 

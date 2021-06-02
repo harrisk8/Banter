@@ -8,10 +8,17 @@
 
 import UIKit
 import Firebase
+import FirebaseFirestore
+import FirebaseAuth
+import CoreData
+import CoreLocation
 
-class TrendingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-
+class TrendingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, trendingCellVotingDelegate {
+    
+    
+    
+    
+    
     @IBOutlet weak var trendingTableView: UITableView!
     
     
@@ -27,9 +34,15 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
     
     var lowestScoreInTable: Int32?
     
+    let startup = StartupSequence()
+    
+    
+
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
+
         
         overrideUserInterfaceStyle = .light
         
@@ -94,7 +107,9 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
                             comments: postComments,
                             documentID: postID,
                             postLocationCity: postLocationCity,
-                            postLocationState: postLocationState
+                            postLocationState: postLocationState,
+                            likedPost: false,
+                            dislikedPost: false
                         )
                         
                         print(newPost)
@@ -185,6 +200,7 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
 
                 
                 DispatchQueue.main.async {
+                    self.startup.crosscheckCoreDataVotesToNewlyFetchedTrendingPosts()
                     self.trendingTableView.reloadData()
                 }
 
@@ -225,11 +241,23 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
     
         let cell = tableView.dequeueReusableCell(withIdentifier: "TrendingTableCell", for: indexPath) as! TrendingTableCell
         
+        cell.trendingVoteDelegate = self
+        
         cell.authorLabel?.text = String(trendingCellData.author!) + " | " + (UserInfo.userCity ?? "") + ", " + (UserInfo.userState ?? "")
         cell.messageLabel?.text = String(trendingCellData.message!)
         cell.timestampLabel?.text = formatPostTime(postTimestamp: trendingCellData.timestamp!)
         cell.postScoreLabel?.text = String(trendingCellData.score!)
-    
+        
+        cell.likedPost = trendingCellData.likedPost ?? false
+        cell.dislikedPost = trendingCellData.dislikedPost ?? false
+        
+        if cell.likedPost == true && cell.dislikedPost == false {
+            cell.likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
+        } else if cell.likedPost == false && cell.dislikedPost == true {
+            cell.dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
+        }
+        
+        
         if commentsCount > 1 {
             cell.commentLabel?.text = String(commentsCount) + " comments"
         } else if commentsCount == 1 {
@@ -266,5 +294,81 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
         performSegue(withIdentifier: "trendingToNewPost", sender: self)
     }
     
+    
+    func userPressedTrendingVoteButton(_ cell: TrendingTableCell, _ caseType: voteType) {
+        print("USER VOTED TRENDING")
+        print(cell)
+        print(caseType)
+        
+        //Extract and format array index for cell that was interacted with
+        let voteIndexPath = self.trendingTableView.indexPath(for: cell)
+        let voteIndexPathRow = (voteIndexPath?[1] ?? 0)
+        print(" - - - - User voted on cell: \(voteIndexPathRow) - - - - - - ")
+        print(" - - - - User voted on cell: \(formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow]) - - - - - - ")
+
+        
+        
+        let assignVoteStatusToArray = caseType
+        
+        switch assignVoteStatusToArray {
+            
+        case .like:
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].likedPost = true
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].dislikedPost = false
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].score! += 1
+            print("POST LIKED")
+            DispatchQueue.main.async {
+                self.trendingTableView.reloadData()
+            }
+        case .dislike:
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].dislikedPost = true
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].likedPost = false
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].score! -= 1
+            print("POST DISLIKED")
+            DispatchQueue.main.async {
+                self.trendingTableView.reloadData()
+            }
+        case .removeLike:
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].dislikedPost = false
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].likedPost = false
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].score! -= 1
+            print("POST UNLIKED")
+            DispatchQueue.main.async {
+                self.trendingTableView.reloadData()
+            }
+        case .removeDislike:
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].dislikedPost = false
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].likedPost = false
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].score! += 1
+            print("POST UNDISLIKED")
+            DispatchQueue.main.async {
+                self.trendingTableView.reloadData()
+            }
+        case .dislikeFromLike:
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].dislikedPost = false
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].likedPost = false
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].score! -= 1
+            print("POST DISLIKED FROM LIKED")
+            DispatchQueue.main.async {
+                self.trendingTableView.reloadData()
+            }
+        case .likeFromDislike:
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].dislikedPost = false
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].likedPost = false
+            formattedTrendingPosts.formattedTrendingPostsArray[voteIndexPathRow].score! += 1
+            print("POST LIKED FROM DISLIKED")
+            DispatchQueue.main.async {
+                self.trendingTableView.reloadData()
+            }
+        }
+        
+        let vote = VotingModel()
+        
+        //Calls upon VotingModel to execute vote to Firebase. True if Nearby, False if Trending.
+        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType, nearbyOrTrending: false)
+        vote.saveVoteToCoreData(postPositionInArray: voteIndexPathRow, voteType: caseType, nearbyOrTrending: false)
+        
+        
+        }
 
 }

@@ -2,7 +2,7 @@
 //  VoteEntity+CoreDataClass.swift
 //  Banter
 //
-//  Created by Harris Kapoor on 5/20/21.
+//  Created by Harris Kapoor on 5/31/21.
 //  Copyright © 2021 Avidi Industries Inc. All rights reserved.
 //
 //

@@ -19,7 +19,7 @@ class StartupSequence {
     
     func pullVotesFromCoreData() {
         
-        print("trying to get votes from core data")
+        print(" - - - - - - - trying to get votes from core data - - - - - - -")
         
         do {
             self.votesPulledFromCoreData = try dataContext.fetch(VoteEntity.fetchRequest())
@@ -27,9 +27,7 @@ class StartupSequence {
         catch {
             
         }
-        
-        print(votesPulledFromCoreData)
-        
+                
         if votesPulledFromCoreData.count == 1 {
             
             let votePulledFromCoreDataFormatted = voteFromCoreData(
@@ -99,6 +97,12 @@ class StartupSequence {
                         newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[y].likedPost = votesFromCoreData.votesFromCoreDataArray[x].likedPost
                         newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[y].dislikedPost = votesFromCoreData.votesFromCoreDataArray[x].dislikedPost
                         
+                        print("MATCH for \(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[y])")
+                        print(votesFromCoreData.votesFromCoreDataArray[x])
+
+
+                    } else {
+                        print("No match for \(votesFromCoreData.votesFromCoreDataArray[x])")
                     }
                     
                 }
@@ -111,6 +115,85 @@ class StartupSequence {
                 
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].likedPost = votesFromCoreData.votesFromCoreDataArray[0].likedPost
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].dislikedPost = votesFromCoreData.votesFromCoreDataArray[0].dislikedPost
+                
+            }
+            
+        } else if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count > 1  && votesFromCoreData.votesFromCoreDataArray.count == 1 {
+            
+            for x in 0...(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count - 1) {
+                
+                if votesFromCoreData.votesFromCoreDataArray[0].documentID == newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].documentID {
+                    
+                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].likedPost = votesFromCoreData.votesFromCoreDataArray[0].likedPost
+                    newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[x].dislikedPost = votesFromCoreData.votesFromCoreDataArray[0].dislikedPost
+                    
+                }
+                
+                
+            }
+            
+        }
+        
+    }
+    
+    func crosscheckCoreDataVotesToNewlyFetchedTrendingPosts() {
+        
+        if formattedTrendingPosts.formattedTrendingPostsArray.count == 1  && votesFromCoreData.votesFromCoreDataArray.count > 1 {
+            
+            for x in 0...(votesFromCoreData.votesFromCoreDataArray.count - 1) {
+                
+                if votesFromCoreData.votesFromCoreDataArray[x].documentID == formattedTrendingPosts.formattedTrendingPostsArray[0].documentID {
+                    
+                    formattedTrendingPosts.formattedTrendingPostsArray[0].likedPost = votesFromCoreData.votesFromCoreDataArray[x].likedPost
+                    formattedTrendingPosts.formattedTrendingPostsArray[0].dislikedPost = votesFromCoreData.votesFromCoreDataArray[x].dislikedPost
+                    
+                }
+                
+            }
+            
+        } else if formattedTrendingPosts.formattedTrendingPostsArray.count > 1  && votesFromCoreData.votesFromCoreDataArray.count > 1 {
+            
+            for x in 0...(votesFromCoreData.votesFromCoreDataArray.count - 1) {
+                
+                for y in 0...(formattedTrendingPosts.formattedTrendingPostsArray.count - 1) {
+                    
+                    if votesFromCoreData.votesFromCoreDataArray[x].documentID == formattedTrendingPosts.formattedTrendingPostsArray[y].documentID {
+                        
+                        formattedTrendingPosts.formattedTrendingPostsArray[y].likedPost = votesFromCoreData.votesFromCoreDataArray[x].likedPost
+                        formattedTrendingPosts.formattedTrendingPostsArray[y].dislikedPost = votesFromCoreData.votesFromCoreDataArray[x].dislikedPost
+                        
+                        print("MATCH for \(formattedTrendingPosts.formattedTrendingPostsArray[y])")
+                        print(votesFromCoreData.votesFromCoreDataArray[x])
+
+
+                    } else {
+                        print("No match for \(votesFromCoreData.votesFromCoreDataArray[x])")
+                    }
+                    
+                }
+                
+            }
+            
+        } else if formattedTrendingPosts.formattedTrendingPostsArray.count == 1  && votesFromCoreData.votesFromCoreDataArray.count == 1 {
+            
+            if votesFromCoreData.votesFromCoreDataArray[0].documentID == formattedTrendingPosts.formattedTrendingPostsArray[0].documentID {
+                
+                formattedTrendingPosts.formattedTrendingPostsArray[0].likedPost = votesFromCoreData.votesFromCoreDataArray[0].likedPost
+                formattedTrendingPosts.formattedTrendingPostsArray[0].dislikedPost = votesFromCoreData.votesFromCoreDataArray[0].dislikedPost
+                
+            }
+            
+        } else if formattedTrendingPosts.formattedTrendingPostsArray.count > 1  && votesFromCoreData.votesFromCoreDataArray.count == 1 {
+            
+            for x in 0...(formattedTrendingPosts.formattedTrendingPostsArray.count - 1) {
+                
+                if votesFromCoreData.votesFromCoreDataArray[0].documentID == formattedTrendingPosts.formattedTrendingPostsArray[x].documentID {
+                    
+                    formattedTrendingPosts.formattedTrendingPostsArray[x].likedPost = votesFromCoreData.votesFromCoreDataArray[0].likedPost
+                    formattedTrendingPosts.formattedTrendingPostsArray[x].dislikedPost = votesFromCoreData.votesFromCoreDataArray[0].dislikedPost
+                    
+                }
+                
                 
             }
             

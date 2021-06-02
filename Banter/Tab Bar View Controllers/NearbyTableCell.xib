@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,14 +25,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NearbyTableCell" rowHeight="134" id="pXz-tJ-ADf" userLabel="Nearby Table Cell" customClass="NearbyTableCell" customModule="Banter" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="370" height="135"/>
+            <rect key="frame" x="0.0" y="0.0" width="370" height="150"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pXz-tJ-ADf" id="x2w-k6-Hec">
-                <rect key="frame" x="0.0" y="0.0" width="370" height="135"/>
+                <rect key="frame" x="0.0" y="0.0" width="370" height="150"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test Message" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GLf-qB-ol2">
-                        <rect key="frame" x="20" y="41" width="101" height="45"/>
+                        <rect key="frame" x="30" y="41" width="101" height="45"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="AxH-W8-Ody"/>
                         </constraints>
@@ -63,7 +63,7 @@
                         </constraints>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="zg2-iN-y4h">
-                        <rect key="frame" x="17" y="116" width="47" height="14.5"/>
+                        <rect key="frame" x="17" y="131" width="47" height="14.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12m ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRU-xJ-Uos">
                                 <rect key="frame" x="0.0" y="0.0" width="47" height="14.5"/>
@@ -74,23 +74,23 @@
                         </subviews>
                     </stackView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="-7" translatesAutoresizingMaskIntoConstraints="NO" id="Nem-yN-wkc">
-                        <rect key="frame" x="146" y="14.5" width="374" height="106"/>
+                        <rect key="frame" x="156" y="22" width="326.5" height="106"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJh-dR-Rwx">
-                                <rect key="frame" x="153.5" y="0.0" width="67" height="40"/>
+                                <rect key="frame" x="129.5" y="0.0" width="67" height="40"/>
                                 <state key="normal" image="Like Button Regular"/>
                                 <connections>
                                     <action selector="likeButtonPressed:" destination="pXz-tJ-ADf" eventType="touchUpInside" id="ysB-e2-X2M"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJO-cC-3l8">
-                                <rect key="frame" x="176" y="33" width="22" height="40"/>
+                                <rect key="frame" x="152" y="33" width="22" height="40"/>
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="19"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r89-ZG-ika">
-                                <rect key="frame" x="153.5" y="66" width="67" height="40"/>
+                                <rect key="frame" x="129.5" y="66" width="67" height="40"/>
                                 <state key="normal" image="Dislike Button Regular"/>
                                 <connections>
                                     <action selector="dislikeButtonPressed:" destination="pXz-tJ-ADf" eventType="touchUpInside" id="XdB-0t-AwV"/>
@@ -99,7 +99,7 @@
                         </subviews>
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FNV-S6-TQg">
-                        <rect key="frame" x="194" y="112.5" width="84" height="18"/>
+                        <rect key="frame" x="194" y="127.5" width="84" height="18"/>
                         <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="15"/>
                         <color key="textColor" red="0.36078431370000003" green="0.18823529410000001" blue="0.94509803920000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <nil key="highlightedColor"/>
@@ -112,8 +112,8 @@
                     <constraint firstItem="GLf-qB-ol2" firstAttribute="top" secondItem="Nwx-Ab-NO0" secondAttribute="bottom" constant="11.5" id="Gij-HK-PTy"/>
                     <constraint firstAttribute="bottom" secondItem="FNV-S6-TQg" secondAttribute="bottom" constant="4.5" id="OT1-Mf-27Y"/>
                     <constraint firstItem="FNV-S6-TQg" firstAttribute="top" relation="greaterThanOrEqual" secondItem="GLf-qB-ol2" secondAttribute="bottom" constant="26.5" id="SXz-B8-Yax"/>
-                    <constraint firstItem="Nem-yN-wkc" firstAttribute="centerX" secondItem="x2w-k6-Hec" secondAttribute="centerX" multiplier="1.8" id="X45-tt-Jjk"/>
-                    <constraint firstItem="GLf-qB-ol2" firstAttribute="leading" secondItem="x2w-k6-Hec" secondAttribute="leading" constant="20" id="aff-nq-3h0"/>
+                    <constraint firstItem="Nem-yN-wkc" firstAttribute="centerX" secondItem="x2w-k6-Hec" secondAttribute="centerX" multiplier="1.725" id="X45-tt-Jjk"/>
+                    <constraint firstItem="GLf-qB-ol2" firstAttribute="leading" secondItem="x2w-k6-Hec" secondAttribute="leading" constant="30" id="aff-nq-3h0"/>
                     <constraint firstItem="Nwx-Ab-NO0" firstAttribute="height" secondItem="x2w-k6-Hec" secondAttribute="width" multiplier="0.08" id="ceY-Rw-cUg"/>
                     <constraint firstItem="Nem-yN-wkc" firstAttribute="leading" secondItem="GLf-qB-ol2" secondAttribute="trailing" constant="25" id="gaO-zx-PaV"/>
                     <constraint firstItem="FNV-S6-TQg" firstAttribute="centerX" secondItem="x2w-k6-Hec" secondAttribute="centerX" multiplier="1.275" id="jFG-2T-5Ul"/>

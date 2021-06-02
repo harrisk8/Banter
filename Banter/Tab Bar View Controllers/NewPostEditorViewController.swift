@@ -44,6 +44,9 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     let randomInt: Int32 = Int32(Int.random(in: 1...100))
     
     var timestampForFetchingPostsBeforeUsersPost: Double?
+    
+    //Configures state to avoid creating two new posts if user presses post button in rapid succession.
+    var processingNewPost = false
 
         
     override func viewDidLoad() {
@@ -82,7 +85,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     //Post button functionality - validates message, assigns timestamp, writes, and dismisses VC.
     @IBAction func postMessagePressed(_ sender: Any) {
-        if validateMessage() {
+        if validateMessage() && processingNewPost == false {
+            processingNewPost = true
             timestampOfPostCreated = Date().timeIntervalSince1970
             fetchPostsBeforeUsersPost()
         }
@@ -206,6 +210,9 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     }
     
     func organizeNearbyArray() {
+        
+        
+        processingNewPost = false
         
         //Sort by timestamp
         newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.sort{ (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in

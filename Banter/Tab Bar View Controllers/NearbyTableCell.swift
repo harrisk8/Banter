@@ -7,7 +7,7 @@
 //
 
 
-protocol cellVotingDelegate: class {
+protocol cellVotingDelegate: AnyObject {
     
     func userPressedVoteButton(_ cell: NearbyTableCell, _ caseType: voteType)
 }
@@ -16,10 +16,6 @@ protocol cellVotingDelegate: class {
 import UIKit
 
 class NearbyTableCell: UITableViewCell {
-    
-
-
-    
     
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
@@ -36,6 +32,7 @@ class NearbyTableCell: UITableViewCell {
     var dislikedFromLike = false
     var randomInt = 0
     
+    weak var delegate: cellVotingDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -49,8 +46,7 @@ class NearbyTableCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    weak var delegate: cellVotingDelegate?
-        
+
     @IBAction func likeButtonPressed(_ sender: Any) {
         
         

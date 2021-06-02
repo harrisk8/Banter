@@ -33,8 +33,8 @@
     </entity>
     <elements>
         <element name="NearbyPostsEntity" positionX="-54" positionY="0" width="128" height="163"/>
-        <element name="NotificationEntity" positionX="-45" positionY="90" width="128" height="118"/>
-        <element name="UserCreatedPostsEntity" positionX="-36" positionY="81" width="128" height="148"/>
-        <element name="VoteEntity" positionX="-45" positionY="99" width="128" height="74"/>
+        <element name="NotificationEntity" positionX="117.9469604492188" positionY="165.688720703125" width="128" height="118"/>
+        <element name="UserCreatedPostsEntity" positionX="155.02685546875" positionY="469.5771179199219" width="128" height="148"/>
+        <element name="VoteEntity" positionX="-173.5976257324219" positionY="211.0601196289062" width="128" height="88"/>
     </elements>
 </model>

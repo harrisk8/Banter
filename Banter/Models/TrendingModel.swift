@@ -18,8 +18,11 @@ public struct TrendingCellData {
     var documentID: String?
     var postLocationCity: String?
     var postLocationState: String?
+    var likedPost: Bool?
+    var dislikedPost: Bool?
     
 }
+
 
 struct formattedTrendingPosts {
     

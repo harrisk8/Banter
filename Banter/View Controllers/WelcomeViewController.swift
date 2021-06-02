@@ -146,7 +146,12 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
                 }
                 
                 
-            } else if isValidEmail(userEmail: emailTextField.text!) == true && isValidEDUEmail() == true {
+            } else if isValidCompanyEmail() == true && isValidEmail(userEmail: emailTextField.text!) == true {
+                
+                sendLinkToEmail(validUserEmail: emailTextField.text!)
+                self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
+                
+            } else if isValidEmail(userEmail: emailTextField.text!) == true && isValidEDUEmail() == true  {
                 
                 sendLinkToEmail(validUserEmail: emailTextField.text!)
                 self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)

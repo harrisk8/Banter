@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,14 +25,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TrendingTableCell" rowHeight="134" id="dtW-jK-C5A" userLabel="Trending Table Cell" customClass="TrendingTableCell" customModule="Banter" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="370" height="135"/>
+            <rect key="frame" x="0.0" y="0.0" width="370" height="150"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dtW-jK-C5A" id="h29-9b-Dys">
-                <rect key="frame" x="0.0" y="0.0" width="370" height="135"/>
+                <rect key="frame" x="0.0" y="0.0" width="370" height="150"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test Message" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Vw-7E-G8u">
-                        <rect key="frame" x="20" y="41" width="101" height="45"/>
+                        <rect key="frame" x="30" y="41" width="101" height="45"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="SNw-eL-rsy"/>
                         </constraints>
@@ -41,23 +41,23 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="-7" translatesAutoresizingMaskIntoConstraints="NO" id="jsE-ZN-L1g">
-                        <rect key="frame" x="146" y="14.5" width="374" height="106"/>
+                        <rect key="frame" x="156" y="22" width="326.5" height="106"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ye1-Ej-0cT">
-                                <rect key="frame" x="153.5" y="0.0" width="67" height="40"/>
+                                <rect key="frame" x="129.5" y="0.0" width="67" height="40"/>
                                 <state key="normal" image="Like Button Regular"/>
                                 <connections>
                                     <action selector="likeButtonPressed:" destination="dtW-jK-C5A" eventType="touchUpInside" id="lod-5k-Ntk"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vTt-Q7-XIT">
-                                <rect key="frame" x="176" y="33" width="22" height="40"/>
+                                <rect key="frame" x="152" y="33" width="22" height="40"/>
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="19"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uNw-V9-bXf">
-                                <rect key="frame" x="153.5" y="66" width="67" height="40"/>
+                                <rect key="frame" x="129.5" y="66" width="67" height="40"/>
                                 <state key="normal" image="Dislike Button Regular"/>
                                 <connections>
                                     <action selector="dislikeButtonPressed:" destination="dtW-jK-C5A" eventType="touchUpInside" id="H8K-Tg-dsr"/>
@@ -88,7 +88,7 @@
                         </constraints>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="GRz-M0-LzC">
-                        <rect key="frame" x="17" y="116" width="47" height="14.5"/>
+                        <rect key="frame" x="17" y="131" width="47" height="14.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12m ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ilR-ke-eJJ">
                                 <rect key="frame" x="0.0" y="0.0" width="47" height="14.5"/>
@@ -99,7 +99,7 @@
                         </subviews>
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzh-8a-xOE">
-                        <rect key="frame" x="194" y="112.5" width="84" height="18"/>
+                        <rect key="frame" x="194" y="127.5" width="84" height="18"/>
                         <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="15"/>
                         <color key="textColor" red="0.36078431370000003" green="0.18823529410000001" blue="0.94509803920000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <nil key="highlightedColor"/>
@@ -110,10 +110,10 @@
                     <constraint firstItem="mny-6b-dtT" firstAttribute="top" secondItem="h29-9b-Dys" secondAttribute="top" id="8V3-ha-KL0"/>
                     <constraint firstItem="jsE-ZN-L1g" firstAttribute="centerY" secondItem="h29-9b-Dys" secondAttribute="centerY" id="Diq-Qp-26b"/>
                     <constraint firstItem="4Vw-7E-G8u" firstAttribute="top" secondItem="mny-6b-dtT" secondAttribute="bottom" constant="11.5" id="FFK-Ru-gX9"/>
-                    <constraint firstItem="jsE-ZN-L1g" firstAttribute="centerX" secondItem="h29-9b-Dys" secondAttribute="centerX" multiplier="1.8" id="IVn-Y1-Ol9"/>
+                    <constraint firstItem="jsE-ZN-L1g" firstAttribute="centerX" secondItem="h29-9b-Dys" secondAttribute="centerX" multiplier="1.725" id="IVn-Y1-Ol9"/>
                     <constraint firstAttribute="trailing" secondItem="mny-6b-dtT" secondAttribute="trailing" id="Kft-dx-gjD"/>
                     <constraint firstItem="GRz-M0-LzC" firstAttribute="top" relation="greaterThanOrEqual" secondItem="4Vw-7E-G8u" secondAttribute="bottom" constant="26.5" id="KnN-BM-jQt"/>
-                    <constraint firstItem="4Vw-7E-G8u" firstAttribute="leading" secondItem="h29-9b-Dys" secondAttribute="leading" constant="20" id="OiG-Cy-oHT"/>
+                    <constraint firstItem="4Vw-7E-G8u" firstAttribute="leading" secondItem="h29-9b-Dys" secondAttribute="leading" constant="30" id="OiG-Cy-oHT"/>
                     <constraint firstItem="GRz-M0-LzC" firstAttribute="leading" secondItem="h29-9b-Dys" secondAttribute="leading" constant="17" id="R5X-MT-Fpo"/>
                     <constraint firstAttribute="bottom" secondItem="GRz-M0-LzC" secondAttribute="bottom" constant="4.5" id="apk-Z5-Ceu"/>
                     <constraint firstItem="mny-6b-dtT" firstAttribute="leading" secondItem="h29-9b-Dys" secondAttribute="leading" id="bH6-u9-mD4"/>
