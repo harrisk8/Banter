@@ -118,6 +118,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     
     //Writes user to database
     func createNewUser() {
+                
         
         print("Trying to create user")
         
