@@ -74,24 +74,24 @@
                         </subviews>
                     </stackView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="-7" translatesAutoresizingMaskIntoConstraints="NO" id="Nem-yN-wkc">
-                        <rect key="frame" x="156" y="22" width="326.5" height="106"/>
+                        <rect key="frame" x="146" y="22" width="346.5" height="106"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJh-dR-Rwx">
-                                <rect key="frame" x="129.5" y="0.0" width="67" height="40"/>
-                                <state key="normal" image="Like Button Regular"/>
+                                <rect key="frame" x="139.5" y="0.0" width="67" height="40"/>
+                                <state key="normal" image="Like Button Selected"/>
                                 <connections>
                                     <action selector="likeButtonPressed:" destination="pXz-tJ-ADf" eventType="touchUpInside" id="ysB-e2-X2M"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJO-cC-3l8">
-                                <rect key="frame" x="152" y="33" width="22" height="40"/>
+                                <rect key="frame" x="162" y="33" width="22" height="40"/>
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="19"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r89-ZG-ika">
-                                <rect key="frame" x="129.5" y="66" width="67" height="40"/>
-                                <state key="normal" image="Dislike Button Regular"/>
+                                <rect key="frame" x="139.5" y="66" width="67" height="40"/>
+                                <state key="normal" image="Dislike Button Selected"/>
                                 <connections>
                                     <action selector="dislikeButtonPressed:" destination="pXz-tJ-ADf" eventType="touchUpInside" id="XdB-0t-AwV"/>
                                 </connections>
@@ -115,7 +115,7 @@
                     <constraint firstItem="Nem-yN-wkc" firstAttribute="centerX" secondItem="x2w-k6-Hec" secondAttribute="centerX" multiplier="1.725" id="X45-tt-Jjk"/>
                     <constraint firstItem="GLf-qB-ol2" firstAttribute="leading" secondItem="x2w-k6-Hec" secondAttribute="leading" constant="30" id="aff-nq-3h0"/>
                     <constraint firstItem="Nwx-Ab-NO0" firstAttribute="height" secondItem="x2w-k6-Hec" secondAttribute="width" multiplier="0.08" id="ceY-Rw-cUg"/>
-                    <constraint firstItem="Nem-yN-wkc" firstAttribute="leading" secondItem="GLf-qB-ol2" secondAttribute="trailing" constant="25" id="gaO-zx-PaV"/>
+                    <constraint firstItem="Nem-yN-wkc" firstAttribute="leading" secondItem="GLf-qB-ol2" secondAttribute="trailing" constant="15" id="gaO-zx-PaV"/>
                     <constraint firstItem="FNV-S6-TQg" firstAttribute="centerX" secondItem="x2w-k6-Hec" secondAttribute="centerX" multiplier="1.275" id="jFG-2T-5Ul"/>
                     <constraint firstItem="zg2-iN-y4h" firstAttribute="leading" secondItem="x2w-k6-Hec" secondAttribute="leading" constant="17" id="nRN-On-eCc"/>
                     <constraint firstAttribute="trailing" secondItem="Nwx-Ab-NO0" secondAttribute="trailing" id="pOs-uS-Xr8"/>
@@ -135,12 +135,12 @@
                 <outlet property="postScoreLabel" destination="sJO-cC-3l8" id="HUi-aK-SdE"/>
                 <outlet property="timestampLabel" destination="SRU-xJ-Uos" id="EXT-T1-p2h"/>
             </connections>
-            <point key="canvasLocation" x="80" y="123"/>
+            <point key="canvasLocation" x="79.710144927536234" y="122.54464285714285"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="Author Icon" width="21" height="21"/>
-        <image name="Dislike Button Regular" width="67" height="40"/>
-        <image name="Like Button Regular" width="67" height="40"/>
+        <image name="Dislike Button Selected" width="67" height="40"/>
+        <image name="Like Button Selected" width="67" height="40"/>
     </resources>
 </document>

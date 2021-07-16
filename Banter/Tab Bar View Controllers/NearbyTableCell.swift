@@ -51,27 +51,37 @@ class NearbyTableCell: UITableViewCell {
         
         
         if dislikedPost == true && likedPost == false {
+            //Remove dislike
             
 //            print("Removing Dislike Via Like Button")
             randomInt += 1
-            dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
+//            dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
+//            likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
+
             dislikedPost = false
+            likedPost = false
             delegate?.userPressedVoteButton(self, .likeFromDislike)
             
         } else if likedPost == false && dislikedPost == false {
+            //Add like
             
 //            print("LIKE")
             randomInt += 1
-            likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
+//            likeButton.setImage(UIImage(named: "Like Button Orange"), for: .normal)
+//            dislikeButton.setImage(UIImage(named: "Dislike Button Greyed Out"), for: .normal)
             likedPost = true
+            dislikedPost = false
             delegate?.userPressedVoteButton(self, .like)
             
-        } else if likedPost == true {
+        } else if likedPost == true && dislikedPost == false {
+            //Remove like
             
 //            print("Removing Like")
             randomInt -= 1
-            likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
+//            likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
+//            dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
             likedPost = false
+            dislikedPost = false
             delegate?.userPressedVoteButton(self, .removeLike)
 
         }
@@ -82,27 +92,35 @@ class NearbyTableCell: UITableViewCell {
     @IBAction func dislikeButtonPressed(_ sender: Any) {
         
         if likedPost == true && dislikedPost == false {
+            //Remove like
             
 //            print("Removing Like Via Dislike Button")
             randomInt -= 1
-            likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
+//            likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
+//            dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
             likedPost = false
-            dislikedFromLike = true
+            dislikedPost = false
             delegate?.userPressedVoteButton(self, .dislikeFromLike)
 
         } else if dislikedPost == false && likedPost == false {
+            //Add dislike
             
 //            print("DISLIKE")
             randomInt -= 1
-            dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
+//            dislikeButton.setImage(UIImage(named: "Dislike Button Light Purple"), for: .normal)
+//            likeButton.setImage(UIImage(named: "Like Button Greyed Out"), for: .normal)
+            likedPost = false
             dislikedPost = true
             delegate?.userPressedVoteButton(self, .dislike)
 
         } else if dislikedPost == true {
+            //Remove dislike
             
 //            print("Removing Dislike")
             randomInt += 1
-            dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
+//            dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
+//            likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
+            likedPost = false
             dislikedPost = false
             delegate?.userPressedVoteButton(self, .removeDislike)
 

@@ -122,9 +122,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
     //Validates and executes transition to next VC AND sends email link
     @IBAction func nextButtonPressed(_ sender: Any) {
         
-        
         if emailTextField.text != "" {
-            
             
             if emailTextField.text == "test@officialbanterapp.com" {
                 
@@ -145,19 +143,17 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
                     self.performSegue(withIdentifier: "anonymousAuthToNearby", sender: self)
                 }
                 
-                
-            } else if isValidCompanyEmail() == true && isValidEmail(userEmail: emailTextField.text!) == true {
+            } else if isValidEmail(userEmail: emailTextField.text!) == true && isValidEDUEmail() == true {
                 
                 sendLinkToEmail(validUserEmail: emailTextField.text!)
                 self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
                 
-            } else if isValidEmail(userEmail: emailTextField.text!) == true && isValidEDUEmail() == true  {
+            } else if isValidEmail(userEmail: emailTextField.text!) == true && isValidCompanyEmail() == true  {
                 
                 sendLinkToEmail(validUserEmail: emailTextField.text!)
                 self.performSegue(withIdentifier: "welcomeScreenToAuthCodeScreen", sender: self)
                 
             }
-        
         
         }
         
@@ -279,6 +275,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
             self.slideScreenUp()
         }
         phoneNumberButton.isUserInteractionEnabled = false
+        userSwipedUp = true
     }
     
     //Slides screen down if user pressed back button
@@ -291,6 +288,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate, CLLocationMa
  
         phoneNumberButton.isUserInteractionEnabled = true
         enterValidNumberPlease.alpha = 0
+        userSwipedUp = false
     }
     
 

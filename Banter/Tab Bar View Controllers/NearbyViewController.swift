@@ -379,6 +379,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         
         cell.delegate = self
         
+        //Configures data for cell
         cell.authorLabel?.text = String(nearbyCellData.author ?? "")
         cell.messageLabel?.text = String(nearbyCellData.message!)
         cell.timestampLabel?.text = formatPostTime(postTimestamp: nearbyCellData.timestamp!)
@@ -386,10 +387,18 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         cell.likedPost = nearbyCellData.likedPost ?? false
         cell.dislikedPost = nearbyCellData.dislikedPost ?? false
         
+        
+        //Configures logic for like/dislike button color depending on state
         if cell.likedPost == true && cell.dislikedPost == false {
-            cell.likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
+            cell.likeButton.setImage(UIImage(named: "Like Button Orange"), for: .normal)
+            cell.dislikeButton.setImage(UIImage(named: "Dislike Button Greyed Out"), for: .normal)
+
         } else if cell.likedPost == false && cell.dislikedPost == true {
-            cell.dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
+            cell.dislikeButton.setImage(UIImage(named: "Dislike Button Light Purple"), for: .normal)
+            cell.likeButton.setImage(UIImage(named: "Like Button Greyed Out"), for: .normal)
+        } else {
+            cell.dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
+            cell.likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
         }
 
 

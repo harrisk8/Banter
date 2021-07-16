@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Post Message Button.png",
+      "filename" : "Like Button Orange.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Post Message Button@2x.png",
+      "filename" : "Like Button Orange@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Post Message Button@3x.png",
+      "filename" : "Like Button Orange@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

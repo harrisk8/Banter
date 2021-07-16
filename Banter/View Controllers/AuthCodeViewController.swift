@@ -17,7 +17,7 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
     
     func successfulAuth() {
         
-        print("WE GOT THE AUTH")
+        print("Auth delegate triggered")
         DispatchQueue.main.async {
             self.successfulVerificationLabel.alpha = 1.0
             self.performSegue(withIdentifier: "authCodeScreenToFinishSignUpScreen", sender: self)
@@ -88,7 +88,7 @@ class AuthCodeViewController: UIViewController, UITextFieldDelegate, userAuthent
     func getUserDocID() {
         
         
-        print("trying to get doc)")
+        print("trying to get docID for user's profile")
         
         database.collection("users").whereField("userID", isEqualTo: UserInfo.userID ?? "").getDocuments() { (querySnapshot, err) in
             

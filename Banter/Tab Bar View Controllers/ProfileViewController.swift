@@ -40,8 +40,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, updatePostin
         
         firstNameLabel.text = UserDefaults.standard.value(forKey: "userFirstName") as? String
         
-        nicknameTextfield.attributedPlaceholder = NSAttributedString(string:"Tap Edit", attributes: [NSAttributedString.Key.foregroundColor:UIColor.init(red: 168.0/255.0, green: 168.0/255.0, blue: 168.0/255.0, alpha: 1),NSAttributedString.Key.backgroundColor:UIColor.clear])
-        
+        nicknameTextfield.attributedPlaceholder = NSAttributedString(string:"Tap Edit", attributes: [NSAttributedString.Key.foregroundColor:UIColor.init(red: 116.0/255.0, green: 116.0/255.0, blue: 116.0/255.0, alpha: 1),NSAttributedString.Key.backgroundColor:UIColor.clear])
         
     }
     

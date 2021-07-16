@@ -31,10 +31,18 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     @IBOutlet weak var commentsTableView: UITableView!
     @IBOutlet weak var commentsTextViewBackground: UIView!
     
+    @IBOutlet weak var messageBackground: UIView!
+    
+    
     @IBOutlet weak var postInfoLabel: UILabel!
-    @IBOutlet weak var dislikeButton: UIButton!
+    @IBOutlet weak var dislikeButtonOLD: UIButton!
+    @IBOutlet weak var likeButtonOLD: UIButton!
+    
+    
     @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var dislikeButton: UIButton!
     @IBOutlet weak var scoreLabel: UILabel!
+    
     
     
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -212,14 +220,18 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         case .nearbyToComments:
             print("User entering comments VC from Nearby")
             loadDataForNearbyPost()
+            
         case .trendingToComments:
-            loadDataForTrendingPost()
             print("User entering comments VC from Trending")
+            loadDataForTrendingPost()
+
         case .inboxToComments:
             print("User entering comments VC from Nearby")
             loadDataForInboxPost()
+            
         case .none:
             dismiss(animated: true, completion: nil)
+            
         }
         
     }
@@ -233,6 +245,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         postInfoLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
         postInfoLabel.text? += " | "
         postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationCity ?? "")
+        postInfoLabel.text? += ", "
         postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationState ?? "")
         
         if commentsArray.count == 0 {
@@ -330,36 +343,53 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     @IBAction func likeButtonPressed(_ sender: Any) {
         
+    }
+    
+    
+    @IBAction func dislikeButtonPressed(_ sender: Any) {
+    }
+    
+    
+
+    
+    @IBAction func likeButtonPressedOLD(_ sender: Any) {
         
         if segueFromInbox == false {
 
-            print("pressed")
+            print("Like Button pressed")
             
             if dislikedPost == true && likedPost == false {
+                //Removing dislike from already disliked post
                         
+                //Updates score in master array
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
                 
-                dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
+                dislikeButtonOLD.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
                 dislikedPost = false
+                
                 scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
                 voteDelegate?.adjustVote()
                         
             } else if likedPost == false && dislikedPost == false {
-                
-//                like post
+                //Adding like to post
                         
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
-                likeButton.setImage(UIImage(named: "Like Button Selected"), for: .normal)
-                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                likeButtonOLD.setImage(UIImage(named: "Like Button Selected"), for: .normal)
+                
                 likedPost = true
+
+                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
                 voteDelegate?.adjustVote()
 
                         
-            } else if likedPost == true {
+            } else if likedPost == true && dislikedPost == false {
                         
 //                print("Removing Like")
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! -= 1
-                likeButton.setImage(UIImage(named: "Like Button Regular"), for: .normal)
+                likeButtonOLD.setImage(UIImage(named: "Like Button Regular"), for: .normal)
                 scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
                 likedPost = false
                 voteDelegate?.adjustVote()
@@ -368,23 +398,14 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             }
             
             
-            
-            
-            
-            
         } else {
+            //The post liked was accessed from inbox. Configure logic
                 
             
         }
     
         
     }
-    
-    
-    @IBAction func dislikeButtonPressed(_ sender: Any) {
-        
-    }
-    
     
 
     func fetchPostData() {
@@ -459,7 +480,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         } else if commentsTextView.text != "" && commentsTextView.isFirstResponder == true {
             
             commentTimestamp = Date().timeIntervalSince1970
-            
             
             commentData = ["author" : UserInfo.userAppearanceName as AnyObject,
                            "message" : commentsTextView.text as AnyObject,
@@ -581,7 +601,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         commentsTextViewBackground.translatesAutoresizingMaskIntoConstraints = true
         
         
-        
         commentsEditorView.layer.shadowOpacity = 0.4
         commentsEditorView.layer.shadowRadius = 3.5
         commentsEditorView.layer.shadowColor = UIColor.black.cgColor
@@ -605,7 +624,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         commentsTextView.clipsToBounds = true
         
         commentsTextViewBackground.clipsToBounds = true
-        commentsTextViewBackground.layer.cornerRadius = 17.5
+        commentsTextViewBackground.layer.cornerRadius = 12
         
 //        commentsTextViewBackground.layer.shadowOpacity = 0.4
 //        commentsTextViewBackground.layer.shadowRadius = 3.5
@@ -614,6 +633,15 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 //        commentsTextViewBackground.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         postMessage.layer.cornerRadius = 17.5
+        
+        let rectShape = CAShapeLayer()
+        rectShape.bounds = self.messageBackground.frame
+        rectShape.position = self.messageBackground.center
+        rectShape.path = UIBezierPath(roundedRect: self.messageBackground.bounds, byRoundingCorners: [.bottomLeft , .bottomRight , .topLeft], cornerRadii: CGSize(width: 25, height: 25)).cgPath
+
+        self.messageBackground.layer.backgroundColor = UIColor(red: 113/255, green: 62/255, blue: 248/255, alpha: 1).cgColor
+        //Here I'm masking the textView's layer with rectShape layer
+        self.messageBackground.layer.mask = rectShape
 
         
     }
@@ -622,7 +650,11 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     //Slides comment editor view up over table view
     func textViewDidBeginEditing(_ textView: UITextView) {
         slideCommentEditorUp()
-        postMessage.text = ""
+        commentsTextView.text = ""
+    }
+    
+    override func viewDidLayoutSubviews() {
+//        commentsTextView.centerVerticalText()
     }
     
     
@@ -854,4 +886,16 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     }
     
     
+}
+
+extension UITextView {
+
+    func centerVerticalText() {
+        self.textAlignment = .center
+        let fitSize = CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude)
+        let size = sizeThatFits(fitSize)
+        let calculate = (bounds.size.height - size.height * zoomScale) / 2
+        let offset = max(1, calculate)
+        contentOffset.y = -offset
+    }
 }

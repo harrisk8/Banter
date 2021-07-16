@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Post Message Button.png",
+      "filename" : "Dislike Button White.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Post Message Button@2x.png",
+      "filename" : "Dislike Button White@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Post Message Button@3x.png",
+      "filename" : "Dislike Button White@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
