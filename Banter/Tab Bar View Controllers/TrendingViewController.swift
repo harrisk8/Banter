@@ -221,7 +221,7 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
         
         if let commentsVC = segue.destination as? CommentsViewController {
             
-            commentsVC.postIndexInNearbyArray = selectedCellIndex
+            commentsVC.postIndexInTrendingArray = selectedCellIndex
             commentsVC.modalPresentationCapturesStatusBarAppearance = true
             commentsVC.pathway = .trendingToComments
             

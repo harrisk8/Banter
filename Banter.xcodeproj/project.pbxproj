@@ -55,7 +55,6 @@
 		6FD5132A24E36BAA0028DDAE /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6FD5131E24E36BAA0028DDAE /* Roboto-BoldItalic.ttf */; };
 		6FD5132B24E36BAA0028DDAE /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6FD5131F24E36BAA0028DDAE /* Roboto-Regular.ttf */; };
 		6FE0CE81250DF66100A05AD7 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE0CE80250DF66100A05AD7 /* CommentsViewController.swift */; };
-		6FEE701026A11A600073E1FC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6FFD62AD24DE370D00D5B96D /* Info.plist */; };
 		6FFD62A024DE370D00D5B96D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFD629F24DE370D00D5B96D /* AppDelegate.swift */; };
 		6FFD62A224DE370D00D5B96D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFD62A124DE370D00D5B96D /* SceneDelegate.swift */; };
 		6FFD62A424DE370D00D5B96D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFD62A324DE370D00D5B96D /* ViewController.swift */; };
@@ -400,7 +399,6 @@
 				6FD5132A24E36BAA0028DDAE /* Roboto-BoldItalic.ttf in Resources */,
 				6F4E798D2609BF3400ECC3BF /* GoogleService-Info.plist in Resources */,
 				6FD5132524E36BAA0028DDAE /* Roboto-Light.ttf in Resources */,
-				6FEE701026A11A600073E1FC /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -83,6 +83,7 @@ class InboxViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let commentsVCForInbox = segue.destination as? CommentsViewController {
             commentsVCForInbox.inboxPostArrayPosition = selectedCellIndex
             commentsVCForInbox.segueFromInbox = true
+            commentsVCForInbox.pathway = .inboxToComments
             commentsVCForInbox.modalPresentationCapturesStatusBarAppearance = true
         }
     }

@@ -33,6 +33,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     @IBOutlet weak var messageBackground: UIView!
     
+    @IBOutlet weak var authorLabel: UILabel!
+    
     
     @IBOutlet weak var postInfoLabel: UILabel!
     @IBOutlet weak var dislikeButtonOLD: UIButton!
@@ -74,7 +76,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     var fetchPost = false
     
     var inboxPostArrayPosition: Int?
+    
     var postIndexInNearbyArray: Int?
+    var postIndexInTrendingArray: Int?
 
     var postLoadedFromCoreData: Bool?
     
@@ -85,12 +89,12 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     var matchIndex: Int = 0
     
+    //Stores like status only at local scope (current VC instance)
     var likedPost: Bool?
     var dislikedPost: Bool?
     
     var pathway: pathwayIntoComments?
 
-    
     override func viewDidLoad() {
 
         overrideUserInterfaceStyle = .light
@@ -241,12 +245,16 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         postMessage.text = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].message
         commentsArray = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments ?? []
         docID = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].documentID ?? ""
+        likedPost = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].likedPost
+        dislikedPost = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].dislikedPost
         
         postInfoLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
         postInfoLabel.text? += " | "
         postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationCity ?? "")
         postInfoLabel.text? += ", "
         postInfoLabel.text? += String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].locationState ?? "")
+        
+        authorLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
         
         if commentsArray.count == 0 {
             newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments = []
@@ -282,6 +290,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             }
             
         } else if NotificationWholePostArray.notificationWholePostArray.count > 1 {
+            //Iterates through array of posts recently fetched for notification. If post being viewed matches one of the posts that is in the array, the data is pulled from there rather via Firebase.
             
             for x in (0...NotificationWholePostArray.notificationWholePostArray.count-1) {
                 
@@ -325,6 +334,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         postMessage.text = formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].message
         commentsArray = formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].comments ?? []
         docID = formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].documentID ?? ""
+        likedPost = formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].likedPost
+        dislikedPost = formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].dislikedPost
         
         postInfoLabel.text = String(formattedTrendingPosts.formattedTrendingPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
         postInfoLabel.text? += " | "
@@ -343,10 +354,233 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     @IBAction func likeButtonPressed(_ sender: Any) {
         
+        switch pathway {
+        
+        case .nearbyToComments:
+            print("Voting on post from Nearby")
+            
+            if dislikedPost == true && likedPost == false {
+                //Removing dislike from already disliked post
+                        
+                //Updates score in master array
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
+                
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].likedPost = false
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = false
+                
+                dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+                likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
+
+                dislikedPost = false
+                likedPost = false
+                
+                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                voteDelegate?.adjustVote()
+                        
+            } else if likedPost == false && dislikedPost == false {
+                //Adding like to post
+                        
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
+                
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].likedPost = true
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = false
+                
+                likeButton.setImage(UIImage(named: "Like Button Orange"), for: .normal)
+                dislikeButton.setImage(UIImage(named: "Dislike Button Greyed Out"), for: .normal)
+                
+                likedPost = true
+                dislikedPost = false
+
+                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                voteDelegate?.adjustVote()
+
+                        
+            } else if likedPost == true && dislikedPost == false {
+                //Removing like from already liked post
+                        
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! -= 1
+                
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].likedPost = false
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = false
+                
+                dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+                likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
+                
+                //Updates vote state for the current instance of the comments VC
+                likedPost = false
+                dislikedPost = false
+                
+                
+                
+                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                
+                voteDelegate?.adjustVote()
+            }
+        
+        case .trendingToComments:
+            print("Voting on post from Trending")
+            
+            if dislikedPost == true && likedPost == false {
+                //Removing dislike from already disliked post
+                        
+                //Updates score in master array
+                formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].score! += 1
+                
+                formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].dislikedPost = false
+                formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].likedPost = false
+                
+                dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+                likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
+
+                dislikedPost = false
+                likedPost = false
+                
+                scoreLabel.text? = String(formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].score!)
+                
+                voteDelegate?.adjustVote()
+                        
+            } else if likedPost == false && dislikedPost == false {
+                //Adding like to post
+                        
+                formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].score! += 1
+                
+                formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].likedPost = true
+                formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].dislikedPost = false
+                
+                likeButton.setImage(UIImage(named: "Like Button Orange"), for: .normal)
+                dislikeButton.setImage(UIImage(named: "Dislike Button Greyed Out"), for: .normal)
+                
+                likedPost = true
+                dislikedPost = false
+
+                scoreLabel.text? = String(formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].score!)
+                
+                voteDelegate?.adjustVote()
+
+                        
+            } else if likedPost == true && dislikedPost == false {
+                //Removing like from already liked post
+                        
+                formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].score! -= 1
+                
+                formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].likedPost = false
+                formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].dislikedPost = false
+                
+                dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+                likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
+                
+                //Updates vote state for the current instance of the comments VC
+                likedPost = false
+                dislikedPost = false
+                
+                
+                scoreLabel.text? = String(formattedTrendingPosts.formattedTrendingPostsArray[postIndexInTrendingArray ?? 0].score!)
+                
+                
+                voteDelegate?.adjustVote()
+            }
+            
+            
+
+        case .inboxToComments:
+            print("Voting on post from Nearby")
+            
+        case .none:
+            dismiss(animated: true, completion: nil)
+            
+        }
+        
+        
     }
     
     
+    
     @IBAction func dislikeButtonPressed(_ sender: Any) {
+        
+        switch pathway {
+        
+        case .nearbyToComments:
+            print("Voting on post from Nearby")
+            
+            if dislikedPost == true && likedPost == false {
+                //Removing dislike from already disliked post
+                        
+                //Updates score in master array
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
+                
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].likedPost = false
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = false
+                
+                dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+                likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
+
+                dislikedPost = false
+                likedPost = false
+                
+                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                voteDelegate?.adjustVote()
+                        
+            } else if likedPost == false && dislikedPost == false {
+                //Adding dislike to post
+                        
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! -= 1
+                
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].likedPost = false
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = true
+                
+                likeButton.setImage(UIImage(named: "Like Button Greyed Out"), for: .normal)
+                dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
+                
+                likedPost = false
+                dislikedPost = true
+
+                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                voteDelegate?.adjustVote()
+
+                        
+            } else if likedPost == true && dislikedPost == false {
+                //Removing like from already liked post
+                        
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! -= 1
+                
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].likedPost = false
+                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = false
+                
+                dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+                likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
+                
+                //Updates vote state for the current instance of the comments VC
+                likedPost = false
+                dislikedPost = false
+                
+                
+                
+                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                
+                voteDelegate?.adjustVote()
+            }
+        
+        case .trendingToComments:
+            print("Voting on post from Trending")
+            
+            
+
+        case .inboxToComments:
+            print("Voting on post from Nearby")
+            
+        case .none:
+            dismiss(animated: true, completion: nil)
+            
+        }
+        
+        
+    
     }
     
     
@@ -376,9 +610,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                         
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
                 
-                likeButtonOLD.setImage(UIImage(named: "Like Button Selected"), for: .normal)
-                
+                likeButton.setImage(UIImage(named: "Like Button Orange"), for: .normal)
+                dislikeButton.setImage(UIImage(named: "Dislike Button Greyed Out"), for: .normal)
                 likedPost = true
+                dislikedPost = false
 
                 scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
                 
