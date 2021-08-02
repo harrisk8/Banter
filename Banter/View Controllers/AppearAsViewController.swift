@@ -58,12 +58,13 @@ class AppearAsViewController: UIViewController {
     
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
-
-        
         label1.text = "Incognito"
+        
         label2.text = UserDefaults.standard.value(forKey: "userFirstName") as? String
+        
         if UserDefaults.standard.value(forKey: "userNickname") as? String ?? "" == "" {
             print(" - - - - No Nickname set! - - - - - ")
             label3.text = "Create name in Profile"

@@ -217,6 +217,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
     }
     
+    //The comments screen can be accessed either via nearby, trending, school, or inbox. This function designates the correct data flow depending on from which part of the app the user is viewing comments for.
     func processPathwayToComments() {
         
         switch pathway {
@@ -256,8 +257,23 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         authorLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
         
+        scoreLabel.text = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score ?? 0)
+        
         if commentsArray.count == 0 {
             newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments = []
+        }
+        
+        //Configures logic for like/dislike button color depending on state
+        if likedPost == true && dislikedPost == false {
+            likeButton.setImage(UIImage(named: "Like Button Orange"), for: .normal)
+            dislikeButton.setImage(UIImage(named: "Dislike Button Greyed Out"), for: .normal)
+
+        } else if likedPost == false && dislikedPost == true {
+            dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
+            likeButton.setImage(UIImage(named: "Like Button Greyed Out"), for: .normal)
+        } else {
+            dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+            likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
         }
         
         DispatchQueue.main.async {
@@ -362,6 +378,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             if dislikedPost == true && likedPost == false {
                 //Removing dislike from already disliked post
                         
+                print("Removing dislike from already disliked")
                 //Updates score in master array
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
                 
@@ -381,6 +398,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             } else if likedPost == false && dislikedPost == false {
                 //Adding like to post
                         
+                print("Adding like")
+
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
                 
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].likedPost = true
@@ -400,6 +419,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             } else if likedPost == true && dislikedPost == false {
                 //Removing like from already liked post
                         
+                print("Removing like from already liked")
+
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! -= 1
                 
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].likedPost = false
@@ -411,8 +432,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 //Updates vote state for the current instance of the comments VC
                 likedPost = false
                 dislikedPost = false
-                
-                
                 
                 scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
                 
