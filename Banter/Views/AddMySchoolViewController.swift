@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddMySchoolViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate {
+class AddMySchoolViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var schoolListTableView: UITableView!
@@ -20,15 +20,26 @@ class AddMySchoolViewController: UIViewController, UITableViewDelegate, UISearch
     let data = CollegeDataLoader().collegeData
     var filteredData: [CollegeData]!
     
+    var indexPathSelected: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         instructionsView.frame.origin.y = UIScreen.main.bounds.height
         
         searchBar.delegate = self
+        filteredData = data
+
+        
+        schoolListTableView.delegate = self
+        schoolListTableView.dataSource = self
+  
+        schoolListTableView.register(UINib(nibName: "SchoolListTableViewCell", bundle: nil), forCellReuseIdentifier: "schoolListCell")
+        schoolListTableView.layoutMargins = .zero
+        schoolListTableView.separatorInset = .zero
+
         
         //Updates the data in tableview to be filtered every time something is typed
-        filteredData = data
 
         setUpUI()
         
@@ -39,7 +50,7 @@ class AddMySchoolViewController: UIViewController, UITableViewDelegate, UISearch
     }
     
     @IBAction func gotItButtonPressed(_ sender: Any) {
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.instructionsView.frame.origin.y = UIScreen.main.bounds.height
         })
         
@@ -49,9 +60,19 @@ class AddMySchoolViewController: UIViewController, UITableViewDelegate, UISearch
     }
     
     //Handles functionality for cell selection
-    func schoolListTableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
         print(filteredData[indexPath.row])
+        
+        indexPathSelected = indexPath.row
+        
+        performSegue(withIdentifier: "addMySchoolToConfirmSchool", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let confirmSchoolVC = segue.destination as? ConfirmSchoolViewController {
+            confirmSchoolVC.schoolName = filteredData[indexPathSelected ?? 0].LocationName
+        }
     }
     
     
@@ -61,12 +82,12 @@ class AddMySchoolViewController: UIViewController, UITableViewDelegate, UISearch
         searchBar.isUserInteractionEnabled = false
         schoolListTableView.isUserInteractionEnabled = false
         
-        instructionsView.layer.shadowOpacity = 0.4
+        instructionsView.layer.shadowOpacity = 1.0
         instructionsView.layer.shadowRadius = 3.5
         instructionsView.layer.shadowColor = UIColor.black.cgColor
         instructionsView.layer.masksToBounds = true
         instructionsView.layer.shadowOffset = (CGSize(width: 0.0, height: 1.0))
-        instructionsView.layer.cornerRadius = 22.5
+        instructionsView.layer.cornerRadius = 27.5
         instructionsView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         instructionsView.clipsToBounds = true
         
@@ -83,17 +104,24 @@ class AddMySchoolViewController: UIViewController, UITableViewDelegate, UISearch
     
     
     
-    func schoolListTableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return filteredData.count
+        return filteredData.count ?? 5
         
     }
     
-    func schoolListTableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
+        return 1
         
-        cell.textLabel?.text = filteredData[indexPath.row].LocationName
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "schoolListCell", for: indexPath) as! SchoolListTableViewCell
+                
+        
+        cell.schoolNameLabel.text = filteredData[indexPath.row].LocationName
         
         return cell
         
