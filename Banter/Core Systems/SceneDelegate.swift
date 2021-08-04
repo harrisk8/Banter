@@ -33,12 +33,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        
-        print("SCENE MARKER")
-        
+                
+        //Verifies that the user has launched before and already created an acount. This state stored is stored in an enum for later use in application
         if UserDefaults.standard.bool(forKey: "userLaunchedBefore") == true && UserDefaults.standard.bool(forKey: "userAccountCreated") == true {
             
-            print("Existing user- redirecting to nearby")
+            print("Scene Delegate: Existing user- redirecting to nearby")
+            
+            UserInfo.userNewOrExisting = .existingUser
             
             if let windowScene = scene as? UIWindowScene {
                 self.window = UIWindow(windowScene: windowScene)
@@ -48,6 +49,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
             
         } else {
+            
+            print("Scene Delegate: New user")
+            
+            //This line is technically redundant becasue the static variable is .newUser by default
+            UserInfo.userNewOrExisting = .newUser
+
             // New User
         }
         guard let _ = (scene as? UIWindowScene) else { return }
@@ -109,45 +116,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
     }
-    
-//    func handleDynamicLink(_ url: URL?) -> Bool {
-//        guard let url = url else { return false }
-//        // Here don't know, which method will work, so I handle both for sure :-)
-//
-//        if !DynamicLinks.dynamicLinks().handleUniversalLink(url, completion: { dynamicLink, error in
-//            if let dynamicLink = dynamicLink {
-//                if let oobCode = dynamicLink.url?.getQueryString(parameter: "oobCode") {
-//                    Auth.auth().applyActionCode(oobCode) { error in
-//                        if let error = error as NSError? {
-//                            print(error.localizedDescription)
-//                        } else {
-//                            // Email was successfully verified
-//                            print("EMAIL LINK VERIFIED!")
-//
-//                        }
-//                    }
-//                }
-//            } else {
-//                // Handle error
-//            }
-//        }) {
-//            if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
-//                if let oobCode = dynamicLink.url?.getQueryString(parameter: "oobCode") {
-//                    Auth.auth().applyActionCode(oobCode) { error in
-//                        if let error = error as NSError? {
-//                            print(error.localizedDescription)
-//                        } else {
-//                            // Email was successfully verified
-//                            print("EMAIL LINK VERIFIED!")
-//                        }
-//                    }
-//                }
-//            } else {
-//                // handle error
-//            }
-//        }
-//        return false
-//    }
+
     
     func getUserDocID() {
         

@@ -20,5 +20,7 @@ class UserInfo {
     static var refreshTime: Double?
     static var keyboardHeight: Double?
     static var userCollectionDocID: String?
+    static var userNewOrExisting = newOrExistingUser.newUser
+    static var hasUserAddedSchool: userAddedSchool?
 
 }

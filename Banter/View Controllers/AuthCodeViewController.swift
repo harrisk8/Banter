@@ -2,7 +2,6 @@
 //  AuthCodeViewController.swift
 //  Mesh
 //
-//  Created by Harris Kapoor on 8/15/20.
 //  Copyright © 2020 Avidi Technologies. All rights reserved.
 //
 

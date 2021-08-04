@@ -30,6 +30,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBOutlet weak var nearbyTableView: UITableView!
     
+
+    
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let database = Firestore.firestore()
     var locationManager = CLLocationManager()
@@ -55,6 +57,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         getUserDocID()
         
@@ -106,9 +109,13 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         
         performSegue(withIdentifier: "nearbyToChangeName", sender: self)
         
-        
-        
     }
+    
+    //Configures segue to new post VC when bottom right button pressed
+    @IBAction func newPostButtonBottomRightPressed(_ sender: Any) {
+        performSegue(withIdentifier: "navTopRightToNewPost", sender: self)
+    }
+    
     
     func configureUpperRightButton() {
         
@@ -343,6 +350,8 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     //Refreshes tableview after user returns to screen from new post
     override func viewDidAppear(_ animated: Bool) {
         
+        print("VIEW DID APPEAR")
+        
         lastTimestampPulledFromServer = UserDefaults.standard.double(forKey: "lastTimestampPulledFromServer")
         
         incognitoButton.title = UserDefaults.standard.value(forKey: "lastUserAppearanceName") as? String
@@ -455,7 +464,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             
             commentsVC.postIndexInNearbyArray = selectedCellIndex
             commentsVC.modalPresentationCapturesStatusBarAppearance = true
-            commentsVC.delegate = self
+            commentsVC.refreshNearbyTableDelegate = self
             commentsVC.pathway = .nearbyToComments
             
         }
@@ -655,6 +664,9 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
     
     //Delegate method which is called when user closes comments VC, functionally updates comment counter on table cell
     func refreshtable() {
+        
+        print("Refresh Protocol Working")
+        
         DispatchQueue.main.async {
             self.nearbyTableView.reloadData()
         }

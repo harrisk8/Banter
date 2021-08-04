@@ -22,6 +22,11 @@
 		6F56A1BD252FB2DD005CB028 /* NearbyPostsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F56A1BB252FB2DD005CB028 /* NearbyPostsEntity+CoreDataProperties.swift */; };
 		6F6061DC2605D3B3001F5D4B /* NearbyTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6061DA2605D3B3001F5D4B /* NearbyTableCell.swift */; };
 		6F6061DD2605D3B3001F5D4B /* NearbyTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F6061DB2605D3B3001F5D4B /* NearbyTableCell.xib */; };
+		6F61F01026B8EED7002773F8 /* MySchoolViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F61F00F26B8EED7002773F8 /* MySchoolViewController.swift */; };
+		6F61F01226B8F049002773F8 /* ApplicationResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F61F01126B8F049002773F8 /* ApplicationResources.swift */; };
+		6F61F01826B9FED1002773F8 /* CollegeDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F61F01726B9FED1002773F8 /* CollegeDataLoader.swift */; };
+		6F61F01A26BA101B002773F8 /* CollegeList.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F61F01926BA101B002773F8 /* CollegeList.json */; };
+		6F61F01E26BA2C57002773F8 /* AddMySchoolViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F61F01D26BA2C57002773F8 /* AddMySchoolViewController.swift */; };
 		6F664148254A3A7900550A37 /* AppearAsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F664147254A3A7900550A37 /* AppearAsViewController.swift */; };
 		6F67E8D225295E3D00DB6771 /* TrendingTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F67E8D025295E3D00DB6771 /* TrendingTableCell.swift */; };
 		6F67E8D325295E3D00DB6771 /* TrendingTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F67E8D125295E3D00DB6771 /* TrendingTableCell.xib */; };
@@ -31,7 +36,6 @@
 		6F76834324F06C3C00B70F29 /* FinishSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */; };
 		6F7737B1251FD341006D70CC /* localDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6F7737AF251FD341006D70CC /* localDataModel.xcdatamodeld */; };
 		6F7E56B725EB03E7000E1C90 /* VotingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7E56B625EB03E7000E1C90 /* VotingModel.swift */; };
-		6F81595324F4670B00FB59BD /* NewPostDummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F81595224F4670B00FB59BD /* NewPostDummyViewController.swift */; };
 		6F81595824F46AAC00FB59BD /* NewPostEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F81595724F46AAC00FB59BD /* NewPostEditorViewController.swift */; };
 		6F837CD0252C402300A18420 /* InboxTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F837CCE252C402300A18420 /* InboxTableCell.swift */; };
 		6F837CD1252C402300A18420 /* InboxTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F837CCF252C402300A18420 /* InboxTableCell.xib */; };
@@ -84,6 +88,11 @@
 		6F56A1BB252FB2DD005CB028 /* NearbyPostsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NearbyPostsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6F6061DA2605D3B3001F5D4B /* NearbyTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NearbyTableCell.swift; path = "Banter/Tab Bar View Controllers/NearbyTableCell.swift"; sourceTree = SOURCE_ROOT; };
 		6F6061DB2605D3B3001F5D4B /* NearbyTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NearbyTableCell.xib; path = "Banter/Table View Cells/NearbyTableCell.xib"; sourceTree = SOURCE_ROOT; };
+		6F61F00F26B8EED7002773F8 /* MySchoolViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySchoolViewController.swift; sourceTree = "<group>"; };
+		6F61F01126B8F049002773F8 /* ApplicationResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationResources.swift; sourceTree = "<group>"; };
+		6F61F01726B9FED1002773F8 /* CollegeDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollegeDataLoader.swift; sourceTree = "<group>"; };
+		6F61F01926BA101B002773F8 /* CollegeList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CollegeList.json; sourceTree = "<group>"; };
+		6F61F01D26BA2C57002773F8 /* AddMySchoolViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddMySchoolViewController.swift; path = Banter/Views/AddMySchoolViewController.swift; sourceTree = SOURCE_ROOT; };
 		6F664147254A3A7900550A37 /* AppearAsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearAsViewController.swift; sourceTree = "<group>"; };
 		6F67E8D025295E3D00DB6771 /* TrendingTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingTableCell.swift; sourceTree = "<group>"; };
 		6F67E8D125295E3D00DB6771 /* TrendingTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrendingTableCell.xib; sourceTree = "<group>"; };
@@ -93,7 +102,6 @@
 		6F76834224F06C3C00B70F29 /* FinishSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishSignUpViewController.swift; sourceTree = "<group>"; };
 		6F7737B0251FD341006D70CC /* localDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = localDataModel.xcdatamodel; sourceTree = "<group>"; };
 		6F7E56B625EB03E7000E1C90 /* VotingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotingModel.swift; sourceTree = "<group>"; };
-		6F81595224F4670B00FB59BD /* NewPostDummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostDummyViewController.swift; sourceTree = "<group>"; };
 		6F81595724F46AAC00FB59BD /* NewPostEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostEditorViewController.swift; sourceTree = "<group>"; };
 		6F837CCE252C402300A18420 /* InboxTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTableCell.swift; sourceTree = "<group>"; };
 		6F837CCF252C402300A18420 /* InboxTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InboxTableCell.xib; sourceTree = "<group>"; };
@@ -182,6 +190,7 @@
 		6F6DF02524E79AE9009ACCDD /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6F61F01D26BA2C57002773F8 /* AddMySchoolViewController.swift */,
 				6F4FF9AA266715B200F5C79A /* MyPostsViewController.swift */,
 				6FFD62B324DF27CB00D5B96D /* WelcomeViewController.swift */,
 				6F6DF02324E79AE1009ACCDD /* AuthCodeViewController.swift */,
@@ -197,8 +206,8 @@
 		6F81595424F469C600FB59BD /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				6F61F01926BA101B002773F8 /* CollegeList.json */,
 				6FFD62A324DE370D00D5B96D /* ViewController.swift */,
-				6F81595224F4670B00FB59BD /* NewPostDummyViewController.swift */,
 				6FD5132C24E36BAD0028DDAE /* Fonts */,
 			);
 			path = Misc;
@@ -246,6 +255,8 @@
 				6F56A1B5252D5E01005CB028 /* NotificationFetcher.swift */,
 				6F7E56B625EB03E7000E1C90 /* VotingModel.swift */,
 				6F3FD7BF2658445100FD95F3 /* StartupSequence.swift */,
+				6F61F01126B8F049002773F8 /* ApplicationResources.swift */,
+				6F61F01726B9FED1002773F8 /* CollegeDataLoader.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -257,6 +268,7 @@
 				6FBA045F24F2032100FC1E1B /* NearbyViewController.swift */,
 				6F8605CB250F5128002AC4E9 /* TrendingViewController.swift */,
 				6F81595724F46AAC00FB59BD /* NewPostEditorViewController.swift */,
+				6F61F00F26B8EED7002773F8 /* MySchoolViewController.swift */,
 				6FFD6364257DB20E00CB30AF /* ProfileViewController.swift */,
 			);
 			path = "Tab Bar View Controllers";
@@ -396,6 +408,7 @@
 				6FFD62A724DE370D00D5B96D /* Main.storyboard in Resources */,
 				6F67E8D325295E3D00DB6771 /* TrendingTableCell.xib in Resources */,
 				6FD5132B24E36BAA0028DDAE /* Roboto-Regular.ttf in Resources */,
+				6F61F01A26BA101B002773F8 /* CollegeList.json in Resources */,
 				6FD5132A24E36BAA0028DDAE /* Roboto-BoldItalic.ttf in Resources */,
 				6F4E798D2609BF3400ECC3BF /* GoogleService-Info.plist in Resources */,
 				6FD5132524E36BAA0028DDAE /* Roboto-Light.ttf in Resources */,
@@ -452,7 +465,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F3FD7C02658445100FD95F3 /* StartupSequence.swift in Sources */,
-				6F81595324F4670B00FB59BD /* NewPostDummyViewController.swift in Sources */,
 				6F8605CC250F5128002AC4E9 /* TrendingViewController.swift in Sources */,
 				6F56A1B6252D5E01005CB028 /* NotificationFetcher.swift in Sources */,
 				6F7737B1251FD341006D70CC /* localDataModel.xcdatamodeld in Sources */,
@@ -460,6 +472,8 @@
 				6FFD62A424DE370D00D5B96D /* ViewController.swift in Sources */,
 				6F56A1BC252FB2DD005CB028 /* NearbyPostsEntity+CoreDataClass.swift in Sources */,
 				6FFD62B424DF27CC00D5B96D /* WelcomeViewController.swift in Sources */,
+				6F61F01E26BA2C57002773F8 /* AddMySchoolViewController.swift in Sources */,
+				6F61F01026B8EED7002773F8 /* MySchoolViewController.swift in Sources */,
 				6F4067A324F4627F009CB580 /* TabBarViewController.swift in Sources */,
 				6F4FF9A82665822800F5C79A /* VoteEntity+CoreDataClass.swift in Sources */,
 				6FFD6365257DB20E00CB30AF /* ProfileViewController.swift in Sources */,
@@ -472,6 +486,7 @@
 				6FBA045E24F2005C00FC1E1B /* UserInfo.swift in Sources */,
 				6FBA046024F2032100FC1E1B /* NearbyViewController.swift in Sources */,
 				6F4FF9AB266715B200F5C79A /* MyPostsViewController.swift in Sources */,
+				6F61F01226B8F049002773F8 /* ApplicationResources.swift in Sources */,
 				6F09D89B2602C3590059FD9F /* InboxViewController.swift in Sources */,
 				6F837CD0252C402300A18420 /* InboxTableCell.swift in Sources */,
 				6FAFC2B2252982C6003F7102 /* TrendingModel.swift in Sources */,
@@ -480,6 +495,7 @@
 				6F81595824F46AAC00FB59BD /* NewPostEditorViewController.swift in Sources */,
 				6F67E8D225295E3D00DB6771 /* TrendingTableCell.swift in Sources */,
 				6FFD62A024DE370D00D5B96D /* AppDelegate.swift in Sources */,
+				6F61F01826B9FED1002773F8 /* CollegeDataLoader.swift in Sources */,
 				6F53D88B263BA2A800679D67 /* ReportPostViewController.swift in Sources */,
 				6F4FF9A92665822800F5C79A /* VoteEntity+CoreDataProperties.swift in Sources */,
 				6F8934A525E78F25006C5E01 /* NotificationEntity+CoreDataProperties.swift in Sources */,

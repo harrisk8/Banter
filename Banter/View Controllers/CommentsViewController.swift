@@ -49,7 +49,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let database = Firestore.firestore()
-    var delegate: refreshNearbyTable?
+    var refreshNearbyTableDelegate: refreshNearbyTable?
     var voteDelegate: adjustNearbyVote?
 
     
@@ -552,7 +552,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                 newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = true
                 
                 likeButton.setImage(UIImage(named: "Like Button Greyed Out"), for: .normal)
-                dislikeButton.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
+                dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
                 
                 likedPost = false
                 dislikedPost = true
@@ -600,65 +600,6 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         
     
-    }
-    
-    
-
-    
-    @IBAction func likeButtonPressedOLD(_ sender: Any) {
-        
-        if segueFromInbox == false {
-
-            print("Like Button pressed")
-            
-            if dislikedPost == true && likedPost == false {
-                //Removing dislike from already disliked post
-                        
-                //Updates score in master array
-                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
-                
-                dislikeButtonOLD.setImage(UIImage(named: "Dislike Button Regular"), for: .normal)
-                dislikedPost = false
-                
-                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
-                
-                voteDelegate?.adjustVote()
-                        
-            } else if likedPost == false && dislikedPost == false {
-                //Adding like to post
-                        
-                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! += 1
-                
-                likeButton.setImage(UIImage(named: "Like Button Orange"), for: .normal)
-                dislikeButton.setImage(UIImage(named: "Dislike Button Greyed Out"), for: .normal)
-                likedPost = true
-                dislikedPost = false
-
-                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
-                
-                voteDelegate?.adjustVote()
-
-                        
-            } else if likedPost == true && dislikedPost == false {
-                        
-//                print("Removing Like")
-                newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score! -= 1
-                likeButtonOLD.setImage(UIImage(named: "Like Button Regular"), for: .normal)
-                scoreLabel.text? = String(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].score!)
-                likedPost = false
-                voteDelegate?.adjustVote()
-
-
-            }
-            
-            
-        } else {
-            //The post liked was accessed from inbox. Configure logic
-                
-            
-        }
-    
-        
     }
     
 
@@ -770,7 +711,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         }
         
-        delegate?.refreshtable()
+        refreshNearbyTableDelegate?.refreshtable()
 
     }
     
@@ -913,6 +854,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     
     @IBAction func backButtonPressed(_ sender: Any) {
+        refreshNearbyTableDelegate?.refreshtable()
         dismiss(animated: true, completion: nil)
     }
     
@@ -1104,6 +1046,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                     }, completion: { [weak self] _ in
                         self?.commentsTextView.resignFirstResponder()
                         self?.slideCommentEditorDown()
+                        self?.refreshNearbyTableDelegate?.refreshtable()
                         self?.dismiss(animated: false, completion: nil)
                     })
                 }

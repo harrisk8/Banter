@@ -2,7 +2,6 @@
 //  MyPostsViewController.swift
 //  Banter
 //
-//  Created by Harris Kapoor on 6/1/21.
 //  Copyright © 2021 Avidi Industries Inc. All rights reserved.
 //
 

@@ -67,23 +67,23 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate, upda
 
     }
     
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        
-        if userClickedNewPost == true {
-            performSegue(withIdentifier: "tabBarToNewPostEditor", sender: self)
-            userClickedNewPost = false
-            guard let navigationController = storyboard?.instantiateViewController(withIdentifier: "NewPostDummyViewController") as? UINavigationController else { return false }
-
-            present(navigationController, animated: true)
-
-            // Returning false will not open the connected tab bar item view controller you attached to it
-            return true
-        }
-        
-        return true
-        
-        
-    }
+//    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+//
+//        if userClickedNewPost == true {
+//            performSegue(withIdentifier: "tabBarToNewPostEditor", sender: self)
+//            userClickedNewPost = false
+//            guard let navigationController = storyboard?.instantiateViewController(withIdentifier: "NewPostDummyViewController") as? UINavigationController else { return false }
+//
+//            present(navigationController, animated: true)
+//
+//            // Returning false will not open the connected tab bar item view controller you attached to it
+//            return true
+//        }
+//
+//        return true
+//
+//
+//    }
     
 
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
