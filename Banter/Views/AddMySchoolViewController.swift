@@ -25,6 +25,10 @@ class AddMySchoolViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        overrideUserInterfaceStyle = .light
+                
+        schoolListTableView.backgroundColor = UIColor.white
+
         instructionsView.frame.origin.y = UIScreen.main.bounds.height
         
         searchBar.delegate = self
@@ -56,7 +60,7 @@ class AddMySchoolViewController: UIViewController, UITableViewDelegate, UITableV
         
         searchBar.isUserInteractionEnabled = true
         schoolListTableView.isUserInteractionEnabled = true
-        
+                
     }
     
     //Handles functionality for cell selection
@@ -86,7 +90,7 @@ class AddMySchoolViewController: UIViewController, UITableViewDelegate, UITableV
         instructionsView.layer.shadowRadius = 3.5
         instructionsView.layer.shadowColor = UIColor.black.cgColor
         instructionsView.layer.masksToBounds = true
-        instructionsView.layer.shadowOffset = (CGSize(width: 0.0, height: 1.0))
+        instructionsView.layer.shadowOffset = (CGSize(width: 0.0, height: -1.0))
         instructionsView.layer.cornerRadius = 27.5
         instructionsView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         instructionsView.clipsToBounds = true

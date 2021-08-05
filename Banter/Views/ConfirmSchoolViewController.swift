@@ -10,15 +10,24 @@ import UIKit
 
 class ConfirmSchoolViewController: UIViewController {
     
+    @IBOutlet weak var schoolNameLabel: UILabel!
+    
     var schoolName: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        schoolNameLabel.text = schoolName
+        
 
-        // Do any additional setup after loading the view.
     }
     
-
+    @IBAction func backButtonPressed(_ sender: Any) {
+        
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
     /*
     // MARK: - Navigation
 
