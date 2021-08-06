@@ -90,7 +90,28 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         } else {
             timestampForFetchingSchoolPostsBeforeUsersPost = MySchoolPosts.MySchoolPostsArray[0].timestamp
         }
-
+        
+        //Configures logic for whether the user last posted to school or nearby
+        if (UserDefaults.standard.bool(forKey: "postToSchool")) == true {
+            
+            print("User last set to posttoschool")
+            
+            postToSchool = true
+            postToNearby = false
+            
+            organizePostingToLabel(changeLabelToNearby: false, changeLabelToSchool: true)
+            
+        } else {
+            
+            print("User last set to posttonearby")
+            
+            postToSchool = false
+            postToNearby = true
+            
+            organizePostingToLabel(changeLabelToNearby: true, changeLabelToSchool: false)
+        }
+        
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -100,16 +121,31 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     //Post button functionality - validates message, assigns timestamp, writes, and dismisses VC.
     @IBAction func postMessagePressed(_ sender: Any) {
+        
         if validateMessage() && processingNewPost == false {
-            processingNewPost = true
-            timestampOfPostCreated = Date().timeIntervalSince1970
-            fetchPostsBeforeUsersPost()
+            
+            if postToSchool == true && postToNearby == false {
+                //Post to school
+                
+                processingNewPost = true
+                timestampOfPostCreated = Date().timeIntervalSince1970
+                fetchSchoolPostsBeforeUsersPost()
+                
+            } else if postToSchool == false && postToNearby == true {
+                //Post to nearby
+                
+                processingNewPost = true
+                timestampOfPostCreated = Date().timeIntervalSince1970
+                fetchNearbyPostsBeforeUsersPost()
+                
+            }
+            
         }
     }
     
     
     //Handles writing new post to database
-    func writePostToDatabase() {
+    func writeNewPostToNearbyCollection() {
                         
         var ref: DocumentReference? = nil
 
@@ -144,11 +180,47 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
     }
     
+    //Handles writing new post to database
+    func writeNewPostToSchoolCollection() {
+                        
+        var ref: DocumentReference? = nil
+
+        ref = database.collection("schoolPosts").addDocument(data: [
+                        
+            "author": UserInfo.userAppearanceName as Any,
+            "userDocID": UserInfo.userCollectionDocID ?? "",
+            "comments": testArray,
+            "locationCity": UserInfo.userCity ?? "",
+            "locationState": UserInfo.userState ?? "",
+            "userSchool": UserInfo.userSchool ?? "",
+            "message": messageEditor.text ?? "",
+            "score": 0,
+            "timestamp": timestampOfPostCreated,
+            "lastCommentTimestamp": 0.0
+        
+        ]) { err in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                print("Document successfully written")
+                print(ref?.documentID ?? "")
+                
+                self.newDocumentID = ref?.documentID
+                
+                //Add user generated post to nearbyFinal array and then to Core Data
+                self.appendNewPostToArray()
+
+            }
+        }
+        
+        
+    }
+    
     func writePostToNearbyCollection() {
         
         var ref: DocumentReference? = nil
 
-        ref = database.collection("schoolPosts").addDocument(data: [
+        ref = database.collection("nearbyPosts").addDocument(data: [
                         
             "author": UserInfo.userAppearanceName as Any,
             "userDocID": UserInfo.userCollectionDocID ?? "",
@@ -180,7 +252,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
 
     
     
-    func fetchPostsBeforeUsersPost() {
+    func fetchNearbyPostsBeforeUsersPost() {
         
         if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0 {
             timestampForFetchingNearbyPostsBeforeUsersPost = 0.0
@@ -228,7 +300,67 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                        
                    }
                 
-                self.writePostToDatabase()
+                self.writeNewPostToNearbyCollection()
+                
+               }
+                   
+           }
+        
+    }
+    
+    func fetchSchoolPostsBeforeUsersPost() {
+        
+        if MySchoolPosts.MySchoolPostsArray.count == 0 {
+            timestampForFetchingSchoolPostsBeforeUsersPost = 0.0
+        } else {
+            timestampForFetchingSchoolPostsBeforeUsersPost = MySchoolPosts.MySchoolPostsArray[0].timestamp ?? 0.0
+        }
+        
+        database.collection("posts")
+            .whereField("timestamp", isGreaterThan: timestampForFetchingSchoolPostsBeforeUsersPost)
+                .whereField("userSchool", isEqualTo: UserInfo.userSchool ?? "")
+               .getDocuments() { (querySnapshot, err) in
+               if let err = err {
+                   print(err.localizedDescription)
+                   print("nodocs")
+               } else {
+                
+                   for document in querySnapshot!.documents {
+                       let postData = document.data()
+                       
+                    if let postAuthor = postData["author"] as? String,
+                        let postMessage = postData["message"] as? String,
+                        let postScore = postData["score"] as? Int32?,
+                        let postTimestamp = postData["timestamp"] as? Double,
+                        let postComments = postData["comments"] as? [[String: AnyObject]]?,
+                        let postID = document.documentID as String?,
+                        let postUserDocID = postData["userDocID"] as? String,
+                        let postSchoolName = postData["schoolName"] as? String
+                    {
+                        
+                        let newPost = MySchoolCellData(
+                            author: postAuthor,
+                            message: postMessage,
+                            score: postScore,
+                            timestamp: postTimestamp,
+                            comments: postComments ?? nil,
+                            documentID: postID,
+                            userDocID: postUserDocID,
+                            schoolName: postSchoolName,
+                            likedPost: false,
+                            dislikedPost: false
+                        )
+                        
+                        print(" - - - -New post before users post - - - - ")
+                        print(newPost)
+                           
+                        MySchoolPosts.MySchoolPostsArray.append(newPost)
+                           
+                       }
+                       
+                   }
+                
+                self.writeNewPostToSchoolCollection()
                 
                }
                    
@@ -337,7 +469,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             .font: UIFont(name: "Roboto-Bold", size: 15) ?? UIFont.boldSystemFont(ofSize: 15)
         ]
         
-        let attributedPartOne = NSMutableAttributedString(string: "Posting as: ", attributes: partOneAttributes)
+        let attributedPartOne = NSMutableAttributedString(string: "Posting to: ", attributes: partOneAttributes)
         
         let attributedMySchool = NSMutableAttributedString(string: "My School", attributes: partTwoAttributes)
         
@@ -398,6 +530,8 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             postToSchool = false
             postToNearby = true
             
+            UserDefaults.standard.setValue(false, forKey: "postToSchool")
+            
         } else if postToSchool == false && postToNearby == true {
             //Switching from post to nearby --> post to school
             
@@ -405,6 +539,9 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             
             postToSchool = true
             postToNearby = false
+            
+            UserDefaults.standard.setValue(true, forKey: "postToSchool")
+
             
         }
         

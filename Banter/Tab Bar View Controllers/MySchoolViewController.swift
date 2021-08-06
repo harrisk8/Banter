@@ -32,7 +32,7 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
             print("User has added school")
             
             //Configures UI to show table view and fetches 'My School' posts from Firebase
-            userHasNotAddedSchoolSetup()
+            userHasAddedSchoolSetup()
             fetchMySchoolPosts()
             
         case .userHasNotAddedSchool:
@@ -60,11 +60,12 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     //Configures UI for user that HAS added their school. This will disable the "Add my school" button in the interface and hide the prompt/button, while presenting the table view of posts near the user's school.
-    func userHadAddedSchoolSetup() {
+    func userHasAddedSchoolSetup() {
         
         addMySchoolButton.isUserInteractionEnabled = false
         addMySchoolButton.isHidden = true
         mySchoolIconText.isHidden = true
+        
         
         mySchoolTableView.dataSource = self
         mySchoolTableView.delegate = self
@@ -73,8 +74,9 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
         mySchoolTableView.rowHeight = UITableView.automaticDimension;
         mySchoolTableView.layoutMargins = .zero
         mySchoolTableView.separatorInset = .zero
-        mySchoolTableView.refreshControl = refreshControl
+        mySchoolTableView.backgroundColor = UIColor.white
         
+        mySchoolTableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshedTableView), for: .valueChanged)
         
     }
@@ -141,7 +143,6 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
 
 
         
-        
 
         if commentsCount > 1 {
             cell.commentLabel?.text = String(commentsCount) + " comments"
@@ -159,6 +160,7 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
     func fetchMySchoolPosts() {
         
         print("Checking for new posts")
+        print(UserInfo.userSchool)
         
         if MySchoolPosts.MySchoolPostsArray.count == 0 {
             lastTimestampPulledFromServer = 0.0
@@ -166,15 +168,20 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
             lastTimestampPulledFromServer = MySchoolPosts.MySchoolPostsArray[0].timestamp ?? 0.0
         }
         
-        database.collection("posts")
+        database.collection("schoolPosts")
             .whereField("userSchool", isEqualTo: UserInfo.userSchool ?? "")
             .limit(to: 20)
             .getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(err.localizedDescription)
+                print("NOPOSTS")
             } else {
+                
                 for document in querySnapshot!.documents {
+                    
                     let postData = document.data()
+                    print(postData)
+
                     
                     if let postAuthor = postData["author"] as? String,
                         let postMessage = postData["message"] as? String,
@@ -183,7 +190,7 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
                         let postComments = postData["comments"] as? [[String: AnyObject]]?,
                         let postID = document.documentID as String?,
                         let postUserDocID = postData["userDocID"] as? String,
-                        let postSchoolName = postData["schoolName"] as? String
+                        let postSchoolName = postData["userSchool"] as? String
                     {
                         
                         let newPost = MySchoolCellData(
@@ -194,23 +201,17 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
                             comments: postComments ?? nil,
                             documentID: postID,
                             userDocID: postUserDocID,
-                            schoolName: postSchoolName,
+                            schoolName: postSchoolName ?? nil,
                             likedPost: false,
                             dislikedPost: false
                         )
                         
-                        print(newPost)
+
                         
                         MySchoolPosts.MySchoolPostsArray.append(newPost)
                         
 
                     }
-                    
-                    //Stores the latest timestamp of data pulled from server.
-                    self.lastTimestampPulledFromServer = MySchoolPosts.MySchoolPostsArray[0].timestamp ?? 0.0
-                    
-                    //Stores latest timestamp to user defaults
-                    UserDefaults.standard.set(self.lastTimestampPulledFromServer, forKey: "lastTimestampPulledFromServer")
                     
                     
                 }
@@ -250,7 +251,8 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func userPressedVoteButton(_ cell: NearbyTableCell, _ caseType: voteType) {
-        <#code#>
+        
+        
     }
 
 }

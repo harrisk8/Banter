@@ -25,6 +25,12 @@ enum pathwayIntoComments {
     case mySchoolToComments
 }
 
+enum votePathway {
+    case voteFromNearby
+    case voteFromTrending
+    case voteFromMySchool
+}
+
 enum postingTo {
     case postToNearby
     case postToSchool

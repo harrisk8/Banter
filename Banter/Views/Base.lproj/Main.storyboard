@@ -566,7 +566,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Posting to:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="6N4-Dv-Aop">
-                                <rect key="frame" x="29" y="444.66666666666669" width="82" height="20"/>
+                                <rect key="frame" x="28.999999999999993" y="444.66666666666669" width="79.333333333333314" height="20"/>
                                 <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="17"/>
                                 <color key="textColor" red="0.13725490200000001" green="0.031372549020000001" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -626,7 +626,6 @@
                         <constraints>
                             <constraint firstItem="3vY-Fw-5xn" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.0245536" priority="999" id="0oK-Gs-5Ve"/>
                             <constraint firstItem="bJO-G7-HcL" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.0301339" priority="999" id="1xJ-Bz-5vt"/>
-                            <constraint firstItem="aSg-RJ-Oah" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.198068" id="4FG-dJ-EaE"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.217391" priority="999" id="55z-Dp-s9l"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.2" id="5ah-PH-Ssa"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.0301339" priority="999" id="96l-Wj-xMz"/>
@@ -636,7 +635,6 @@
                             <constraint firstItem="l8E-mQ-Hni" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="20" id="DCz-vU-VdR"/>
                             <constraint firstItem="kQM-PY-FJt" firstAttribute="centerX" secondItem="Hb9-XN-19l" secondAttribute="centerX" id="GFH-ap-IXC"/>
                             <constraint firstItem="bJO-G7-HcL" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.200483" id="Jsa-ef-ukA"/>
-                            <constraint firstItem="6N4-Dv-Aop" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.198068" id="Kbw-L0-t3p"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.100446" priority="999" id="P7f-ec-PiK"/>
                             <constraint firstItem="3vY-Fw-5xn" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.15942" priority="999" id="Qge-v2-9Rp"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="trailing" secondItem="l8E-mQ-Hni" secondAttribute="trailing" constant="20" id="TOX-TZ-mZT"/>
@@ -650,6 +648,7 @@
                             <constraint firstItem="aSg-RJ-Oah" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="29" id="etl-1X-vuA"/>
                             <constraint firstItem="kQM-PY-FJt" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.75" id="fD4-mn-q3d"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.229282" priority="999" id="h3F-NV-8tE"/>
+                            <constraint firstItem="aSg-RJ-Oah" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.0223214" id="h80-Dx-5eG"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="trailing" secondItem="wmO-fd-Sbq" secondAttribute="trailing" priority="999" id="hlS-0a-SIo"/>
                             <constraint firstItem="9Pg-Ar-nvG" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.15942" id="i4H-Hj-O2h"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="45:448" id="im0-mo-ImB"/>
@@ -661,6 +660,7 @@
                             <constraint firstItem="l8E-mQ-Hni" firstAttribute="top" secondItem="7vx-Gq-CZ2" secondAttribute="bottom" constant="17" id="vJo-HT-Me5"/>
                             <constraint firstItem="aSg-RJ-Oah" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.875" id="w8A-6V-l0L"/>
                             <constraint firstItem="6N4-Dv-Aop" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="29" id="yJB-LR-kgd"/>
+                            <constraint firstItem="6N4-Dv-Aop" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.0223214" id="yqd-Xn-ZAK"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="B3M-xl-hve" appends="YES" id="4Bf-6E-8Y6"/>
