@@ -565,6 +565,12 @@
                                 <color key="textColor" red="0.13725490200000001" green="0.031372549020000001" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Posting to:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="6N4-Dv-Aop">
+                                <rect key="frame" x="29" y="444.66666666666669" width="82" height="20"/>
+                                <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="17"/>
+                                <color key="textColor" red="0.13725490200000001" green="0.031372549020000001" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/240" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wmO-fd-Sbq">
                                 <rect key="frame" x="34" y="343.66666666666669" width="380" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -594,10 +600,23 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3vY-Fw-5xn">
-                                <rect key="frame" x="29" y="414.33333333333331" width="66" height="22"/>
+                                <rect key="frame" x="29" y="409" width="66" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="3vY-Fw-5xn" secondAttribute="height" multiplier="3:1" id="O1l-3G-43c"/>
+                                </constraints>
                                 <state key="normal" image="Change Button"/>
                                 <connections>
-                                    <action selector="changePressed:" destination="gi6-cU-piE" eventType="touchUpInside" id="PYJ-cE-UWW"/>
+                                    <action selector="changePostingAsButtonPressed:" destination="gi6-cU-piE" eventType="touchUpInside" id="PYJ-cE-UWW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Pg-Ar-nvG">
+                                <rect key="frame" x="29" y="471.66666666666669" width="66" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="9Pg-Ar-nvG" secondAttribute="height" multiplier="3:1" id="eEI-Te-qqx"/>
+                                </constraints>
+                                <state key="normal" image="Change Button"/>
+                                <connections>
+                                    <action selector="changePostingToButtonPressed:" destination="gi6-cU-piE" eventType="touchUpInside" id="Tih-Uh-qhM"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -607,6 +626,7 @@
                         <constraints>
                             <constraint firstItem="3vY-Fw-5xn" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.0245536" priority="999" id="0oK-Gs-5Ve"/>
                             <constraint firstItem="bJO-G7-HcL" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.0301339" priority="999" id="1xJ-Bz-5vt"/>
+                            <constraint firstItem="aSg-RJ-Oah" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.198068" id="4FG-dJ-EaE"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.217391" priority="999" id="55z-Dp-s9l"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.2" id="5ah-PH-Ssa"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.0301339" priority="999" id="96l-Wj-xMz"/>
@@ -616,26 +636,31 @@
                             <constraint firstItem="l8E-mQ-Hni" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="20" id="DCz-vU-VdR"/>
                             <constraint firstItem="kQM-PY-FJt" firstAttribute="centerX" secondItem="Hb9-XN-19l" secondAttribute="centerX" id="GFH-ap-IXC"/>
                             <constraint firstItem="bJO-G7-HcL" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.200483" id="Jsa-ef-ukA"/>
+                            <constraint firstItem="6N4-Dv-Aop" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.198068" id="Kbw-L0-t3p"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="height" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="0.100446" priority="999" id="P7f-ec-PiK"/>
                             <constraint firstItem="3vY-Fw-5xn" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.15942" priority="999" id="Qge-v2-9Rp"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="trailing" secondItem="l8E-mQ-Hni" secondAttribute="trailing" constant="20" id="TOX-TZ-mZT"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="centerX" secondItem="Hb9-XN-19l" secondAttribute="centerX" multiplier="0.4" id="WMq-x7-P8h"/>
                             <constraint firstItem="kQM-PY-FJt" firstAttribute="top" secondItem="l8E-mQ-Hni" secondAttribute="bottom" constant="19.670000076293945" id="ZLC-kD-YdZ"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" id="ZRZ-H4-0sA"/>
+                            <constraint firstItem="6N4-Dv-Aop" firstAttribute="top" secondItem="3vY-Fw-5xn" secondAttribute="bottom" constant="13.67" id="af5-fx-N88"/>
+                            <constraint firstItem="9Pg-Ar-nvG" firstAttribute="top" secondItem="6N4-Dv-Aop" secondAttribute="bottom" constant="7" id="b31-uE-N6H"/>
+                            <constraint firstItem="9Pg-Ar-nvG" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="29" id="bQP-Sn-3Ml"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="trailing" secondItem="1df-nF-71h" secondAttribute="trailing" constant="30" id="eAv-OC-mVu"/>
                             <constraint firstItem="aSg-RJ-Oah" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="29" id="etl-1X-vuA"/>
                             <constraint firstItem="kQM-PY-FJt" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.75" id="fD4-mn-q3d"/>
                             <constraint firstItem="7vx-Gq-CZ2" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.229282" priority="999" id="h3F-NV-8tE"/>
                             <constraint firstItem="XHH-go-9o7" firstAttribute="trailing" secondItem="wmO-fd-Sbq" secondAttribute="trailing" priority="999" id="hlS-0a-SIo"/>
+                            <constraint firstItem="9Pg-Ar-nvG" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="width" multiplier="0.15942" id="i4H-Hj-O2h"/>
                             <constraint firstItem="1df-nF-71h" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="45:448" id="im0-mo-ImB"/>
                             <constraint firstItem="3vY-Fw-5xn" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="29" id="jX2-Lv-6VQ"/>
                             <constraint firstItem="bJO-G7-HcL" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.2" id="m4e-X2-ULD"/>
-                            <constraint firstItem="3vY-Fw-5xn" firstAttribute="top" secondItem="aSg-RJ-Oah" secondAttribute="bottom" constant="12.329999923706055" id="qLH-5h-FK0"/>
+                            <constraint firstItem="3vY-Fw-5xn" firstAttribute="top" secondItem="aSg-RJ-Oah" secondAttribute="bottom" constant="7" id="qLH-5h-FK0"/>
                             <constraint firstItem="wmO-fd-Sbq" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="34" id="uBY-Eo-5UK"/>
                             <constraint firstItem="bJO-G7-HcL" firstAttribute="centerX" secondItem="Hb9-XN-19l" secondAttribute="centerX" multiplier="1.6" id="vEt-4X-YZo"/>
                             <constraint firstItem="l8E-mQ-Hni" firstAttribute="top" secondItem="7vx-Gq-CZ2" secondAttribute="bottom" constant="17" id="vJo-HT-Me5"/>
-                            <constraint firstItem="3vY-Fw-5xn" firstAttribute="width" secondItem="Hb9-XN-19l" secondAttribute="height" multiplier="33:448" id="vwB-9H-cRi"/>
                             <constraint firstItem="aSg-RJ-Oah" firstAttribute="centerY" secondItem="Hb9-XN-19l" secondAttribute="centerY" multiplier="0.875" id="w8A-6V-l0L"/>
+                            <constraint firstItem="6N4-Dv-Aop" firstAttribute="leading" secondItem="XHH-go-9o7" secondAttribute="leading" constant="29" id="yJB-LR-kgd"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="B3M-xl-hve" appends="YES" id="4Bf-6E-8Y6"/>
@@ -643,12 +668,14 @@
                     </view>
                     <connections>
                         <outlet property="cancelButton" destination="bJO-G7-HcL" id="Grs-VB-vNG"/>
-                        <outlet property="changeButton" destination="3vY-Fw-5xn" id="9g1-qO-pNY"/>
+                        <outlet property="changePostingAsButton" destination="3vY-Fw-5xn" id="9g1-qO-pNY"/>
+                        <outlet property="changePostingToButton" destination="9Pg-Ar-nvG" id="Kbh-VL-asX"/>
                         <outlet property="characterCountLabel" destination="wmO-fd-Sbq" id="LIS-FM-Y18"/>
                         <outlet property="clearButton" destination="bJO-G7-HcL" id="zWe-YO-OCK"/>
                         <outlet property="messageEditor" destination="l8E-mQ-Hni" id="YQg-i3-lPJ"/>
                         <outlet property="postMessageButton" destination="1df-nF-71h" id="1rh-Hm-Toe"/>
                         <outlet property="postingAsLabel" destination="aSg-RJ-Oah" id="raQ-rd-FHA"/>
+                        <outlet property="postingToLabel" destination="6N4-Dv-Aop" id="znm-3x-Ezu"/>
                         <segue destination="vvS-C6-SEi" kind="presentation" identifier="newPostToChange" id="rG1-vR-Rms"/>
                     </connections>
                 </viewController>
@@ -1291,6 +1318,9 @@
                                     <constraint firstAttribute="width" secondItem="SKl-We-NPU" secondAttribute="height" multiplier="237:88" id="DWh-2w-l7k"/>
                                 </constraints>
                                 <state key="normal" image="Confirm button"/>
+                                <connections>
+                                    <action selector="confirmButtonPressed:" destination="jTj-WO-0vg" eventType="touchUpInside" id="64V-Q7-Jkm"/>
+                                </connections>
                             </button>
                             <button opaque="NO" alpha="0.25" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vBL-wE-3t7">
                                 <rect key="frame" x="17" y="23" width="49" height="38"/>
@@ -1332,9 +1362,11 @@
                     </view>
                     <connections>
                         <outlet property="schoolNameLabel" destination="k0x-ok-pvZ" id="ZrF-gb-nED"/>
+                        <segue destination="8jX-ZA-Qqs" kind="unwind" identifier="unwindToMySchool" unwindAction="unwind:" id="pXh-fK-6BN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2LT-cy-NXM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="8jX-ZA-Qqs" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="11031.884057971016" y="466.74107142857139"/>
         </scene>
@@ -1356,16 +1388,24 @@
                                     <action selector="addMySchoolButtonPressed:" destination="L3R-WN-JAo" eventType="touchUpInside" id="JXR-PK-i8c"/>
                                 </connections>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="75d-Vh-rD8">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GNp-UV-lSG"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="rCp-Q0-uRv" firstAttribute="centerY" secondItem="GAq-zw-iuB" secondAttribute="centerY" multiplier="1.8" id="6fy-J5-oPT"/>
+                            <constraint firstItem="75d-Vh-rD8" firstAttribute="bottom" secondItem="GNp-UV-lSG" secondAttribute="bottom" id="GJ1-xC-vgR"/>
+                            <constraint firstItem="75d-Vh-rD8" firstAttribute="top" secondItem="GNp-UV-lSG" secondAttribute="top" id="IcA-pr-Pou"/>
                             <constraint firstItem="rCp-Q0-uRv" firstAttribute="width" secondItem="GAq-zw-iuB" secondAttribute="height" multiplier="237:725" id="LE0-A5-cmG"/>
                             <constraint firstItem="dT4-ja-ZJx" firstAttribute="height" secondItem="GAq-zw-iuB" secondAttribute="height" multiplier="0.551724" priority="999" id="Ops-Id-ecl"/>
+                            <constraint firstItem="75d-Vh-rD8" firstAttribute="trailing" secondItem="GNp-UV-lSG" secondAttribute="trailing" id="S6V-Bo-fax"/>
                             <constraint firstItem="rCp-Q0-uRv" firstAttribute="width" secondItem="GAq-zw-iuB" secondAttribute="width" multiplier="0.572464" priority="999" id="TDu-tQ-GNq"/>
                             <constraint firstItem="rCp-Q0-uRv" firstAttribute="height" secondItem="GAq-zw-iuB" secondAttribute="height" multiplier="0.121379" priority="999" id="b7t-1i-amT"/>
                             <constraint firstItem="dT4-ja-ZJx" firstAttribute="centerY" secondItem="GAq-zw-iuB" secondAttribute="centerY" multiplier="0.75" id="dIz-Ts-sKd"/>
+                            <constraint firstItem="75d-Vh-rD8" firstAttribute="leading" secondItem="GNp-UV-lSG" secondAttribute="leading" id="dJB-ya-x9k"/>
                             <constraint firstItem="dT4-ja-ZJx" firstAttribute="width" secondItem="GAq-zw-iuB" secondAttribute="width" multiplier="0.625604" priority="999" id="dd1-4e-zkx"/>
                             <constraint firstItem="rCp-Q0-uRv" firstAttribute="centerX" secondItem="GAq-zw-iuB" secondAttribute="centerX" id="dto-vK-62c"/>
                             <constraint firstItem="dT4-ja-ZJx" firstAttribute="centerX" secondItem="GAq-zw-iuB" secondAttribute="centerX" id="eS0-OO-pdd"/>
@@ -1375,6 +1415,8 @@
                     <navigationItem key="navigationItem" title="My School" id="0Wx-Ka-UVG"/>
                     <connections>
                         <outlet property="addMySchoolButton" destination="rCp-Q0-uRv" id="quI-z7-0Ny"/>
+                        <outlet property="mySchoolIconText" destination="dT4-ja-ZJx" id="P2h-zH-kiT"/>
+                        <outlet property="mySchoolTableView" destination="75d-Vh-rD8" id="l5O-S2-CAS"/>
                         <segue destination="Ta8-PH-UAb" kind="presentation" identifier="mySchoolToAddMySchool" modalPresentationStyle="fullScreen" id="7XL-m3-tJ7"/>
                     </connections>
                 </viewController>
@@ -1796,7 +1838,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="pPW-sO-smp"/>
-        <segue reference="OQ2-e3-lKQ"/>
+        <segue reference="rG1-vR-Rms"/>
         <segue reference="GAJ-WX-5Zx"/>
         <segue reference="VhC-5O-fwx"/>
     </inferredMetricsTieBreakers>

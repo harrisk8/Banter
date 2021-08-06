@@ -22,10 +22,15 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
-    @IBOutlet weak var changeButton: UIButton!
+    
+    @IBOutlet weak var changePostingAsButton: UIButton!
+    @IBOutlet weak var changePostingToButton: UIButton!
+    
     @IBOutlet weak var postMessageButton: UIButton!
     
     @IBOutlet weak var postingAsLabel: UILabel!
+    @IBOutlet weak var postingToLabel: UILabel!
+    
     @IBOutlet weak var characterCountLabel: UILabel!
     
     @IBOutlet weak var messageEditor: UITextView!
@@ -43,7 +48,11 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
 
     let randomInt: Int32 = Int32(Int.random(in: 1...100))
     
-    var timestampForFetchingPostsBeforeUsersPost: Double?
+    var timestampForFetchingNearbyPostsBeforeUsersPost: Double?
+    var timestampForFetchingSchoolPostsBeforeUsersPost: Double?
+    
+    var postToSchool = false
+    var postToNearby = true
     
     //Configures state to avoid creating two new posts if user presses post button in rapid succession.
     var processingNewPost = false
@@ -63,23 +72,29 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
         organizePostingAsLabel()
         
-        testArray.append(["author" : "Jack", "message" : "Hi everyone!"])
-        testArray.append(["author" : "Bob", "message" : "What's up?"])
-        testArray.append(["author" : "William", "message" : "Hello."])
+        testArray.append(["author" : "Jack", "message" : "Hi everyone! (This is a test comment)"])
+        testArray.append(["author" : "Bob", "message" : "What's up? This is a test comment)"])
+        testArray.append(["author" : "William", "message" : "Hello. This is a test comment)"])
 
         
         
         
         if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0 {
-            timestampForFetchingPostsBeforeUsersPost = 0.0
+            timestampForFetchingNearbyPostsBeforeUsersPost = 0.0
         } else {
-            timestampForFetchingPostsBeforeUsersPost = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp
+            timestampForFetchingNearbyPostsBeforeUsersPost = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp
+        }
+        
+        if MySchoolPosts.MySchoolPostsArray.count == 0 {
+            timestampForFetchingSchoolPostsBeforeUsersPost = 0.0
+        } else {
+            timestampForFetchingSchoolPostsBeforeUsersPost = MySchoolPosts.MySchoolPostsArray[0].timestamp
         }
 
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        print("viewappeared")
+        print("New Post View Appeared")
     }
     
     
@@ -98,13 +113,14 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                         
         var ref: DocumentReference? = nil
 
-        ref = database.collection("posts").addDocument(data: [
+        ref = database.collection("nearbyPosts").addDocument(data: [
                         
             "author": UserInfo.userAppearanceName as Any,
             "userDocID": UserInfo.userCollectionDocID ?? "",
-//            "comments": testArray,
+            "comments": testArray,
             "locationCity": UserInfo.userCity ?? "",
             "locationState": UserInfo.userState ?? "",
+            "userSchool": UserInfo.userSchool ?? "",
             "message": messageEditor.text ?? "",
             "score": 0,
             "timestamp": timestampOfPostCreated,
@@ -127,19 +143,53 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
         
     }
+    
+    func writePostToNearbyCollection() {
+        
+        var ref: DocumentReference? = nil
+
+        ref = database.collection("schoolPosts").addDocument(data: [
+                        
+            "author": UserInfo.userAppearanceName as Any,
+            "userDocID": UserInfo.userCollectionDocID ?? "",
+            "comments": testArray,
+            "locationCity": UserInfo.userCity ?? "",
+            "locationState": UserInfo.userState ?? "",
+            "userSchool": UserInfo.userSchool ?? "",
+            "message": messageEditor.text ?? "",
+            "score": 0,
+            "timestamp": timestampOfPostCreated,
+            "lastCommentTimestamp": 0.0
+        
+        ]) { err in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                print("Document successfully written")
+                print(ref?.documentID ?? "")
+                
+                self.newDocumentID = ref?.documentID
+                
+                //Add user generated post to nearbyFinal array and then to Core Data
+                self.appendNewPostToArray()
+
+            }
+        }
+        
+    }
 
     
     
     func fetchPostsBeforeUsersPost() {
         
         if newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.count == 0 {
-            timestampForFetchingPostsBeforeUsersPost = 0.0
+            timestampForFetchingNearbyPostsBeforeUsersPost = 0.0
         } else {
-            timestampForFetchingPostsBeforeUsersPost = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp ?? 0.0
+            timestampForFetchingNearbyPostsBeforeUsersPost = newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[0].timestamp ?? 0.0
         }
         
         database.collection("posts")
-            .whereField("timestamp", isGreaterThan: timestampForFetchingPostsBeforeUsersPost)
+            .whereField("timestamp", isGreaterThan: timestampForFetchingNearbyPostsBeforeUsersPost)
                 .whereField("locationCity", isEqualTo: UserInfo.userCity ?? "")
                 .whereField("locationState", isEqualTo: UserInfo.userState ?? "")
                .getDocuments() { (querySnapshot, err) in
@@ -169,12 +219,10 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                                userDocID: postUserDocID
                             )
                         
-                        print(" - - - -new post before users post - - - - ")
+                        print(" - - - -New post before users post - - - - ")
                         print(newPost)
                            
                         newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.append(newPost)
-                        
-                        
                            
                        }
                        
@@ -277,6 +325,41 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                 
     }
     
+    func organizePostingToLabel(changeLabelToNearby: Bool, changeLabelToSchool: Bool) {
+
+        let partOneAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(red: 35/255, green: 8/255, blue: 58/255, alpha: 1),
+            .font: UIFont(name: "Roboto-Regular", size: 15) ?? UIFont.boldSystemFont(ofSize: 15)
+        ]
+        
+        let partTwoAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(red: 35/255, green: 8/255, blue: 58/255, alpha: 1),
+            .font: UIFont(name: "Roboto-Bold", size: 15) ?? UIFont.boldSystemFont(ofSize: 15)
+        ]
+        
+        let attributedPartOne = NSMutableAttributedString(string: "Posting as: ", attributes: partOneAttributes)
+        
+        let attributedMySchool = NSMutableAttributedString(string: "My School", attributes: partTwoAttributes)
+        
+        let attributedNearby = NSMutableAttributedString(string: "Nearby", attributes: partTwoAttributes)
+        
+        if changeLabelToNearby == true && changeLabelToSchool == false {
+            //Change label to nearby
+            
+            attributedPartOne.append(attributedNearby)
+
+        } else if changeLabelToNearby == false && changeLabelToSchool == true {
+            //Change label to school
+            
+            attributedPartOne.append(attributedMySchool)
+            
+        }
+        
+        postingToLabel.adjustsFontSizeToFitWidth = true
+        postingToLabel.attributedText = attributedPartOne
+                
+    }
+    
     //Updates character count label in real-time
     func textViewDidChange(_ textView: UITextView) {
         let characterCount: String
@@ -300,9 +383,33 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         return .darkContent
     }
     
-    @IBAction func changePressed(_ sender: Any) {
+    @IBAction func changePostingAsButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: "newPostToChange", sender: self)
     }
+    
+    
+    @IBAction func changePostingToButtonPressed(_ sender: Any) {
+        
+        if postToSchool == true && postToNearby == false {
+            //Switching from post to school --> post to nearby
+            
+            organizePostingToLabel(changeLabelToNearby: true, changeLabelToSchool: false)
+            
+            postToSchool = false
+            postToNearby = true
+            
+        } else if postToSchool == false && postToNearby == true {
+            //Switching from post to nearby --> post to school
+            
+            organizePostingToLabel(changeLabelToNearby: false, changeLabelToSchool: true)
+            
+            postToSchool = true
+            postToNearby = false
+            
+        }
+        
+    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         

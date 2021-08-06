@@ -18,6 +18,39 @@ enum userAddedSchool {
     case userHasNotAddedSchool
 }
 
+enum pathwayIntoComments {
+    case nearbyToComments
+    case trendingToComments
+    case inboxToComments
+    case mySchoolToComments
+}
+
+enum postingTo {
+    case postToNearby
+    case postToSchool
+}
+
 struct CollegeData: Codable {
     var LocationName: String
+}
+
+struct MySchoolCellData {
+    
+    var author: String?
+    var message: String?
+    var score: Int32?
+    var timestamp: Double?
+    var comments: [[String: AnyObject]]?
+    var documentID: String?
+    var userDocID: String?
+    var schoolName: String?
+    var likedPost: Bool?
+    var dislikedPost: Bool?
+    
+}
+
+struct MySchoolPosts {
+    
+    static var MySchoolPostsArray: [MySchoolCellData] = []
+    
 }

@@ -234,6 +234,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             print("User entering comments VC from Nearby")
             loadDataForInboxPost()
             
+        case .mySchoolToComments:
+            print("User entering comments VC from Nearby")
+            
         case .none:
             dismiss(animated: true, completion: nil)
             
@@ -507,6 +510,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         case .inboxToComments:
             print("Voting on post from Nearby")
             
+        case .mySchoolToComments:
+            print("Voting on post from my school")
+
+            
         case .none:
             dismiss(animated: true, completion: nil)
             
@@ -592,6 +599,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
 
         case .inboxToComments:
             print("Voting on post from Nearby")
+            
+        case .mySchoolToComments:
+            print("Voting on post from my school")
+
             
         case .none:
             dismiss(animated: true, completion: nil)

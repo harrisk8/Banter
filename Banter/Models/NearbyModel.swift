@@ -27,11 +27,6 @@ struct votesFromCoreData {
     static var votesFromCoreDataArray: [voteFromCoreData] = []
 }
 
-enum pathwayIntoComments {
-    case nearbyToComments
-    case trendingToComments
-    case inboxToComments
-}
 
 public struct NearbyCellData {
     

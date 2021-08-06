@@ -20,6 +20,8 @@ class AddMySchoolViewController: UIViewController, UITableViewDelegate, UITableV
     let data = CollegeDataLoader().collegeData
     var filteredData: [CollegeData]!
     
+    var appearingFromConfirmMySchool = false
+    
     var indexPathSelected: Int?
     
     override func viewDidLoad() {
@@ -156,6 +158,10 @@ class AddMySchoolViewController: UIViewController, UITableViewDelegate, UITableV
         
     }
 
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("School list appearing")
+    }
     /*
     // MARK: - Navigation
 

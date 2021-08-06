@@ -17,6 +17,7 @@ class UserInfo {
     static var userAppearanceName: String?
     static var userCity: String?
     static var userState: String?
+    static var userSchool: String?
     static var refreshTime: Double?
     static var keyboardHeight: Double?
     static var userCollectionDocID: String?

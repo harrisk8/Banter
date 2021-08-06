@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseFirestore
 
 class ConfirmSchoolViewController: UIViewController {
     
     @IBOutlet weak var schoolNameLabel: UILabel!
     
     var schoolName: String?
+    
+    let database = Firestore.firestore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +26,39 @@ class ConfirmSchoolViewController: UIViewController {
 
     }
     
+    @IBAction func confirmButtonPressed(_ sender: Any) {
+        
+        
+//        let databaseRef = database.collection("users").document(UserInfo.userCollectionDocID ?? "")
+//
+//        databaseRef.updateData([
+//
+//            "userSchool": schoolName!
+//
+//        ]) { err in
+//            if let err = err {
+//                print(err.localizedDescription)
+//            } else {
+//                print("Document successfully written")
+//            }
+//        }
+        
+        performSegue(withIdentifier: "unwindToMySchool", sender: self)
+        
+        UserDefaults.standard.setValue(true, forKey: "hasUserAddedSchool")
+        UserDefaults.standard.setValue(schoolName, forKey: "userSchool")
+        UserInfo.userSchool = schoolName
+        UserInfo.hasUserAddedSchool = .userHasAddedSchool
+
+        
+    }
+
+    
+    
+    
     @IBAction func backButtonPressed(_ sender: Any) {
         
-        dismiss(animated: true, completion: nil)
+        
         
     }
     

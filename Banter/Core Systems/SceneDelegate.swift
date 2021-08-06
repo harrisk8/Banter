@@ -41,6 +41,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             UserInfo.userNewOrExisting = .existingUser
             
+            if UserDefaults.standard.bool(forKey: "hasUserAddedSchool") == true{
+                UserInfo.hasUserAddedSchool = .userHasAddedSchool
+                UserInfo.userSchool = UserDefaults.standard.string(forKey: "userSchool")
+            } else {
+                UserInfo.hasUserAddedSchool = .userHasNotAddedSchool
+
+            }
+            
+            UserInfo.userCollectionDocID = UserDefaults.standard.string(forKey: "userCollectionDocID")
+            
             if let windowScene = scene as? UIWindowScene {
                 self.window = UIWindow(windowScene: windowScene)
                 let initialViewController = mainStoryBoard.instantiateViewController(withIdentifier: "tabBarIdentifier")
@@ -49,14 +59,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
             
         } else {
-            
+            //New user
             print("Scene Delegate: New user")
             
             //This line is technically redundant becasue the static variable is .newUser by default
             UserInfo.userNewOrExisting = .newUser
 
-            // New User
         }
+                
         guard let _ = (scene as? UIWindowScene) else { return }
     }
     
