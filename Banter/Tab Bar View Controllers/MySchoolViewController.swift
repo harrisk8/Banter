@@ -249,10 +249,77 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
         
     
     }
+
     
     func userPressedVoteButton(_ cell: NearbyTableCell, _ caseType: voteType) {
         
+        //Extract and format array index for cell that was interacted with
+        let voteIndexPath = self.mySchoolTableView.indexPath(for: cell)
+        let voteIndexPathRow = (voteIndexPath?[1] ?? 0)
+        print(" - - - - User voted on cell: \(voteIndexPathRow) - - - - - - ")
+        print(" - - - - User voted on cell: \(MySchoolPosts.MySchoolPostsArray[voteIndexPathRow]) - - - - - - ")
+
         
+        
+        let assignVoteStatusToArray = caseType
+        
+        switch assignVoteStatusToArray {
+            
+        case .like:
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].likedPost = true
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].dislikedPost = false
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].score! += 1
+            print("POST LIKED")
+            DispatchQueue.main.async {
+                self.mySchoolTableView.reloadData()
+            }
+        case .dislike:
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].dislikedPost = true
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].likedPost = false
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].score! -= 1
+            print("POST DISLIKED")
+            DispatchQueue.main.async {
+                self.mySchoolTableView.reloadData()
+            }
+        case .removeLike:
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].dislikedPost = false
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].likedPost = false
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].score! -= 1
+            print("POST UNLIKED")
+            DispatchQueue.main.async {
+                self.mySchoolTableView.reloadData()
+            }
+        case .removeDislike:
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].dislikedPost = false
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].likedPost = false
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].score! += 1
+            print("POST UNDISLIKED")
+            DispatchQueue.main.async {
+                self.mySchoolTableView.reloadData()
+            }
+        case .dislikeFromLike:
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].dislikedPost = false
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].likedPost = false
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].score! -= 1
+            print("POST DISLIKED FROM LIKED")
+            DispatchQueue.main.async {
+                self.mySchoolTableView.reloadData()
+            }
+        case .likeFromDislike:
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].dislikedPost = false
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].likedPost = false
+            MySchoolPosts.MySchoolPostsArray[voteIndexPathRow].score! += 1
+            print("POST LIKED FROM DISLIKED")
+            DispatchQueue.main.async {
+                self.mySchoolTableView.reloadData()
+            }
+        }
+        
+        let vote = VotingModel()
+        
+        //Calls upon VotingModel to execute vote to Firebase. Nearby is true, trending is false
+        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType, nearbyOrTrending: true)
+        vote.saveVoteToCoreData(postPositionInArray: voteIndexPathRow, voteType: caseType, nearbyOrTrending: true)
     }
 
 }
