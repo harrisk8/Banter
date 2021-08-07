@@ -12,7 +12,7 @@ import Firebase
 import CoreData
 import FirebaseFirestore
 
-protocol refreshNearbyTable {
+protocol refreshLastVCTable {
     func refreshtable()
 }
 
@@ -49,7 +49,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     let dataContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let database = Firestore.firestore()
-    var refreshNearbyTableDelegate: refreshNearbyTable?
+    var refreshLastVCTableDelegate: refreshLastVCTable?
     var voteDelegate: adjustNearbyVote?
 
     
@@ -264,6 +264,45 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
         
         if commentsArray.count == 0 {
             newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray[postIndexInNearbyArray ?? 0].comments = []
+        }
+        
+        //Configures logic for like/dislike button color depending on state
+        if likedPost == true && dislikedPost == false {
+            likeButton.setImage(UIImage(named: "Like Button Orange"), for: .normal)
+            dislikeButton.setImage(UIImage(named: "Dislike Button Greyed Out"), for: .normal)
+
+        } else if likedPost == false && dislikedPost == true {
+            dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
+            likeButton.setImage(UIImage(named: "Like Button Greyed Out"), for: .normal)
+        } else {
+            dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+            likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
+        }
+        
+        DispatchQueue.main.async {
+            self.commentsTableView.reloadData()
+        }
+        
+    }
+    
+    func loadDataForSchoolPost() {
+        
+        postMessage.text = MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].message
+        commentsArray = MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].comments ?? []
+        docID = MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].documentID ?? ""
+        likedPost = MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].likedPost
+        dislikedPost = MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].dislikedPost
+        
+        postInfoLabel.text = String(MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
+        postInfoLabel.text? += " | "
+        postInfoLabel.text? += String(MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].schoolName ?? "")
+        
+        authorLabel.text = String(MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].author ?? "")
+        
+        scoreLabel.text = String(MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score ?? 0)
+        
+        if commentsArray.count == 0 {
+            MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].comments = []
         }
         
         //Configures logic for like/dislike button color depending on state
@@ -722,7 +761,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         }
         
-        refreshNearbyTableDelegate?.refreshtable()
+        refreshLastVCTableDelegate?.refreshtable()
 
     }
     
@@ -865,40 +904,38 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
     
     
     @IBAction func backButtonPressed(_ sender: Any) {
-        refreshNearbyTableDelegate?.refreshtable()
+        refreshLastVCTableDelegate?.refreshtable()
         dismiss(animated: true, completion: nil)
     }
     
     //Determines number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if segueFromInbox == false {
-                        
-            return commentsArray.count 
+//        if segueFromInbox == false {
+//
+//            return commentsArray.count
+//
+//        } else if segueFromInbox == true {
+//
+//            if fetchPost == false {
+//
+//                print(commentsArray.count)
+//                return (commentsArray.count)
+//
+//            } else {
+//                return newlyFetchedPost?.comments?.count ?? 0
+//            }
+//
+//
+//        }
             
-        } else if segueFromInbox == true {
             
-            if fetchPost == false {
-                
-                print(commentsArray.count)
-                return (commentsArray.count)
-                
-            } else {
-                return newlyFetchedPost?.comments?.count ?? 0
-            }
-            
-                        
-        }
-            
-            
-           return 10
+        return commentsArray.count
         
     }
     
     //Populates table cells with data from array
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "NearbyTableCell", for: indexPath) as! NearbyTableCell
         
@@ -1057,7 +1094,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
                     }, completion: { [weak self] _ in
                         self?.commentsTextView.resignFirstResponder()
                         self?.slideCommentEditorDown()
-                        self?.refreshNearbyTableDelegate?.refreshtable()
+                        self?.refreshLastVCTableDelegate?.refreshtable()
                         self?.dismiss(animated: false, completion: nil)
                     })
                 }

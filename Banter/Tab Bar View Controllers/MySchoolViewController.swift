@@ -9,7 +9,8 @@
 import UIKit
 import Firebase
 
-class MySchoolViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, cellVotingDelegate {
+class MySchoolViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, cellVotingDelegate, refreshLastVCTable {
+    
     
     @IBOutlet weak var addMySchoolButton: UIButton!
     @IBOutlet weak var mySchoolIconText: UIImageView!
@@ -20,6 +21,9 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
     private let refreshControl = UIRefreshControl()
     
     var lastTimestampPulledFromServer: Double?
+    
+    var selectedCellIndex: Int?
+
     
     override func viewDidLoad() {
         
@@ -168,7 +172,7 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
             lastTimestampPulledFromServer = MySchoolPosts.MySchoolPostsArray[0].timestamp ?? 0.0
         }
         
-        database.collection("schoolPosts")
+        database.collection("posts")
             .whereField("userSchool", isEqualTo: UserInfo.userSchool ?? "")
             .limit(to: 20)
             .getDocuments() { (querySnapshot, err) in
@@ -224,6 +228,31 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
                 }
                 
             }
+        }
+    }
+    
+    //Handles functionality for cell selection
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCellIndex = indexPath.row
+        performSegue(withIdentifier: "mySchoolToComments", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let commentsVC = segue.destination as? CommentsViewController {
+            
+            commentsVC.postIndexInNearbyArray = selectedCellIndex
+            commentsVC.modalPresentationCapturesStatusBarAppearance = true
+            commentsVC.refreshLastVCTableDelegate = self
+            commentsVC.pathway = .mySchoolToComments
+            
+        }
+        
+    }
+    
+    func refreshtable() {
+        DispatchQueue.main.async {
+            self.mySchoolTableView.reloadData()
         }
     }
     
@@ -318,7 +347,9 @@ class MySchoolViewController: UIViewController, UITableViewDelegate, UITableView
         let vote = VotingModel()
         
         //Calls upon VotingModel to execute vote to Firebase. Nearby is true, trending is false
-        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType, nearbyOrTrending: true)
+//        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType, nearbyOrTrending: true)
+        
+        vote.sendVoteToDatabase2(votePathway: .voteFromMySchool, postPositionInRespectiveArray: voteIndexPathRow, voteType: caseType)
         vote.saveVoteToCoreData(postPositionInArray: voteIndexPathRow, voteType: caseType, nearbyOrTrending: true)
     }
 

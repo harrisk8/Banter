@@ -149,14 +149,14 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                         
         var ref: DocumentReference? = nil
 
-        ref = database.collection("nearbyPosts").addDocument(data: [
+        ref = database.collection("posts").addDocument(data: [
                         
             "author": UserInfo.userAppearanceName as Any,
             "userDocID": UserInfo.userCollectionDocID ?? "",
             "comments": testArray,
             "locationCity": UserInfo.userCity ?? "",
             "locationState": UserInfo.userState ?? "",
-            "userSchool": UserInfo.userSchool ?? "",
+            "userSchool": "",
             "message": messageEditor.text ?? "",
             "score": 0,
             "timestamp": timestampOfPostCreated,
@@ -172,7 +172,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                 self.newDocumentID = ref?.documentID
                 
                 //Add user generated post to nearbyFinal array and then to Core Data
-                self.appendNewPostToArray()
+                self.appendNewNearbyPostToNearbyArray()
 
             }
         }
@@ -185,7 +185,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                         
         var ref: DocumentReference? = nil
 
-        ref = database.collection("schoolPosts").addDocument(data: [
+        ref = database.collection("posts").addDocument(data: [
                         
             "author": UserInfo.userAppearanceName as Any,
             "userDocID": UserInfo.userCollectionDocID ?? "",
@@ -208,48 +208,13 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
                 self.newDocumentID = ref?.documentID
                 
                 //Add user generated post to nearbyFinal array and then to Core Data
-                self.appendNewPostToArray()
+                self.appendNewSchoolPostToSchoolArray()
 
             }
         }
         
         
     }
-    
-    func writePostToNearbyCollection() {
-        
-        var ref: DocumentReference? = nil
-
-        ref = database.collection("nearbyPosts").addDocument(data: [
-                        
-            "author": UserInfo.userAppearanceName as Any,
-            "userDocID": UserInfo.userCollectionDocID ?? "",
-            "comments": testArray,
-            "locationCity": UserInfo.userCity ?? "",
-            "locationState": UserInfo.userState ?? "",
-            "userSchool": UserInfo.userSchool ?? "",
-            "message": messageEditor.text ?? "",
-            "score": 0,
-            "timestamp": timestampOfPostCreated,
-            "lastCommentTimestamp": 0.0
-        
-        ]) { err in
-            if let err = err {
-                print(err.localizedDescription)
-            } else {
-                print("Document successfully written")
-                print(ref?.documentID ?? "")
-                
-                self.newDocumentID = ref?.documentID
-                
-                //Add user generated post to nearbyFinal array and then to Core Data
-                self.appendNewPostToArray()
-
-            }
-        }
-        
-    }
-
     
     
     func fetchNearbyPostsBeforeUsersPost() {
@@ -371,7 +336,7 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
     
     
     //Locally appends nearby array with new post created by the user.
-    func appendNewPostToArray() {
+    func appendNewNearbyPostToNearbyArray() {
 
         let newPostData = NearbyCellData(
             author: UserInfo.userAppearanceName,
@@ -380,12 +345,35 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
             timestamp: timestampOfPostCreated,
             comments: [] as [[String : AnyObject]],
             documentID: newDocumentID,
-            userDocID: UserInfo.userCollectionDocID
+            userDocID: UserInfo.userCollectionDocID,
+            likedPost: false,
+            dislikedPost: false
         )
         
         newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.insert(newPostData, at: 0)
         
         organizeNearbyArray()
+        
+    }
+    
+    func appendNewSchoolPostToSchoolArray() {
+
+        let newPostData = MySchoolCellData(
+            author: UserInfo.userAppearanceName,
+            message: messageEditor.text,
+            score: 0,
+            timestamp: timestampOfPostCreated,
+            comments: [] as [[String : AnyObject]],
+            documentID: newDocumentID,
+            userDocID: UserInfo.userCollectionDocID,
+            schoolName: UserInfo.userSchool,
+            likedPost: false,
+            dislikedPost: false
+        )
+        
+        MySchoolPosts.MySchoolPostsArray.insert(newPostData, at: 0)
+        
+        organizeSchoolArray()
         
     }
     
@@ -396,6 +384,20 @@ class NewPostEditorViewController: UIViewController, UITextViewDelegate, UITextF
         
         //Sort by timestamp
         newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.sort{ (lhs: NearbyCellData, rhs: NearbyCellData) -> Bool in
+            return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
+        }
+        
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func organizeSchoolArray() {
+        
+        
+        processingNewPost = false
+        
+        //Sort by timestamp
+        MySchoolPosts.MySchoolPostsArray.sort{ (lhs: MySchoolCellData, rhs: MySchoolCellData) -> Bool in
             return lhs.timestamp ?? 0 > rhs.timestamp ?? 0
         }
         

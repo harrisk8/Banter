@@ -243,7 +243,7 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
         
         cell.trendingVoteDelegate = self
         
-        cell.authorLabel?.text = String(trendingCellData.author!) + " | " + (UserInfo.userCity ?? "") + ", " + (UserInfo.userState ?? "")
+        cell.authorLabel?.text = String(trendingCellData.author!) + " | " + (trendingCellData.postLocationCity ?? "") + ", " + (trendingCellData.postLocationState ?? "")
         cell.messageLabel?.text = String(trendingCellData.message!)
         cell.timestampLabel?.text = formatPostTime(postTimestamp: trendingCellData.timestamp!)
         cell.postScoreLabel?.text = String(trendingCellData.score!)
@@ -365,7 +365,9 @@ class TrendingViewController: UIViewController, UITableViewDataSource, UITableVi
         let vote = VotingModel()
         
         //Calls upon VotingModel to execute vote to Firebase. True if Nearby, False if Trending.
-        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType, nearbyOrTrending: false)
+//        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType, nearbyOrTrending: false)
+        
+        vote.sendVoteToDatabase2(votePathway: .voteFromTrending, postPositionInRespectiveArray: voteIndexPathRow, voteType: caseType)
         vote.saveVoteToCoreData(postPositionInArray: voteIndexPathRow, voteType: caseType, nearbyOrTrending: false)
         
         

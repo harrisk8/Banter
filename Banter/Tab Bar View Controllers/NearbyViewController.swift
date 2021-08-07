@@ -14,7 +14,7 @@ import CoreData
 import CoreLocation
 
 
-class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, refreshNearbyTable, cellVotingDelegate, updateNavBarLabel, updateNearbyChangeNameButton {
+class NearbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, refreshLastVCTable, cellVotingDelegate, updateNavBarLabel, updateNearbyChangeNameButton {
     
     
     func updateChangeNameButtonTitle() {
@@ -180,6 +180,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         database.collection("posts")
             .whereField("locationCity", isEqualTo: UserInfo.userCity ?? "")
             .whereField("locationState", isEqualTo: UserInfo.userState ?? "")
+            .whereField("userSchool", isEqualTo: "")
             .limit(to: 20)
             .getDocuments() { (querySnapshot, err) in
 
@@ -218,6 +219,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                         
                             
                             newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray.append(newPost)
+                            
 
                         }
                         
@@ -238,6 +240,11 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
                         } else {
                             self.lastTimestampPulledFromServer = 0.0
                         }
+                        
+                        print("- - - - - -  NEARBY POSTS - - - - - - ")
+
+                        
+                        print(newlyFetchedNearbyPosts.newlyFetchedNearbyPostsArray)
                         
                         DispatchQueue.main.async {
                             self.startup.crosscheckCoreDataVotesToNewlyFetchedPosts()
@@ -464,7 +471,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             
             commentsVC.postIndexInNearbyArray = selectedCellIndex
             commentsVC.modalPresentationCapturesStatusBarAppearance = true
-            commentsVC.refreshNearbyTableDelegate = self
+            commentsVC.refreshLastVCTableDelegate = self
             commentsVC.pathway = .nearbyToComments
             
         }
@@ -598,6 +605,7 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
             .whereField("timestamp", isGreaterThan: lastTimestampPulledFromServer)
             .whereField("locationCity", isEqualTo: UserInfo.userCity ?? "")
             .whereField("locationState", isEqualTo: UserInfo.userState ?? "")
+            .whereField("userSchool", isEqualTo: "")
             .getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(err.localizedDescription)
@@ -739,7 +747,10 @@ class NearbyViewController: UIViewController, UITableViewDataSource, UITableView
         let vote = VotingModel()
         
         //Calls upon VotingModel to execute vote to Firebase. Nearby is true, trending is false
-        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType, nearbyOrTrending: true)
+//        vote.sendVoteToDatabase(postPositionInArray: voteIndexPathRow,  voteType: caseType, nearbyOrTrending: true)
+        
+        
+        vote.sendVoteToDatabase2(votePathway: .voteFromNearby, postPositionInRespectiveArray: voteIndexPathRow, voteType: caseType)
         vote.saveVoteToCoreData(postPositionInArray: voteIndexPathRow, voteType: caseType, nearbyOrTrending: true)
     }
     

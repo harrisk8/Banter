@@ -904,7 +904,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c8i-0S-IbX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="Gru-oV-YXa" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="6564" y="532"/>
+            <point key="canvasLocation" x="6657" y="635"/>
         </scene>
         <!--Report Post View Controller-->
         <scene sceneID="igF-rb-n96">
@@ -1418,6 +1418,7 @@
                         <outlet property="mySchoolIconText" destination="dT4-ja-ZJx" id="P2h-zH-kiT"/>
                         <outlet property="mySchoolTableView" destination="75d-Vh-rD8" id="l5O-S2-CAS"/>
                         <segue destination="Ta8-PH-UAb" kind="presentation" identifier="mySchoolToAddMySchool" modalPresentationStyle="fullScreen" id="7XL-m3-tJ7"/>
+                        <segue destination="Xks-jQ-og6" kind="presentation" identifier="mySchoolToComments" modalPresentationStyle="overFullScreen" id="0dB-k8-WAZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7DP-sr-5zV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1839,7 +1840,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="pPW-sO-smp"/>
         <segue reference="rG1-vR-Rms"/>
-        <segue reference="GAJ-WX-5Zx"/>
+        <segue reference="0dB-k8-WAZ"/>
         <segue reference="VhC-5O-fwx"/>
     </inferredMetricsTieBreakers>
     <resources>
