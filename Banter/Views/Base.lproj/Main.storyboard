@@ -904,7 +904,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c8i-0S-IbX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="Gru-oV-YXa" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="6657" y="635"/>
+            <point key="canvasLocation" x="6657" y="532"/>
         </scene>
         <!--Report Post View Controller-->
         <scene sceneID="igF-rb-n96">
@@ -1281,7 +1281,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pdr-tj-lQ0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9866.3999999999996" y="466.25615763546801"/>
+            <point key="canvasLocation" x="9959" y="467"/>
         </scene>
         <!--Confirm School View Controller-->
         <scene sceneID="UAI-cc-chN">
@@ -1658,14 +1658,26 @@
                     <view key="view" contentMode="scaleToFill" id="5Lf-2g-r5e">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2a7-5G-YsO">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="ayR-DF-5ot"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="2a7-5G-YsO" firstAttribute="trailing" secondItem="ayR-DF-5ot" secondAttribute="trailing" id="9GD-cW-w60"/>
+                            <constraint firstItem="2a7-5G-YsO" firstAttribute="bottom" secondItem="ayR-DF-5ot" secondAttribute="bottom" id="c7g-aL-skQ"/>
+                            <constraint firstItem="2a7-5G-YsO" firstAttribute="top" secondItem="ayR-DF-5ot" secondAttribute="top" id="d6q-Af-QiX"/>
+                            <constraint firstItem="2a7-5G-YsO" firstAttribute="leading" secondItem="ayR-DF-5ot" secondAttribute="leading" id="qtL-CP-hvG"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Posts" id="ZBT-5m-Ba7"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZUD-FV-RrU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8928" y="1369"/>
+            <point key="canvasLocation" x="8926.0869565217399" y="1368.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="a5s-5X-uts">
@@ -1728,7 +1740,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="72s-re-3Zk">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.34901960784313724" green="0.18823529411764706" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="barTintColor" red="0.36470588240000001" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1801,6 +1813,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.36470588235294116" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                     </navigationBar>
@@ -1839,8 +1852,8 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="pPW-sO-smp"/>
-        <segue reference="rG1-vR-Rms"/>
-        <segue reference="0dB-k8-WAZ"/>
+        <segue reference="OQ2-e3-lKQ"/>
+        <segue reference="GAJ-WX-5Zx"/>
         <segue reference="VhC-5O-fwx"/>
     </inferredMetricsTieBreakers>
     <resources>

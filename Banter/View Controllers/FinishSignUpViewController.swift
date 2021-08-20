@@ -25,6 +25,7 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     var firstName = ""
     var dateOfBirth = ""
     
+    var userDateOfBirth: Date?
     
     let database = Firestore.firestore()
 
@@ -75,42 +76,44 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func joinButtonPressed(_ sender: Any) {
         
-        if validateUserInfo() {
-            
-            print("User info is valid!")
-            
-            UserDefaults.standard.set(firstNameTextField.text, forKey: "userFirstName")
-            
-            if Auth.auth().isSignIn(withEmailLink: UserDefaults.standard.value(forKey: "Link") as! String) {
-                
-                print("Now signing the user into Firebase")
-                Auth.auth().signIn(withEmail: UserDefaults.standard.value(forKey: "validUserEmail") as? String ?? "", link: UserDefaults.standard.value(forKey: "Link") as! String) { (user, error) in
-                    
-                    if error == nil {
-                        
-                        print("NO ERROR")
-                        
-                        print("The user signed in with userID below:")
-                        print(Auth.auth().currentUser?.uid)
-
-                        self.createNewUser()
-                        
-                    } else {
-                        print(error)
-                    }
-                    
-            }
-
-            
-
-
-            }
-            
-            
-        } else {
-            
-            print("Missing first name or DOB or both")
-        }
+//        if validateUserInfo() {
+//
+//            print("User info is valid!")
+//
+//            UserDefaults.standard.set(firstNameTextField.text, forKey: "userFirstName")
+//
+//            if Auth.auth().isSignIn(withEmailLink: UserDefaults.standard.value(forKey: "Link") as! String) {
+//
+//                print("Now signing the user into Firebase")
+//                Auth.auth().signIn(withEmail: UserDefaults.standard.value(forKey: "validUserEmail") as? String ?? "", link: UserDefaults.standard.value(forKey: "Link") as! String) { (user, error) in
+//
+//                    if error == nil {
+//
+//                        print("NO ERROR")
+//
+//                        print("The user signed in with userID below:")
+//                        print(Auth.auth().currentUser?.uid)
+//
+//                        self.createNewUser()
+//
+//                    } else {
+//                        print(error)
+//                    }
+//
+//            }
+//
+//
+//
+//
+//            }
+//
+//
+//        } else {
+//
+//            print("Missing first name or DOB or both")
+//        }
+        
+        verifyUserAge(dateOfBirth: datePicker.date)
         
     }
     
@@ -225,7 +228,28 @@ class FinishSignUpViewController: UIViewController, UITextFieldDelegate {
         dateOfBirthTextField.inputView = datePicker
         
         dateOfBirthTextField.text = dateFormatter.string(from: datePicker.date)
+        
+        userDateOfBirth = datePicker.date
 
+    }
+    
+    func verifyUserAge(dateOfBirth: Date) {
+    
+        let today = NSDate()
+        
+        let gregorian = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
+        
+        let age = gregorian.components([.year], from: dateOfBirth, to: today as Date, options: [])
+
+        if age.year ?? 0 < 18 {
+                print("USER UNDER 18")
+        } else {
+            print("USER OVER 18")
+        }
+        
+
+        
+        
     }
 
 

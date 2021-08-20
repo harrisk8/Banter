@@ -236,6 +236,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         case .mySchoolToComments:
             print("User entering comments VC from Nearby")
+            loadDataForSchoolPost()
             
         case .none:
             dismiss(animated: true, completion: nil)
@@ -551,6 +552,70 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         case .mySchoolToComments:
             print("Voting on post from my school")
+            
+            if dislikedPost == true && likedPost == false {
+                //Removing dislike from already disliked post
+                        
+                print("Removing dislike from already disliked")
+                //Updates score in master array
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score! += 1
+                
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].likedPost = false
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = false
+                
+                dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+                likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
+
+                dislikedPost = false
+                likedPost = false
+                
+                scoreLabel.text? = String(MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                voteDelegate?.adjustVote()
+                        
+            } else if likedPost == false && dislikedPost == false {
+                //Adding like to post
+                        
+                print("Adding like")
+
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score! += 1
+                
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].likedPost = true
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = false
+                
+                likeButton.setImage(UIImage(named: "Like Button Orange"), for: .normal)
+                dislikeButton.setImage(UIImage(named: "Dislike Button Greyed Out"), for: .normal)
+                
+                likedPost = true
+                dislikedPost = false
+
+                scoreLabel.text? = String(MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                voteDelegate?.adjustVote()
+
+                        
+            } else if likedPost == true && dislikedPost == false {
+                //Removing like from already liked post
+                        
+                print("Removing like from already liked")
+
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score! -= 1
+                
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].likedPost = false
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = false
+                
+                dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+                likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
+                
+                //Updates vote state for the current instance of the comments VC
+                likedPost = false
+                dislikedPost = false
+                
+                scoreLabel.text? = String(MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                
+                voteDelegate?.adjustVote()
+            }
 
             
         case .none:
@@ -641,6 +706,67 @@ class CommentsViewController: UIViewController, UITextViewDelegate, UITableViewD
             
         case .mySchoolToComments:
             print("Voting on post from my school")
+            
+            if dislikedPost == true && likedPost == false {
+                //Removing dislike from already disliked post
+                        
+                //Updates score in master array
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score! += 1
+                
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].likedPost = false
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = false
+                
+                dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+                likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
+
+                dislikedPost = false
+                likedPost = false
+                
+                scoreLabel.text? = String(MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                voteDelegate?.adjustVote()
+                        
+            } else if likedPost == false && dislikedPost == false {
+                //Adding dislike to post
+                        
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score! -= 1
+                
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].likedPost = false
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = true
+                
+                likeButton.setImage(UIImage(named: "Like Button Greyed Out"), for: .normal)
+                dislikeButton.setImage(UIImage(named: "Dislike Button Selected"), for: .normal)
+                
+                likedPost = false
+                dislikedPost = true
+
+                scoreLabel.text? = String(MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                voteDelegate?.adjustVote()
+
+                        
+            } else if likedPost == true && dislikedPost == false {
+                //Removing like from already liked post
+                        
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score! -= 1
+                
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].likedPost = false
+                MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].dislikedPost = false
+                
+                dislikeButton.setImage(UIImage(named: "Dislike Button White"), for: .normal)
+                likeButton.setImage(UIImage(named: "Like Button White"), for: .normal)
+                
+                //Updates vote state for the current instance of the comments VC
+                likedPost = false
+                dislikedPost = false
+                
+                
+                
+                scoreLabel.text? = String(MySchoolPosts.MySchoolPostsArray[postIndexInNearbyArray ?? 0].score!)
+                
+                
+                voteDelegate?.adjustVote()
+            }
 
             
         case .none:

@@ -664,14 +664,14 @@
 				CODE_SIGN_ENTITLEMENTS = Banter/Banter.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 1.2;
 				DEVELOPMENT_TEAM = 5UMQT92969;
 				INFOPLIST_FILE = Banter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Avidi-Industries-Inc.Banter";
 				PRODUCT_NAME = Banter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -688,14 +688,14 @@
 				CODE_SIGN_ENTITLEMENTS = Banter/Banter.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 1.2;
 				DEVELOPMENT_TEAM = 5UMQT92969;
 				INFOPLIST_FILE = Banter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Avidi-Industries-Inc.Banter";
 				PRODUCT_NAME = Banter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
