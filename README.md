@@ -14,14 +14,15 @@ Trending Page
 
 Systems Design
 
-<img src="/Banter/Banter Systems Design.png" width="500" >
+<img src="/Banter/Banter Systems Design.png" width="900" >
 
 Database Schema 
 
-<img src="/Banter/Banter Database Schema.png" width="500">
-Trending Page
+<img src="/Banter/Banter Database Schema.png" width="900">
 
+Startup Logic
 
-<img src="/Banter/Banter Startup Logic.png" width="350">
+<img src="/Banter/Banter Startup Logic.png" width="900">
 
-https://github.com/harrisk8/Banter/blob/master/Banter/Banter_Signup.MP4
+<img src="/Banter/Banter_Signup.gif" width="900">
+
