@@ -14,18 +14,14 @@ Trending Page
 
 Systems Design
 
-<img src="/Banter/Banter Systems Design.png" >
+<img src="/Banter/Banter Systems Design.png" width="500" >
 
 Database Schema 
 
-<img src="/Banter/Banter Database Schema.png" >
+<img src="/Banter/Banter Database Schema.png" width="500">
 Trending Page
 
 
-<img src="/Banter/Banter Startup Logic.png" ">
+<img src="/Banter/Banter Startup Logic.png" width="350">
 
-<video width="320" height="240" controls>
-  <source src="Banter/Banter_Signup.MP4">
-</video>
-
-
+https://github.com/harrisk8/Banter/blob/master/Banter/Banter_Signup.MP4
