@@ -16,7 +16,8 @@ The platform was built via Swift, Storyboard/SwiftUI, and Firebase. There was a 
 5. It's a good idea to containerize one's build and test on various machines early on, not just one or two devices. We had some irreproducible bugs related to this.
 6. If certain logic doesn't absolutely need to be on the client-side, then put it in the backend or else you uncessarily decrease performance.
 7. If you find yourself writing highly inefficient algorithms to process data, then there's probably an issue with the data architecture. No need for a cubic time algorithm.
-8.asdf
+8. Running meetings is hard- it's an art. Go in with a highly specific plan and objective or you will waste time.
+9. Fail fast and fail often. Ship features and don't dwell on perfecting them too much. No point to an amazing feeature if it doesn't get in people's hands.
 
 
 
