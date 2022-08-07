@@ -9,9 +9,9 @@ The platform was built via Swift, Storyboard/SwiftUI, and Firebase.
 Banter had made it to final beta testing when, due to competitve pressures, the project was scrapped.
 
 <p float="left">
-  <img src="/Banter/Banter_Signup.gif" width="350">
-  <img src="/Banter/Banter_Screenshot.PNG" width="350" > 
-  <img src="/Banter/New Post Screen.png" width="350" > 
+  <img src="/Banter/Banter_Signup.gif" width="300">
+  <img src="/Banter/Banter_Screenshot.PNG" width="300" > 
+  <img src="/Banter/New Post Screen.png" width="300" > 
 
 </p>
 
