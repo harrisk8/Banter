@@ -24,7 +24,7 @@ Banter had made it to final beta testing when, due to competitve pressures and l
 
 <img src="/Banter/Banter Database Schema.png" width="900">
 
-## Startup Logic
+## Startup Logic (old version)
 
 <img src="/Banter/Banter Startup Logic.png" width="900">
 
