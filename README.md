@@ -8,7 +8,7 @@ The platform was built via Swift, Storyboard/SwiftUI, and Firebase. There was a 
 
 **Banter had made it to final beta testing when, due to competitve pressures and lack of capital, the project was scrapped.**
 
-## A few lessons learned
+## A few lessons learned (this list is NOT exhaustive)
 1. Data schema design can make life easier or a LOT harder later on as more features are added. Take time to make it right and future-proof.
 2. Don't jump into writing code too quickly without taking enough time to plan what you are going to code.
 3. Writing clean code takes effort but is critical as a codebase grows and new people join the project. Don't neglect this or you WILL pay the price for it later.
