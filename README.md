@@ -6,7 +6,7 @@ Banter is a geo-centric social media platform for psuedo-anonymous communication
 
 The platform was built via Swift, Storyboard/SwiftUI, and Firebase.
 
-** Banter had made it to final beta testing when, due to competitve pressures and lack of capital, the project was scrapped.**
+**Banter had made it to final beta testing when, due to competitve pressures and lack of capital, the project was scrapped.**
 
 ## A few lessons learned
 1. Data schema design can make life easier or a LOT harder later on as more features are added. Take time to make it right and future-proof.
