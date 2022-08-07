@@ -10,19 +10,19 @@ Banter had made it to final beta testing when, due to competitve pressures, the 
 
 Trending Page
 
-<img src="/Banter/Banter_Screenshot.PNG" width="200">
+<img src="/Banter/Banter_Screenshot.PNG" width="350" >
 
 Systems Design
 
-<img src="/Banter/Banter Systems Design.png" width="200">
+<img src="/Banter/Banter Systems Design.png" >
 
 Database Schema 
 
-<img src="/Banter/Banter Database Schema.png" width="200">
+<img src="/Banter/Banter Database Schema.png" >
 Trending Page
 
 
-<img src="/Banter/Banter Startup Logic.png" width="200">
+<img src="/Banter/Banter Startup Logic.png" ">
 
 <video width="320" height="240" controls>
   <source src="Banter/Banter_Signup.MP4">
