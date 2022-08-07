@@ -12,6 +12,18 @@ Trending Page
 
 <img src="/Banter/Banter_Screenshot.PNG" width="200">
 
+Systems Design
+
+<img src="/Banter/Banter Systems Design.png" width="200">
+
+Database Schema 
+
+<img src="/Banter/Banter Database Schema.png" width="200">
+Trending Page
+
+
+<img src="/Banter/Banter Startup Logic.png" width="200">
+
 <video width="320" height="240" controls>
   <source src="Banter/Banter_Signup.MP4">
 </video>
