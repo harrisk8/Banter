@@ -13,11 +13,7 @@ Banter had made it to final beta testing when, due to competitve pressures, the 
   <img src="/Banter/Banter_Screenshot.PNG" width="350" > 
 </p>
 
-<img src="/Banter/Banter_Signup.gif" width="350">
 
-Trending Page
-
-<img src="/Banter/Banter_Screenshot.PNG" width="350" >
 
 Systems Design
 
