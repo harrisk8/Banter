@@ -7,3 +7,8 @@ I want to emphasize I built this project before I studied data structures/algori
 The platform was built via Swift, Storyboard/SwiftUI, and Firebase.
 
 Banter had made it to final beta testing when, due to competitve pressures, the project was scrapped.
+
+Trending Page
+<img src="/Banter/Banter_Screenshot.png">
+
+
