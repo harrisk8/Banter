@@ -13,7 +13,7 @@ Trending Page
 <img src="/Banter/Banter_Screenshot.PNG" width="200">
 
 <video width="320" height="240" controls>
-  <source src="Banter/Banter_Signup.mp4">
+  <source src="Banter/Banter_Signup.MP4">
 </video>
 
 
