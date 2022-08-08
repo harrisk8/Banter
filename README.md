@@ -39,7 +39,7 @@ The platform was built via Swift, Storyboard/SwiftUI, and Firebase. There was a 
 
 <img src="/Banter/Banter Database Schema.png" width="900">
 
-## Startup Logic (old version)
+## Logic for loading data on startup (old version)
 
 <img src="/Banter/Banter Startup Logic.png" width="900">
 
